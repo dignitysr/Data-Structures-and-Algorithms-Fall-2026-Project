@@ -3,6 +3,8 @@
 #include <string>
 #include "LinkedQueue.h"
 #include "DEFS.h"
+#include "Service.h"
+#include "ServiceList.h"
 using namespace std;
 
 
@@ -14,13 +16,14 @@ private:
     int VT;                        
     int DD;                         
     SequenceType seqType;           
-    CarStatus status;               
+    CarStatus status;     
+    ServiceList srvlist;
+    
 
                        
 
 public:
-    
-    Car(int id, int pt, int vt, int dd = 3, SequenceType st = SEQ_SS);
+    Car(int id, int pt, int vt, int dd = 3, SequenceType st = SS);
     ~Car();
 
    
@@ -30,6 +33,9 @@ public:
     int getDD() ;
     SequenceType getSeqType();
     CarStatus getStatus();
+    int GetTotalServiceTime();
+    void insertService(Service& service);
+    void removeservice();
    
     
     void setPT(int pt);
