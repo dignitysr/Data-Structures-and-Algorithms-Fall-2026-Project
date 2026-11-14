@@ -11,11 +11,6 @@ class Bay
 	int carcount;
 
 public:
-	Bay(BayType T, int capicity, int count) {
-		type = T;
-		maxcapicity = capicity;
-		carcount = count;
-	}
 
 	void settype(BayType typee ) {
 		type = typee;
@@ -25,6 +20,9 @@ public:
 	}
 	void setcarcount(int x) {
 		carcount = x;
+	}
+	void incrementcount() {
+		carcount++;
 	}
 
 	int getcapicity() {
