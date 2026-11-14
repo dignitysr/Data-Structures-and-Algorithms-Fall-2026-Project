@@ -159,6 +159,7 @@
     <ClInclude Include="ServiceList.h" />
     <ClInclude Include="StackADT.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="WaitingList.h" />
     <ClInclude Include="WAIT_EU.h" />
     <ClInclude Include="WAIT_MU.h" />
     <ClInclude Include="WAIT_WU.h" />
@@ -170,12 +171,13 @@
     <ClCompile Include="Center.cpp" />
     <ClCompile Include="DiagBay.cpp" />
     <ClCompile Include="ElecBay.cpp" />
+    <ClCompile Include="IDLE_List.cpp" />
     <ClCompile Include="LinkedQueue.cpp" />
     <ClCompile Include="MechBay.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Source1.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="WaitingList.cpp" />
     <ClCompile Include="WashBay.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -75,6 +75,21 @@
     <ClInclude Include="ServiceList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DiagBay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ElecBay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MechBay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WashBay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bay.cpp">
@@ -96,6 +111,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DiagBay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElecBay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MechBay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WashBay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaitingList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IDLE_List.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,14 +1,14 @@
 #pragma once
 #pragma once
 template < typename T>
-class priNode
+class PriorityQueueNode
 {
 private:
 	T item;		// A data item
 	int pri;	//priority of the item
-	priNode<T>* next; // Pointer to next node
+	PriorityQueueNode<T>* next; // Pointer to next node
 public:
-	priNode(const T& r_Item, int PRI)
+	PriorityQueueNode(const T& r_Item, int PRI)
 	{
 		setItem(r_Item, PRI);
 		next = nullptr;
@@ -18,7 +18,7 @@ public:
 		item = r_Item;
 		pri = PRI;
 	}
-	void setNext(priNode<T>* nextNodePtr)
+	void setNext(PriorityQueueNode<T>* nextNodePtr)
 	{
 		next = nextNodePtr;
 	}
@@ -29,7 +29,7 @@ public:
 		return item;
 	}
 
-	priNode<T>* getNext() const
+	PriorityQueueNode<T>* getNext() const
 	{
 		return next;
 	}

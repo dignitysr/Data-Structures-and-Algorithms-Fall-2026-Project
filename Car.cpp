@@ -8,7 +8,7 @@ Car::Car(int id, int pt, int vt, int dd, SequenceType st, CarStatus ss)
 
 Car::~Car() {
     Service s;
-    while (srvlist.dequeue(s)) { 
+    while (srvList.dequeue(s)) { 
     }
 }
 
@@ -27,21 +27,21 @@ SequenceType Car::getSeqType() {
 CarStatus Car::getStatus() { return status;
 }
 
-int Car::GetTotalServiceTime()
+int Car::getTotalServiceTime()
 {
-    return srvlist.GetTotalServiceTime();
+    return srvList.getTotalServiceTime();
 }
 
 void Car::insertService(Service& service)
 {
-    srvlist.enqueue(service);
+    srvList.enqueue(service);
 }
 
-void Car::removeservice()
+void Car::removeService()
 {
     Service s;
     if (seqType==SS) {
-        srvlist.dequeue(s);
+        srvList.dequeue(s);
     }
     else if (seqType == FS) {
         //later to be done!!

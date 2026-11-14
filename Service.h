@@ -2,18 +2,19 @@
 #include "DEFS.h"
 class Service
 {
-	ServiceType servicetype;
-	int duration;
-public:
-	Service(){}
-	Service(ServiceType st, int duration_) {
-		servicetype = st;
-		duration = duration_;
-	}
-	int getduration() {
-		return duration;
-	}
-	ServiceType getservicetype() {
-		return servicetype;
-	}
+	private:
+		ServiceType serviceType;
+		int duration;
+	public:
+		Service(){}
+		Service(ServiceType st, int duration_) {
+			serviceType = st;
+			duration = duration_;
+		}
+		int getDuration() {
+			return duration;
+		}
+		ServiceType getServiceType() {
+			return serviceType;
+		}
 };

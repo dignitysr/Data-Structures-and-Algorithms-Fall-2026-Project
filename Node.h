@@ -1,7 +1,7 @@
 #pragma once
-	template < typename T>
-	class Node
-	{
+template < typename T>
+class Node
+{
 	private:
 		T item; // A data item
 		Node<T>* next; // Pointer to next node
@@ -13,5 +13,5 @@
 		void setNext(Node<T>* nextNodePtr);
 		T getItem() const;
 		Node<T>* getNext() const;
-	}; // end Node
+}; // end Node
 

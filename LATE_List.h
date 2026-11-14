@@ -1,9 +1,7 @@
 #pragma once
 #include "LinkedQueue.h"
 #include "Car.h"
-class LATE_List : public LinkedQueue<Car*> {
-
-    int CancelRandomCar(){
-     
-    }
+class LATEList: public LinkedQueue<Car*> {
+    public:
+        int cancelRandomCar();
 };

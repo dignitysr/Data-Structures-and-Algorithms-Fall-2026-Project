@@ -6,34 +6,19 @@
 
 class Bay
 {
-	BayType type;
-	int maxcapicity;
-	int carcount;
+	private:
+		BayType type;
+		int maxCapacity;
+		int carCount;
 
-public:
-
-	void settype(BayType typee ) {
-		type = typee;
-	}
-	void setmaxcapicity( int x) {
-		maxcapicity = x;
-	}
-	void setcarcount(int x) {
-		carcount = x;
-	}
-	void incrementcount() {
-		carcount++;
-	}
-
-	int getcapicity() {
-		return maxcapicity;
-	}
-	int getcarcount() {
-		return carcount;
-	}
-	BayType getype() {
-		return type;
-	}
+	public:
+		void setType(BayType _type);
+		void setMaxCapacity(int x);
+		void setCarCount(int x);
+		void incrementCount();
+		int getCapacity();
+		int getcarCount();
+		BayType getType();
 
 };
 
