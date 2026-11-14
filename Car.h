@@ -23,7 +23,7 @@ private:
                        
 
 public:
-    Car(int id, int pt, int vt, int dd = 3, SequenceType st = SS);
+    Car(int id, int pt, int vt, int dd = 3, SequenceType st = SS,CarStatus ss = STATUS_IDLE);
     ~Car();
 
    

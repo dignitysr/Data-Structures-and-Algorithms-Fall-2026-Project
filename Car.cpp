@@ -1,9 +1,9 @@
 #include "Car.h"
 
 
-Car::Car(int id, int pt, int vt, int dd, SequenceType st)
+Car::Car(int id, int pt, int vt, int dd, SequenceType st, CarStatus ss)
     : ID(id), PT(pt), VT(vt), DD(dd), seqType(st),
-    status(STATUS_IDLE){
+    status(ss){
 }
 
 Car::~Car() {
