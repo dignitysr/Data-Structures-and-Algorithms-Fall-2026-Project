@@ -155,6 +155,8 @@
     <ClInclude Include="priNode.h" />
     <ClInclude Include="priQueue.h" />
     <ClInclude Include="QueueADT.h" />
+    <ClInclude Include="Service.h" />
+    <ClInclude Include="ServiceList.h" />
     <ClInclude Include="StackADT.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="WAIT_EU.h" />
