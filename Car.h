@@ -49,7 +49,7 @@ public:
    
 
    // for ui
-    void print(ostream& os = cout) const;
+    void print();
     friend ostream& operator<<(ostream& os, const Car* c);
     friend ostream& operator<<(ostream& os, Car* c);
 };

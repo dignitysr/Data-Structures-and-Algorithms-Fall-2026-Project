@@ -1,5 +1,5 @@
 #include "Car.h"
-
+#include "iostream"
 
 Car::Car(int id, int pt, int vt, int dd, SequenceType st, CarStatus ss)
     : ID(id), PT(pt), VT(vt), DD(dd), seqType(st),
@@ -61,6 +61,8 @@ void Car::setSeqType(SequenceType st) { seqType = st;
 }
 void Car::setStatus(CarStatus s) { status = s;
 }
+
+
 
 
 
