@@ -29,5 +29,5 @@ bool IDLEList::insertCar(Car* car_rescheduled) {
 bool IDLEList::reschedule(Car* car_rescheduled, int new_vt, int new_pt) {
     car_rescheduled->setPT(new_pt);
     car_rescheduled->setVT(new_vt);
-    insertCar(car_rescheduled);
+    return insertCar(car_rescheduled);
 }
