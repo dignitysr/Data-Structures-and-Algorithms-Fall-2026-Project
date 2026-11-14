@@ -23,6 +23,15 @@ public:
 		carcount = x;
 	}
 
+	int gettype() {
+		return maxcapicity;
+	}
+	int getcarcount() {
+		return carcount;
+	}
+	BayType getype() {
+		return type;
+	}
 
 };
 

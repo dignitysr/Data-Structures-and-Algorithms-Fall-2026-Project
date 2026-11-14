@@ -144,10 +144,13 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Center.h" />
     <ClInclude Include="DEFS.h" />
+    <ClInclude Include="DiagBay.h" />
+    <ClInclude Include="ElecBay.h" />
     <ClInclude Include="ERLY_List.h" />
     <ClInclude Include="IDLE_List.h" />
     <ClInclude Include="LATE_List.h" />
     <ClInclude Include="LinkedQueue.h" />
+    <ClInclude Include="MechBay.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="priNode.h" />
     <ClInclude Include="priQueue.h" />
@@ -157,15 +160,21 @@
     <ClInclude Include="WAIT_EU.h" />
     <ClInclude Include="WAIT_MU.h" />
     <ClInclude Include="WAIT_WU.h" />
+    <ClInclude Include="WashBay.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bay.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Center.cpp" />
+    <ClCompile Include="DiagBay.cpp" />
+    <ClCompile Include="ElecBay.cpp" />
     <ClCompile Include="LinkedQueue.cpp" />
+    <ClCompile Include="MechBay.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Source1.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="WashBay.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
