@@ -48,7 +48,7 @@ public:
   
    
 
-   // for ui
+   // for ui ya maro
     void print();
     friend ostream& operator<<(ostream& os, const Car* c);
     friend ostream& operator<<(ostream& os, Car* c);
