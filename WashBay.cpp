@@ -2,6 +2,6 @@
 
 WashBay::WashBay(int cap) {
 	setType(WU);
-	setMaxCapacity(1);
+	setMaxCapacity(cap);
 	setCarCount(0);
 }
