@@ -22,6 +22,7 @@ enum SequenceType {
    SS,
    FS
 };
+
 enum BayType {
     DU,
     MU,

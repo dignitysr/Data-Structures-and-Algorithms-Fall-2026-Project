@@ -16,9 +16,11 @@ class Bay
 		void setMaxCapacity(int x);
 		void setCarCount(int x);
 		void incrementCount();
+		void decrementCount();
 		int getCapacity();
-		int getcarCount();
+		int getCarCount();
 		BayType getType();
 
+		virtual ~Bay() {}
 };
 

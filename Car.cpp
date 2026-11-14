@@ -2,9 +2,7 @@
 #include "iostream"
 
 Car::Car(int id, int pt, int vt, int dd, SequenceType st, CarStatus ss)
-    : ID(id), PT(pt), VT(vt), DD(dd), seqType(st),
-    status(ss){
-}
+    : ID(id), PT(pt), VT(vt), DD(dd), seqType(st), status(ss) {}
 
 Car::~Car() {
     Service s;
@@ -21,6 +19,9 @@ int Car::getVT() { return VT;
 }
 int Car::getDD() { 
     return DD;
+}
+Bay* Car::getBay() {
+    return currentBay;
 }
 SequenceType Car::getSeqType() { 
     return seqType; }
@@ -60,6 +61,8 @@ void Car::setDD(int dd) { DD = dd;
 void Car::setSeqType(SequenceType st) { seqType = st;
 }
 void Car::setStatus(CarStatus s) { status = s;
+}
+void Car::setBay(Bay* bay) { currentBay = bay;
 }
 
 

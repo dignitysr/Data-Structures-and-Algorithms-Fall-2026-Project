@@ -134,5 +134,11 @@
     <ClCompile Include="ServiceList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LATE_List.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

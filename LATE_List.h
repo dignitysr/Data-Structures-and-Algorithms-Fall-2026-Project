@@ -3,5 +3,5 @@
 #include "Car.h"
 class LATEList: public LinkedQueue<Car*> {
     public:
-        int cancelRandomCar();
+        Car* cancelRandomCar(int probability);
 };

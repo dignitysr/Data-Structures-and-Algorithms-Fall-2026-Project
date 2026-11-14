@@ -32,7 +32,7 @@ class Center
 	WaitMU mechWaitingList;
 	WaitEU elecWaitingList;
 
-	PriorityQueue<Car*> diagList;
+	PriorityQueue<Car*> diagCars;
 	LinkedQueue<Car*>  readyList;
 	LATEList lateList;
 	ERLYList earlyList;
@@ -40,4 +40,13 @@ class Center
 
 public:
 	void loadFile();
+
+	bool assignToWash(Car* car, int currentTimestep);
+	bool assignToMech(Car* car, int currentTimestep);
+	bool assignToElec(Car* car, int currentTimestep);
+	bool assignToRandomBay(Car* car, int currentTimestep);
+	
+	void runTestSimulation(int currentTimestep);
+	void allocateBays(int count);
+	void generateIdles();
 };

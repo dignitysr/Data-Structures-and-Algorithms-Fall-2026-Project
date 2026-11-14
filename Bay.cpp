@@ -16,11 +16,15 @@ void Bay::incrementCount() {
 	carCount++;
 }
 
+void Bay::decrementCount() {
+	carCount--;
+}
+
 int Bay::getCapacity() {
 	return maxCapacity;
 }
 
-int Bay::getcarCount() {
+int Bay::getCarCount() {
 	return carCount;
 }
 

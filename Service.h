@@ -7,14 +7,7 @@ class Service
 		int duration;
 	public:
 		Service(){}
-		Service(ServiceType st, int duration_) {
-			serviceType = st;
-			duration = duration_;
-		}
-		int getDuration() {
-			return duration;
-		}
-		ServiceType getServiceType() {
-			return serviceType;
-		}
+		Service(ServiceType st, int duration_);
+		int getDuration();
+		ServiceType getServiceType();
 };

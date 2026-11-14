@@ -41,3 +41,230 @@ void Center::loadFile() {
 		}
 	}
 }
+
+void Center::runTestSimulation(int currentTimestep) {
+
+	// picking top 50 cars from the IDLE list and distributing them randomly
+	for (int i = 0; i < 50; i++) {
+		Car* car = nullptr;
+		idleList.dequeue(car);
+
+		if (!car) break;
+
+		switch ((CarStatus)(rand() % 3) + 1) {
+		case STATUS_ERLY:
+			earlyList.enqueue(car, -car->getPT());
+			break;
+		case STATUS_LATE:
+			lateList.enqueue(car);
+			break;
+		case STATUS_REDY:
+			readyList.enqueue(car);
+			break;
+		}
+	}
+
+	// moving top 6 cars from the ERLY list to the REDY list
+	for (int i = 0; i < 6; i++) {
+		Car* car = nullptr;
+		int _;
+		earlyList.dequeue(car, _);
+		if (!car) break;
+		readyList.enqueue(car);
+	}
+
+	// cancel a random car and move it to cncl (10% chance)
+	Car* cancelledCar = lateList.cancelRandomCar(10);
+	if (cancelledCar) cancelledCars.push(cancelledCar);
+
+	// moving top 6 cars from the LATE list to the REDY list
+	for (int i = 0; i < 6; i++) {
+		Car* car = nullptr;
+		lateList.dequeue(car);
+		if (!car) break;
+		readyList.enqueue(car);
+	}
+
+	// moving cars to all free diagnosis bays
+	DiagBay* freeDiagBay = nullptr;
+	while (!readyList.isEmpty() && freeDUList.dequeue(freeDiagBay)) {
+		freeDiagBay->incrementCount();
+		Car* car = nullptr;
+		readyList.dequeue(car);
+
+		diagCars.enqueue(car, -(3 + currentTimestep));
+		car->setBay(freeDiagBay);
+	}
+
+	// moving cars which are done with their diagnoses
+	Car* diagCar = nullptr;
+	int finishTimestep;
+	while (diagCars.peek(diagCar, finishTimestep)) {
+		if (finishTimestep == -currentTimestep) {
+			diagCars.dequeue(diagCar, finishTimestep);
+
+			DiagBay* diagBay = (DiagBay*)diagCar->getBay();
+
+			freeDUList.enqueue(diagBay);
+			diagCar->setBay(nullptr);
+			diagBay->decrementCount();
+
+			if (rand() % 100 < 20) {
+				cancelledCars.push(diagCar);
+				continue;
+			}
+
+			switch ((ServiceType)(rand() % 3)) {
+				case TYPE_MU:
+					mechWaitingList.enqueue(diagCar);
+					break;
+				case TYPE_WU:
+					washWaitingList.enqueue(diagCar);
+					break;
+				case TYPE_EU:
+					elecWaitingList.enqueue(diagCar);
+					break;
+			}
+		} else break;
+	}
+
+	//picking 6 cars from all WAIT lists and assigning them to bays
+	for (int i = 0; i < 6; i++) {
+		if (!freeMUList.isEmpty()) {
+			Car* car = nullptr;
+			mechWaitingList.peek(car);
+			if (!car) continue;
+			if (assignToRandomBay(car, currentTimestep)) mechWaitingList.dequeue(car);
+		}
+		if (!freeWUList.isEmpty()) {
+			Car* car = nullptr;
+			washWaitingList.peek(car);
+			if (!car) continue;
+			if (assignToRandomBay(car, currentTimestep)) washWaitingList.dequeue(car);
+		}
+		if (!freeEUList.isEmpty()) {
+			Car* car = nullptr;
+			elecWaitingList.peek(car);
+			if (!car) continue;
+			if (assignToRandomBay(car, currentTimestep)) elecWaitingList.dequeue(car);
+		}
+	}
+
+	// finish bay utilization and return bays to their list if applicable, plus moving cars to appropriate lists
+	Car* servCar = nullptr;
+	while (serviceCars.peek(servCar, finishTimestep)) {
+		if (finishTimestep == -currentTimestep) {
+			serviceCars.dequeue(servCar, finishTimestep);
+
+			Bay* bay = servCar->getBay();
+
+			switch (getTypeFromBayPointer(bay)) {
+				case TYPE_MU:
+					freeMUList.enqueue((MechBay*)bay);
+					break;
+				case TYPE_WU:
+					if (bay->getCarCount() == 3) freeWUList.enqueue((WashBay*)bay);
+					break;
+				case TYPE_EU:
+					freeEUList.enqueue((ElecBay*)bay);
+					break;
+			}
+			servCar->setBay(nullptr);
+			bay->decrementCount();
+
+			if (rand() % 100 < 40) finishedCars.push(servCar);
+			else {
+				switch ((ServiceType)(rand() % 3)) {
+					case TYPE_MU:
+						mechWaitingList.enqueue(servCar);
+						break;
+					case TYPE_WU:
+						washWaitingList.enqueue(servCar);
+						break;
+					case TYPE_EU:
+						elecWaitingList.enqueue(servCar);
+						break;
+				}
+			}
+		} else break; 
+	}
+}
+
+// Sorry...
+ServiceType getTypeFromBayPointer(Bay* bay) {
+	if (dynamic_cast<MechBay*>(bay)) return TYPE_MU;
+	else if (dynamic_cast<WashBay*>(bay)) return TYPE_WU;
+	else if (dynamic_cast<ElecBay*>(bay)) return TYPE_EU;
+	else return TYPE_MU;
+}
+
+bool Center::assignToRandomBay(Car* car, int currentTimestep) {
+	int value = rand() % 100;
+
+	if (value < 60) return assignToMech(car, currentTimestep);
+	else if (value < 90) return assignToElec(car, currentTimestep);
+	else return assignToWash(car, currentTimestep);
+}
+
+bool Center::assignToWash(Car* car, int currentTimestep) {
+	WashBay* freeWashBay = nullptr;
+	freeWUList.peek(freeWashBay);
+
+	if (!freeWashBay) return false;
+
+	freeWashBay->incrementCount();
+
+	if (freeWashBay->getCapacity() == freeWashBay->getCarCount()) freeWUList.dequeue(freeWashBay);
+
+	serviceCars.enqueue(car, -(4 + currentTimestep));
+	car->setBay(freeWashBay);
+	return true;
+}
+
+bool Center::assignToMech(Car* car, int currentTimestep) {
+	MechBay* freeMechBay = nullptr;
+	freeMUList.dequeue(freeMechBay);
+
+	if (!freeMechBay) return false;
+
+	freeMechBay->incrementCount();
+
+	serviceCars.enqueue(car, -(4 + currentTimestep));
+	car->setBay(freeMechBay);
+	return true;
+}
+
+bool Center::assignToElec(Car* car, int currentTimestep) {
+	ElecBay* freeElecBay = nullptr;
+	freeEUList.dequeue(freeElecBay);
+
+	if (!freeElecBay) return false;
+
+	freeElecBay->incrementCount();
+
+	serviceCars.enqueue(car, -(4 + currentTimestep));
+	car->setBay(freeElecBay);
+	return true;
+}
+
+void Center::allocateBays(int count) {
+	for (int i = 0; i < count; i++) {
+		DiagBay* diagBay = new DiagBay();
+		MechBay* mechBay = new MechBay();
+		WashBay* washBay = new WashBay(3);
+		ElecBay* elecBay = new ElecBay();
+
+		freeDUList.enqueue(diagBay);
+		freeMUList.enqueue(mechBay);
+		freeWUList.enqueue(washBay);
+		freeEUList.enqueue(elecBay);
+	}
+}
+
+void Center::generateIdles() {
+	for (int i = 0; i < 1000; i++) {
+		Car* car = new Car(rand() % 1000, rand() % 50, (rand() % 50) + 50);
+
+		idleList.enqueue(car);
+	}
+}
