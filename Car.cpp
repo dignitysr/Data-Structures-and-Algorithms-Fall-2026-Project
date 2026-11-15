@@ -124,5 +124,33 @@ void Car::setBay(Bay* bay) { currentBay = bay;
 }
 ostream& operator<<(ostream& os, const Car* c)
 {
-    cout << c->ID<<c->PT<<c->DD<<c->VT<<c->currentBay<<c->status<<c->seqType;
+    switch (c->status) {
+    case  STATUS_IDLE:
+        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT <<"] ";
+        break;
+    case  STATUS_ERLY:
+        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        break;
+    case STATUS_LATE:
+        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        break;
+    case STATUS_REDY:
+        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        break;
+    case STATUS_DIAG:
+        cout << "Car Status is: Diagnosing";
+        break;
+    case STATUS_WAIT:
+        cout << "[ " << c->ID << ", " << c->srvList << "] ";
+        break;
+    case STATUS_SERV:
+        cout << "Car Status is: In service";
+        break;
+    case STATUS_CNCL:
+        cout << "[ " << c->ID << ", " <<c->get <<"] ";
+        break;
+    case STATUS_FNSH:
+        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        break;
+    }
 }
