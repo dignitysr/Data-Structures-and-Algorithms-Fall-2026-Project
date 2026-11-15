@@ -50,7 +50,20 @@ bool Bay::isBusy()
 	return carCount == maxCapacity;
 }
 
-ostream& operator<<(ostream& os,const Bay* c)
+ostream& operator<<(ostream& os,const Bay* B)
 {
-	cout << c->bayID;
+	switch (B->type) {
+	case DU:
+		cout << "D" << B->bayID;
+		break;
+	case MU:
+		cout << "M" << B->bayID;
+		break;
+	case EU:
+		cout << "E" << B->bayID;
+		break;
+	case WU:
+		cout << "W" << B->bayID;
+		break;
+	}
 }
