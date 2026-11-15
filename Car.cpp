@@ -64,11 +64,65 @@ void Car::setStatus(CarStatus s) { status = s;
 }
 void Car::print()
 {
+    cout << "Car ID is: " << getID();
+    cout << "Car Appointment time is: " << getPT();
+    cout << "Car Arrival time is: " << getVT();
+    cout << "Car Diagnosis Duration is: " << getDD();
+    switch (currentBay->getType()) {
+    case DU:
+        cout << "Car Bay is: Diagnosis Unit";
+        break;
+    case MU:
+        cout << "Car Bay is: Mechanical Unit";
+        break;
+    case EU:
+        cout << "Car Bay is: Electircal Unit";
+        break;
+    case WU:
+        cout << "Car Bay is: Washing Unit";
+        break;
+   }
+    switch (seqType) {
+    case SS:
+        cout << "Car Sequence type is: Strict Sequence";
+        break;
+    case FS:
+        cout << "Car Sequence type is: Flexible Sequence";
+        break;
+    }
+    switch (status) {
+    case  STATUS_IDLE:
+        cout << "Car Status is: IDLE";
+        break;
+    case  STATUS_ERLY:
+        cout << "Car Status is: EARLY";
+        break;
+    case STATUS_LATE:
+        cout << "Car Status is: Late";
+        break;
+    case STATUS_REDY:
+        cout << "Car Status is: Ready";
+        break;
+    case STATUS_DIAG:
+        cout << "Car Status is: Diagnosing";
+        break;
+    case STATUS_WAIT:
+        cout << "Car Status is: Waiting";
+        break;
+    case STATUS_SERV:
+        cout << "Car Status is: In service";
+        break;
+    case STATUS_CNCL:
+        cout << "Car Status is: Cancelled";
+        break;
+    case STATUS_FNSH:
+        cout << "Car Status is: Finished";
+        break;
+    }
 }
 void Car::setBay(Bay* bay) { currentBay = bay;
 }
-
 ostream& operator<<(ostream& os, const Car* c)
 {
-    // TODO: insert return statement here
+    cout << c->ID<<c->PT<<c->DD<<c->VT<<c->currentBay<<c->status<<c->seqType;
 }
