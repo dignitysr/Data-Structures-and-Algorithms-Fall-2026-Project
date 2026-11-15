@@ -99,6 +99,21 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 	return true;
 
 }
+template<typename T>
+int LinkedQueue<T>::getCount(LinkedQueue &Q)
+{
+	LinkedQueue B;
+	int count = 0;
+	T x;
+	while (Q.dequeue(x)) {
+		enqueue(B);
+		count++;
+	}
+	while (B.dequeue(x)) {
+		enqueue(Q);
+	}
+	return count;
+}
 ///////////////////////////////////////////////////////////////////////////////////
 /*
 Function: destructor
