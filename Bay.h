@@ -20,7 +20,7 @@ class Bay
 		int getCapacity();
 		int getCarCount();
 		BayType getType();
-
+		bool isBusy();
 		virtual ~Bay() {}
 };
 
