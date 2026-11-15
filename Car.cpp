@@ -28,7 +28,7 @@ SequenceType Car::getSeqType() {
 CarStatus Car::getStatus() { return status;
 }
 
-int Car::getTotalServiceTime()
+int Car::getTotalServiceTime() 
 {
     return srvList.getTotalServiceTime();
 }
@@ -122,32 +122,33 @@ void Car::print()
 }
 void Car::setBay(Bay* bay) { currentBay = bay;
 }
-ostream& operator<<(ostream& os, const Car* c)
+ostream& operator<<(ostream& os,  Car* c)
 {
     switch (c->status) {
     case  STATUS_IDLE:
-        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT <<"] ";
+        cout << " Cars: " << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case  STATUS_ERLY:
-        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        cout <<  "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case STATUS_LATE:
-        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        cout <<"[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case STATUS_REDY:
-        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        cout <<  "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case STATUS_DIAG:
-        cout << "[ " << c->ID << ", " << c->currentBay->getID() << "] ";
+        cout <<  "[ " << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_WAIT:
-        cout << "[ " << c->ID << ", " << c->srvList << "] ";
+            cout << "[ " << c->ID << ", " << c->getTotalServiceTime() << "] ";
+        
         break;
     case STATUS_SERV:
         cout << "[ " << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_CNCL:
-        cout << "[ " << c->ID << ", " <<c->get <<"] ";
+        cout << "[ " << c->ID << ", " << "] ";
         break;
     case STATUS_FNSH:
         cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";

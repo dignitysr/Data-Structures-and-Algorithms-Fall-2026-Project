@@ -3,35 +3,87 @@
 template <typename T>
     void UI<T>::printQueue(LinkedQueue<T> &Q)
 {
-		if (IDLEList* idle = dynamic_cast<IDLEList*>(&Q)) {
-
-		}
-		else if (LATEList* idle = dynamic_cast<LATEList*>(&Q)) {
-
-		}
-		else if (WaitEU* idle = dynamic_cast<WaitEU*>(&Q)) {
-
-		}
-		else if (WaitMU* idle = dynamic_cast<WaitMU*>(&Q)) {
-
-		}
-		else if (WaitWU* idle = dynamic_cast<WaitWU*>(&Q)) {
-
-		}
-		else if (Q.peek(T x) == DiagBay) {
-
-		}
-		else if (Q.peek(T x) == MechBay) {
-
-		}
-		else if (Q.peek(T x) == ElecBay) {
-
-		}
-		else if (Q.peek(T x) == WaitEU) {
-
-		}
-		else if (Q.peek(T x) == ) {
-
+		LinkedQueue Q1;
+		T x;
+		int co=Q.getCount();
+		int num = 0;
+		Q.peek(x);
+			if (IDLEList* idle = dynamic_cast<IDLEList*>(&Q)) {
+				cout << co<<" IDLE: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+					if (num >= 15) {
+						break;
+					}
+				}
+			}
+			else if (LATEList late = dynamic_cast<LATEList*>(&Q)) {
+				cout << co<<" LATE: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+			else if (WaitEU* eu = dynamic_cast<WaitEU*>(&Q)) {
+				cout <<co<< "EB Cars Waiting: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+			else if (WaitMU* mu = dynamic_cast<WaitMU*>(&Q)) {
+				cout <<co<< "MB Cars Waiting: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+			else if (WaitWU* wu = dynamic_cast<WaitWU*>(&Q)) {
+				cout << co << "WB Cars Waiting: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+			else if (DiagBay* Diag = dynamic_cast<DiagBay*>(x)) {
+				cout << co << " Free Diag Bays: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+			else if (MechBay* Mech = dynamic_cast<MechBay*>(x)) {
+				cout << co << " Free Mech Bays: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+			else if (ElecBay* Elec = dynamic_cast<ElecBay*>(x)) {
+				cout << co << " Free Elec Bays: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+			else if (WashBay* Wash = dynamic_cast<WashBay*>(x)) {
+				cout << co << " Free Wash Bays: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+			else if (Car* car = dynamic_cast<Car*>(x)) {
+				cout << co << " REDY: ";
+				while (Q.dequeue(x)) {
+					Q1.enqueue(x);
+					cout << x;
+				}
+			}
+		
+		while (Q1.dequeue(x)) {
+			Q.enqueue(x);
 		}
 }
 template <typename T>
