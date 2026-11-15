@@ -138,13 +138,13 @@ ostream& operator<<(ostream& os, const Car* c)
         cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case STATUS_DIAG:
-        cout << "Car Status is: Diagnosing";
+        cout << "[ " << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_WAIT:
         cout << "[ " << c->ID << ", " << c->srvList << "] ";
         break;
     case STATUS_SERV:
-        cout << "Car Status is: In service";
+        cout << "[ " << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_CNCL:
         cout << "[ " << c->ID << ", " <<c->get <<"] ";

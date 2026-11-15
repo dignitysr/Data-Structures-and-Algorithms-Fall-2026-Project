@@ -32,6 +32,11 @@ int Bay::getCapacity() {
 	return maxCapacity;
 }
 
+int Bay::getID()
+{
+	return bayID;
+}
+
 int Bay::getCarCount() {
 	return carCount;
 }
@@ -43,4 +48,9 @@ BayType Bay::getType() {
 bool Bay::isBusy()
 {
 	return carCount == maxCapacity;
+}
+
+ostream& operator<<(ostream& os,const Bay* c)
+{
+	cout << c->bayID;
 }

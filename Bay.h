@@ -21,9 +21,12 @@ class Bay
 		void incrementCount();
 		void decrementCount();
 		int getCapacity();
+		int getID();
 		int getCarCount();
 		BayType getType();
 		bool isBusy();
 		virtual ~Bay() {}
+		friend ostream& operator<<(ostream& os, const Bay* c);
+		friend ostream& operator<<(ostream& os, Bay* c);
 };
 
