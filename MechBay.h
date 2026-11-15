@@ -4,6 +4,8 @@
 class MechBay: public Bay
 {
 	public:
+		static int count;
+		
 		MechBay();
 };
 

@@ -7,12 +7,15 @@
 class Bay
 {
 	private:
+		int bayID;
 		BayType type;
 		int maxCapacity;
 		int carCount;
 
 	public:
+		
 		void setType(BayType _type);
+		void setID(int ID);
 		void setMaxCapacity(int x);
 		void setCarCount(int x);
 		void incrementCount();

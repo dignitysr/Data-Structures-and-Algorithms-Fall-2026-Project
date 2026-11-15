@@ -1,8 +1,16 @@
 #include "Bay.h"
 
+int Bay::count = 0;
 void Bay::setType(BayType _type) {
 	type = _type;
 }
+
+void Bay::setID(int ID)
+{
+	bayID = ID;
+}
+
+
 
 void Bay::setMaxCapacity(int x) {
 	maxCapacity = x;

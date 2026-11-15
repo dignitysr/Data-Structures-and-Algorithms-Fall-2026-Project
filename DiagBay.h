@@ -4,6 +4,8 @@
 class DiagBay: public Bay
 {
 	public:
+		static int count;
+		
 		DiagBay();
 };
 
