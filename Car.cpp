@@ -62,12 +62,13 @@ void Car::setSeqType(SequenceType st) { seqType = st;
 }
 void Car::setStatus(CarStatus s) { status = s;
 }
+void Car::print()
+{
+}
 void Car::setBay(Bay* bay) { currentBay = bay;
 }
 
-
-
-
-
-
-
+ostream& operator<<(ostream& os, const Car* c)
+{
+    // TODO: insert return statement here
+}
