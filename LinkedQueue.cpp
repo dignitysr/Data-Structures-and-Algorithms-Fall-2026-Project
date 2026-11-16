@@ -100,17 +100,17 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 
 }
 template<typename T>
-int LinkedQueue<T>::getCount(LinkedQueue &Q)
+int LinkedQueue<T>::getCount()
 {
 	LinkedQueue B;
 	int count = 0;
 	T x;
-	while (Q.dequeue(x)) {
+	while (dequeue(x)) {
 		B.enqueue(x);
 		count++;
 	}
 	while (B.dequeue(x)) {
-		Q.enqueue(x);
+		enqueue(x);
 	}
 	return count;
 }

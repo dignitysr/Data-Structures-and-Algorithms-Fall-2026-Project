@@ -66,3 +66,22 @@ ostream& operator<<(ostream& os,const Bay* B)
 
 	return os;
 }
+ostream& operator<<(ostream& os, Bay* B)
+{
+	switch (B->type) {
+	case DU:
+		cout << "D" << B->bayID;
+		break;
+	case MU:
+		cout << "M" << B->bayID;
+		break;
+	case EU:
+		cout << "E" << B->bayID;
+		break;
+	case WU:
+		cout << "W" << B->bayID;
+		break;
+	}
+
+	return os;
+}

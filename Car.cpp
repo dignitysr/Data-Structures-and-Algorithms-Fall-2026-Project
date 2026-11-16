@@ -169,3 +169,37 @@ ostream& operator<<(ostream& os,  const Car* c)
 
     return os;
 }
+ostream& operator<<(ostream& os, Car* c)
+{
+    switch (c->status) {
+    case  STATUS_IDLE:
+        cout << "[C" << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        break;
+    case  STATUS_ERLY:
+        cout <<  "[C" << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        break;
+    case STATUS_LATE:
+        cout <<"[C" << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        break;
+    case STATUS_REDY:
+        cout <<  "[C" << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        break;
+    case STATUS_DIAG:
+        cout <<  "[C" << c->ID << ", " << c->currentBay->getID() << "] ";
+        break;
+    case STATUS_WAIT:
+        cout << "[C" << c->ID << ", " << c->getTotalServiceTime() << "] ";
+        break;
+    case STATUS_SERV:
+        cout << "[C" << c->ID << ", " << c->currentBay->getID() << "] ";
+        break;
+    case STATUS_CNCL:
+        cout << "[C" << c->ID << ", "<<c->CT << "] ";
+        break;
+    case STATUS_FNSH:
+        cout << "[C" << c->ID << ", " << c->FT << "] ";
+        break;
+    }
+
+    return os;
+}

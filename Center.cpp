@@ -47,7 +47,7 @@ void Center::loadFile() {
 bool Center::runTestSimulation(int currentTimestep) {
 
 	if (idleList.isEmpty() && earlyList.isEmpty() && lateList.isEmpty() && readyList.isEmpty()) {
-		return true;
+		return false;
 	}
 
 	// picking top 50 cars from the IDLE list and distributing them randomly
@@ -205,7 +205,7 @@ bool Center::runTestSimulation(int currentTimestep) {
 		} else break; 
 	}
 
-	return false;
+	return true;
 }
 
 void Center::finishCar(Car* car, int currentTimestep) {

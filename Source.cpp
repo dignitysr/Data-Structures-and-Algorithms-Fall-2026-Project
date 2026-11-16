@@ -15,7 +15,12 @@ int main() {
 	
 	int bayCount = 20;
 	testCenter.allocateBays(bayCount);
+	UI* ui = new UI;
 
 	int timestep = 0;
-	while (testCenter.runTestSimulation(timestep)) timestep++;
+	while (testCenter.runTestSimulation(timestep)) {
+		timestep++;
+		testCenter.printall(ui);
+		ui->waitForInput();
+	}
 }

@@ -31,16 +31,16 @@ public:
 	{
 		return top == -1;
 	}  // end isEmpty
-	int getCount(ArrayStack& S) {
+	int getCount() {
 		ArrayStack S1;
 		int count = 0;
 		T x;
-		while (S.pop(x)) {
+		while (pop(x)) {
 			S1.push(x);
 			count++;
 		}
 		while (S1.pop(x)) {
-			S.push(x);
+			push(x);
 		}
 		return count;
 	}

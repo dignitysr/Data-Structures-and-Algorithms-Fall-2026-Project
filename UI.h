@@ -18,12 +18,16 @@
 class UI
 {
 public:
-	template <typename T>
-	void printQueue(LinkedQueue<T> &Q);
-	template <typename T>
-	void printStack(ArrayStack<T> &S);
-	template <typename T>
-	void printPriQueue(PriorityQueue<T> &P);
+	void printQueue(LinkedQueue<Car*> Q);
+	void printQueue(LinkedQueue<MechBay*> Q);
+	void printQueue(LinkedQueue<DiagBay*> Q);
+	void printQueue(LinkedQueue<ElecBay*> Q);
+	void printQueue(LinkedQueue<WashBay*> Q);
+
+
+	void printStack(ArrayStack<Car*> S);
+	void printPriQueue(PriorityQueue<Car*> P);
+
 	int getint();
 	void waitForInput();
 };
