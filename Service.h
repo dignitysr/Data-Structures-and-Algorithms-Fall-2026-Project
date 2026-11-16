@@ -6,7 +6,7 @@ class Service
 		ServiceType serviceType;
 		int duration;
 	public:
-		Service(){}
+		Service();
 		Service(ServiceType st, int duration_);
 		int getDuration();
 		ServiceType getServiceType();
