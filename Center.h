@@ -49,7 +49,7 @@ public:
 	bool assignToElec(Car* car, int currentTimestep);
 	bool assignToRandomBay(Car* car, int currentTimestep);
 	
-	void runTestSimulation(int currentTimestep);
+	bool runTestSimulation(int currentTimestep);
 	void allocateBays(int count);
 	void generateIdles();
 };

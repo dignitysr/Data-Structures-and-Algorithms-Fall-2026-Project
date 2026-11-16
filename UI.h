@@ -17,10 +17,11 @@
 template <typename T>
 class UI
 {
-	void printQueue(LinkedQueue <T>&Q);
-	void printStack(ArrayStack <T>&S);
-	void printPriQueue(PriorityQueue <T> &P);
+	void printQueue(LinkedQueue&Q);
+	void printStack(ArrayStack &S);
+	void printPriQueue(PriorityQueue &P);
 	int getint();
+	void waitForInput();
 };
 
 

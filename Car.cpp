@@ -105,10 +105,10 @@ void Car::print()
     }
     switch (status) {
     case  STATUS_IDLE:
-        cout << "Car Status is: IDLE";
+        cout << "Car Status is: Idle";
         break;
     case  STATUS_ERLY:
-        cout << "Car Status is: EARLY";
+        cout << "Car Status is: Early";
         break;
     case STATUS_LATE:
         cout << "Car Status is: Late";
@@ -154,16 +154,16 @@ ostream& operator<<(ostream& os,  Car* c)
         cout <<  "[C" << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_WAIT:
-            cout << "[C" << c->ID << ", " << c->getTotalServiceTime() << "] ";
+        cout << "[C" << c->ID << ", " << c->getTotalServiceTime() << "] ";
         break;
     case STATUS_SERV:
         cout << "[C" << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_CNCL:
-        cout << "[C" << c->ID << ", "<<c->getCanceltime() << "] ";
+        cout << "[C" << c->ID << ", "<<c->CT << "] ";
         break;
     case STATUS_FNSH:
-        cout << "[C" << c->ID << ", " << c->getFinishedtime()"] ";
+        cout << "[C" << c->ID << ", " << c->FT << "] ";
         break;
     }
 }
