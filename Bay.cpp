@@ -64,4 +64,6 @@ ostream& operator<<(ostream& os,const Bay* B)
 		cout << "W" << B->bayID;
 		break;
 	}
+
+	return os;
 }

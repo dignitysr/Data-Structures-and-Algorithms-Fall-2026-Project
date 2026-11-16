@@ -1,5 +1,7 @@
 #include "Center.h"
 
+static ServiceType getTypeFromBayPointer(Bay* bay);
+
 void Center::loadFile() {
 	int N_DU, N_MU, N_EU, N_WU, WB_Cap, M, VT, CID, PT, DD;
 	ifstream InFile("input.txt");
@@ -218,8 +220,8 @@ void Center::cancelCar(Car* car, int currentTimestep) {
 	car->setStatus(STATUS_CNCL);
 }
 
-// Sorry...
-ServiceType getTypeFromBayPointer(Bay* bay) {
+
+static ServiceType getTypeFromBayPointer(Bay* bay) {
 	if (dynamic_cast<MechBay*>(bay)) return TYPE_MU;
 	else if (dynamic_cast<WashBay*>(bay)) return TYPE_WU;
 	else if (dynamic_cast<ElecBay*>(bay)) return TYPE_EU;

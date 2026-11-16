@@ -106,11 +106,11 @@ int LinkedQueue<T>::getCount(LinkedQueue &Q)
 	int count = 0;
 	T x;
 	while (Q.dequeue(x)) {
-		enqueue(B);
+		B.enqueue(x);
 		count++;
 	}
 	while (B.dequeue(x)) {
-		enqueue(Q);
+		Q.enqueue(x);
 	}
 	return count;
 }
@@ -147,3 +147,18 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 		NodePtr = NodePtr->getNext();
 	}
 }
+
+
+#include "Service.h"
+class Car;
+class MechBay;
+class WashBay;
+class ElecBay;
+class DiagBay;
+
+template class LinkedQueue<Car*>;
+template class LinkedQueue<Service>;
+template class LinkedQueue<MechBay*>;
+template class LinkedQueue<WashBay*>;
+template class LinkedQueue<ElecBay*>;
+template class LinkedQueue<DiagBay*>;

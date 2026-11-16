@@ -13,6 +13,7 @@
 #include"LATE_List.h"
 #include"IDLE_List.h"
 #include"ERLY_List.h"
+#include "DEFS.h"
 #include <fstream>
 
 class Center

@@ -1,7 +1,5 @@
 #include "Service.h"
 
-Service::Service() {}
-
 Service::Service(ServiceType st, int duration_) {
 	serviceType = st;
 	duration = duration_;

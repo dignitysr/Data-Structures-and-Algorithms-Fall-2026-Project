@@ -166,4 +166,6 @@ ostream& operator<<(ostream& os,  const Car* c)
         cout << "[C" << c->ID << ", " << c->FT << "] ";
         break;
     }
+
+    return os;
 }
