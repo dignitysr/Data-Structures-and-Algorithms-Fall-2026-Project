@@ -1,9 +1,9 @@
 #include "UI.h"
 
 template <typename T>
-    void UI<T>::printQueue(LinkedQueue<T> &Q)
+    void UI::printQueue(LinkedQueue<T> &Q)
 {
-		LinkedQueue Q1;
+		LinkedQueue<T> Q1;
 		T x;
 		int co=Q.getCount();
 		int num = 0;
@@ -87,11 +87,12 @@ template <typename T>
 		}
 }
 template <typename T>
-void UI<T>::printStack(ArrayStack<T> &S)
+void UI::printStack(ArrayStack<T> &S)
 {
+	ArrayStack<T> S2;
+	int count = S.getCount();
 	T y;
 	S.peek(y);
-	int count=S.getCount();
 	if (Car* car= dynamic_cast<Car *>(y)) {
 		if (car->getStatus() == STATUS_CNCL) {
 			cout << count << " Cancelled: ";
@@ -100,18 +101,23 @@ void UI<T>::printStack(ArrayStack<T> &S)
 			cout << count << " DONE: ";
 		}
 		while (S.pop(y)) {
+			S2.push(y);
 			cout << y;
 		}
 	}
-		
-	}
+	while (S2.pop(y)) {
+		S.push(y);
+		}
+}
 template <typename T>
-void UI<T>::printPriQueue(PriorityQueue<T> &P)
+void UI::printPriQueue(PriorityQueue<T> &P)
 {
 	T w;
 	P.peek(w);
 	int count2 = P.getCount();
-	if (Car* car = dynamic_cast<Car*>(y)) {
+	int pri = 0;
+	PriorityQueue<T> P2;
+	if (Car* car = dynamic_cast<Car*>(w)) {
 		if (car->getStatus()== STATUS_ERLY) {
 			cout << count2 << " ERLY: ";
 		}
@@ -121,13 +127,16 @@ void UI<T>::printPriQueue(PriorityQueue<T> &P)
 		else if (car->getStatus() == STATUS_SERV) {
 			cout << count2 << " Cars in Service: ";
 		}
-		while (P.dequeue(w)) {
+		while (P.dequeue(w,pri)) {
+			P2.push(w, pri);
 			cout << w;
 		}
 	}
+	while (P2.dequeue(w, pri)) {
+		P.enqueue(w, pri);
+	}
 }
-template <typename T>
-int UI<T>::getint()
+int UI::getint()
 {
 	cout << "Enter 1 for interactive mode or 2 for silent mode: "<<endl;
 	int x;
