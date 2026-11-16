@@ -4,11 +4,16 @@ void UI::printQueue(LinkedQueue<Car*> Q) {
 	Car* x = nullptr;
 	int co = Q.getCount();
 	Q.peek(x);
+	int count = 0;
 
 	if (!x) return;
 
 	while (Q.dequeue(x)) {
 		cout << x;
+		count++;
+		if (count == 15) {
+			break;
+		}
 	}
 }
 void UI::printQueue(LinkedQueue<MechBay*> Q) {
