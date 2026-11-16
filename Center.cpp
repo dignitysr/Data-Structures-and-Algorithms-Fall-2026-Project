@@ -46,7 +46,7 @@ void Center::loadFile() {
 
 bool Center::runTestSimulation(int currentTimestep) {
 
-	if (cancelledCars.getCount() + finishedCars.getCount() == 100) {
+	if (cancelledCars.getCount() + finishedCars.getCount() == 1000) {
 		return false;
 	}
 
@@ -329,7 +329,7 @@ void Center::printAll(UI* X)
 }
 
 void Center::generateIdles() {
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 1000; i++) {
 		Car* car = new Car(rand() % 1000, rand() % 50, (rand() % 50) + 50, 3);
 
 		idleList.enqueue(car);
