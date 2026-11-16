@@ -166,6 +166,7 @@
     <ClInclude Include="WashBay.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayStack.cpp" />
     <ClCompile Include="Bay.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Center.cpp" />
