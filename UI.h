@@ -24,6 +24,7 @@ class UI
 	template <typename T>
 	void printPriQueue(PriorityQueue<T> &P);
 	int getint();
+	template <typename T>
 	void waitForInput();
 };
 

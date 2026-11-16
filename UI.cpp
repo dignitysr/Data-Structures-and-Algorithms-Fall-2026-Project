@@ -147,3 +147,9 @@ int UI::getint()
 	}
 	return x;
 }
+template <typename T>
+void UI::waitForInput()
+{
+	T x;
+	cin >> x;
+}
