@@ -24,7 +24,6 @@ class Bay
 		int getID();
 		int getCarCount();
 		BayType getType();
-	    int getID();
 		bool isBusy();
 		virtual ~Bay() {}
 		friend ostream& operator<<(ostream& os, const Bay* B);
