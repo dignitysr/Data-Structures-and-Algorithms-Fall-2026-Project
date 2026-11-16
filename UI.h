@@ -17,6 +17,7 @@
 
 class UI
 {
+public:
 	template <typename T>
 	void printQueue(LinkedQueue<T> &Q);
 	template <typename T>
@@ -24,7 +25,6 @@ class UI
 	template <typename T>
 	void printPriQueue(PriorityQueue<T> &P);
 	int getint();
-	template <typename T>
 	void waitForInput();
 };
 

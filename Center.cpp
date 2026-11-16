@@ -291,6 +291,27 @@ void Center::allocateBays(int count) {
 	}
 }
 
+void Center::printall(UI* X)
+{
+	X->printQueue(idleList);
+	X->printPriQueue(earlyList);
+	X->printQueue(lateList);
+	X->printQueue(readyList);
+	X->printQueue(freeDUList);
+	X->printPriQueue(diagCars);
+	X->printQueue(mechWaitingList);
+	X->printQueue(elecWaitingList);
+	X->printQueue(washWaitingList);
+	X->printQueue(freeMUList);
+	X->printQueue(freeEUList);
+	X->printQueue(freeWUList);
+	X->printPriQueue(serviceCars);
+	X->printStack(cancelledCars);
+	X->printStack(finishedCars);
+	cout << "PRESS ANY KEY TO CONTINUE" << endl;
+	X->waitForInput();
+}
+
 void Center::generateIdles() {
 	for (int i = 0; i < 1000; i++) {
 		Car* car = new Car(rand() % 1000, rand() % 50, (rand() % 50) + 50, 3);

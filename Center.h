@@ -1,6 +1,7 @@
 #pragma once
 #include "ArrayStack.h"
 #include "Car.h"
+#include "UI.h"
 #include "priQueue.h"
 #include "Node.h"
 #include"WashBay.h"
@@ -52,5 +53,6 @@ public:
 	
 	bool runTestSimulation(int currentTimestep);
 	void allocateBays(int count);
+	void printall(UI* X);
 	void generateIdles();
 };
