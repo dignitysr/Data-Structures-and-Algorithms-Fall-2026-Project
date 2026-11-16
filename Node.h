@@ -1,4 +1,5 @@
 #pragma once
+
 template < typename T>
 class Node
 {
@@ -14,4 +15,3 @@ class Node
 		T getItem() const;
 		Node<T>* getNext() const;
 }; // end Node
-

@@ -99,6 +99,21 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 	return true;
 
 }
+template<typename T>
+int LinkedQueue<T>::getCount(LinkedQueue &Q)
+{
+	LinkedQueue B;
+	int count = 0;
+	T x;
+	while (Q.dequeue(x)) {
+		B.enqueue(x);
+		count++;
+	}
+	while (B.dequeue(x)) {
+		Q.enqueue(x);
+	}
+	return count;
+}
 ///////////////////////////////////////////////////////////////////////////////////
 /*
 Function: destructor
@@ -132,3 +147,18 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 		NodePtr = NodePtr->getNext();
 	}
 }
+
+
+#include "Service.h"
+class Car;
+class MechBay;
+class WashBay;
+class ElecBay;
+class DiagBay;
+
+template class LinkedQueue<Car*>;
+template class LinkedQueue<Service>;
+template class LinkedQueue<MechBay*>;
+template class LinkedQueue<WashBay*>;
+template class LinkedQueue<ElecBay*>;
+template class LinkedQueue<DiagBay*>;

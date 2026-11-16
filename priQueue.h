@@ -48,7 +48,20 @@ public:
         delete temp;
         return true;
     }
-
+    int getCount(PriorityQueue &P) {
+        PriorityQueue P2;
+        int count = 0;
+        int pri = 0;
+        T x;
+        while (P.dequeue(x,pri)) {
+            P2.enqueue(x, pri);
+            count++;
+        }
+        while (P2.dequeue(x, pri)) {
+            P2.enqueue(x, pri);
+        }
+        return count;
+    }
     bool peek(T& topEntry, int& pri) {
         if (isEmpty())
             return false;

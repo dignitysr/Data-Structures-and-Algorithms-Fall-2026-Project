@@ -14,13 +14,18 @@
 #include"IDLE_List.h"
 #include"ERLY_List.h"
 #include <fstream>
-template <typename T>
+
 class UI
 {
-	void printQueue(LinkedQueue <T>&Q);
-	void printStack(ArrayStack <T>&S);
-	void printPriQueue(PriorityQueue <T> &P);
+	template <typename T>
+	void printQueue(LinkedQueue<T> &Q);
+	template <typename T>
+	void printStack(ArrayStack<T> &S);
+	template <typename T>
+	void printPriQueue(PriorityQueue<T> &P);
 	int getint();
+	template <typename T>
+	void waitForInput();
 };
 
 

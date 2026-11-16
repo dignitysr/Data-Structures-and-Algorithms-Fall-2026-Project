@@ -4,5 +4,5 @@
 
 class ServiceList: public LinkedQueue<Service> {
 	public:
-		int getTotalServiceTime();
+		int getTotalServiceTime() const;
 };

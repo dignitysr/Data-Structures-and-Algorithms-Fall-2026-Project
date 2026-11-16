@@ -1,5 +1,7 @@
 #include "Center.h"
 
+static ServiceType getTypeFromBayPointer(Bay* bay);
+
 void Center::loadFile() {
 	int N_DU, N_MU, N_EU, N_WU, WB_Cap, M, VT, CID, PT, DD;
 	ifstream InFile("input.txt");
@@ -42,7 +44,11 @@ void Center::loadFile() {
 	}
 }
 
-void Center::runTestSimulation(int currentTimestep) {
+bool Center::runTestSimulation(int currentTimestep) {
+
+	if (idleList.isEmpty() && earlyList.isEmpty() && lateList.isEmpty() && readyList.isEmpty()) {
+		return true;
+	}
 
 	// picking top 50 cars from the IDLE list and distributing them randomly
 	for (int i = 0; i < 50; i++) {
@@ -50,8 +56,9 @@ void Center::runTestSimulation(int currentTimestep) {
 		idleList.dequeue(car);
 
 		if (!car) break;
+		car->setStatus((CarStatus)((rand() % 3) + 1));
 
-		switch ((CarStatus)(rand() % 3) + 1) {
+		switch (car->getStatus()) {
 		case STATUS_ERLY:
 			earlyList.enqueue(car, -car->getPT());
 			break;
@@ -71,11 +78,12 @@ void Center::runTestSimulation(int currentTimestep) {
 		earlyList.dequeue(car, _);
 		if (!car) break;
 		readyList.enqueue(car);
+		car->setStatus(STATUS_REDY);
 	}
 
 	// cancel a random car and move it to cncl (10% chance)
 	Car* cancelledCar = lateList.cancelRandomCar(10);
-	if (cancelledCar) cancelledCars.push(cancelledCar);
+	if (cancelledCar) {cancelCar(cancelledCar, currentTimestep); cancelledCar->setStatus(STATUS_CNCL);}
 
 	// moving top 6 cars from the LATE list to the REDY list
 	for (int i = 0; i < 6; i++) {
@@ -83,6 +91,7 @@ void Center::runTestSimulation(int currentTimestep) {
 		lateList.dequeue(car);
 		if (!car) break;
 		readyList.enqueue(car);
+		car->setStatus(STATUS_REDY);
 	}
 
 	// moving cars to all free diagnosis bays
@@ -94,6 +103,7 @@ void Center::runTestSimulation(int currentTimestep) {
 
 		diagCars.enqueue(car, -(3 + currentTimestep));
 		car->setBay(freeDiagBay);
+		car->setStatus(STATUS_DIAG);
 	}
 
 	// moving cars which are done with their diagnoses
@@ -125,6 +135,8 @@ void Center::runTestSimulation(int currentTimestep) {
 					elecWaitingList.enqueue(diagCar);
 					break;
 			}
+
+			diagCar->setStatus(STATUS_WAIT);
 		} else break;
 	}
 
@@ -135,18 +147,21 @@ void Center::runTestSimulation(int currentTimestep) {
 			mechWaitingList.peek(car);
 			if (!car) continue;
 			if (assignToRandomBay(car, currentTimestep)) mechWaitingList.dequeue(car);
+			car->setStatus(STATUS_SERV);
 		}
 		if (!freeWUList.isEmpty()) {
 			Car* car = nullptr;
 			washWaitingList.peek(car);
 			if (!car) continue;
 			if (assignToRandomBay(car, currentTimestep)) washWaitingList.dequeue(car);
+			car->setStatus(STATUS_SERV);
 		}
 		if (!freeEUList.isEmpty()) {
 			Car* car = nullptr;
 			elecWaitingList.peek(car);
 			if (!car) continue;
 			if (assignToRandomBay(car, currentTimestep)) elecWaitingList.dequeue(car);
+			car->setStatus(STATUS_SERV);
 		}
 	}
 
@@ -172,7 +187,7 @@ void Center::runTestSimulation(int currentTimestep) {
 			servCar->setBay(nullptr);
 			bay->decrementCount();
 
-			if (rand() % 100 < 40) finishedCars.push(servCar);
+			if (rand() % 100 < 40) {finishCar(servCar, currentTimestep); continue;}
 			else {
 				switch ((ServiceType)(rand() % 3)) {
 					case TYPE_MU:
@@ -186,12 +201,27 @@ void Center::runTestSimulation(int currentTimestep) {
 						break;
 				}
 			}
+			servCar->setStatus(STATUS_WAIT);
 		} else break; 
 	}
+
+	return false;
 }
 
-// Sorry...
-ServiceType getTypeFromBayPointer(Bay* bay) {
+void Center::finishCar(Car* car, int currentTimestep) {
+	car->setFT(currentTimestep);
+	finishedCars.push(car);
+	car->setStatus(STATUS_FNSH);
+}
+
+void Center::cancelCar(Car* car, int currentTimestep) {
+	car->setCT(currentTimestep);
+	cancelledCars.push(car);
+	car->setStatus(STATUS_CNCL);
+}
+
+
+static ServiceType getTypeFromBayPointer(Bay* bay) {
 	if (dynamic_cast<MechBay*>(bay)) return TYPE_MU;
 	else if (dynamic_cast<WashBay*>(bay)) return TYPE_WU;
 	else if (dynamic_cast<ElecBay*>(bay)) return TYPE_EU;
@@ -263,7 +293,7 @@ void Center::allocateBays(int count) {
 
 void Center::generateIdles() {
 	for (int i = 0; i < 1000; i++) {
-		Car* car = new Car(rand() % 1000, rand() % 50, (rand() % 50) + 50);
+		Car* car = new Car(rand() % 1000, rand() % 50, (rand() % 50) + 50, 3);
 
 		idleList.enqueue(car);
 	}

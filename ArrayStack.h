@@ -15,7 +15,7 @@
 template<typename T>
 class ArrayStack : public StackADT<T>
 {
-	enum { MAX_SIZE = 100 };
+	enum { MAX_SIZE = 1000 };
 protected:  //in case you need to inherit for the project
 	T items[MAX_SIZE];		// Array of stack items
 	int top;                   // Index to top of stack
@@ -31,7 +31,19 @@ public:
 	{
 		return top == -1;
 	}  // end isEmpty
-
+	int getCount(ArrayStack& S) {
+		ArrayStack S1;
+		int count = 0;
+		T x;
+		while (S.pop(x)) {
+			S1.push(x);
+			count++;
+		}
+		while (S1.pop(x)) {
+			S.push(x);
+		}
+		return count;
+	}
 	bool push(const T& newEntry)
 	{
 		if (top == MAX_SIZE - 1) return false;	//Stack is FULL

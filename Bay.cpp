@@ -1,6 +1,4 @@
 #include "Bay.h"
-
-int Bay::count = 0;
 void Bay::setType(BayType _type) {
 	type = _type;
 }
@@ -32,6 +30,11 @@ int Bay::getCapacity() {
 	return maxCapacity;
 }
 
+int Bay::getID()
+{
+	return bayID;
+}
+
 int Bay::getCarCount() {
 	return carCount;
 }
@@ -48,4 +51,24 @@ int Bay::getID()
 bool Bay::isBusy()
 {
 	return carCount == maxCapacity;
+}
+
+ostream& operator<<(ostream& os,const Bay* B)
+{
+	switch (B->type) {
+	case DU:
+		cout << "D" << B->bayID;
+		break;
+	case MU:
+		cout << "M" << B->bayID;
+		break;
+	case EU:
+		cout << "E" << B->bayID;
+		break;
+	case WU:
+		cout << "W" << B->bayID;
+		break;
+	}
+
+	return os;
 }

@@ -13,6 +13,7 @@
 #include"LATE_List.h"
 #include"IDLE_List.h"
 #include"ERLY_List.h"
+#include "DEFS.h"
 #include <fstream>
 
 class Center
@@ -41,12 +42,15 @@ class Center
 public:
 	void loadFile();
 
+	void finishCar(Car* car, int currentTimestep);
+	void cancelCar(Car* car, int currentTimestep);
+
 	bool assignToWash(Car* car, int currentTimestep);
 	bool assignToMech(Car* car, int currentTimestep);
 	bool assignToElec(Car* car, int currentTimestep);
 	bool assignToRandomBay(Car* car, int currentTimestep);
 	
-	void runTestSimulation(int currentTimestep);
+	bool runTestSimulation(int currentTimestep);
 	void allocateBays(int count);
 	void generateIdles();
 };
