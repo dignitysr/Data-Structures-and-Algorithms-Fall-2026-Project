@@ -28,6 +28,8 @@ public:
 	void printStack(ArrayStack<Car*> &S);
 	void printPriQueue(PriorityQueue<Car*> &P);
 
+	void printSpacing();
+
 	int getint();
 	void waitForInput();
 };

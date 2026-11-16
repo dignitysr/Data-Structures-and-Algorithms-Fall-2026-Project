@@ -20,7 +20,9 @@ int main() {
 	int timestep = 0;
 	while (testCenter.runTestSimulation(timestep)) {
 		timestep++;
-		testCenter.printall(ui);
+		testCenter.printAll(ui);
 		ui->waitForInput();
 	}
+
+	testCenter.printAll(ui);
 }

@@ -46,7 +46,7 @@ void Center::loadFile() {
 
 bool Center::runTestSimulation(int currentTimestep) {
 
-	if (idleList.isEmpty() && earlyList.isEmpty() && lateList.isEmpty() && readyList.isEmpty()) {
+	if (idleList.isEmpty() && earlyList.isEmpty() && lateList.isEmpty() && readyList.isEmpty() && diagCars.isEmpty() && serviceCars.isEmpty() && mechWaitingList.isEmpty() && elecWaitingList.isEmpty() && washWaitingList.isEmpty()) {
 		return false;
 	}
 
@@ -120,7 +120,7 @@ bool Center::runTestSimulation(int currentTimestep) {
 			diagBay->decrementCount();
 
 			if (rand() % 100 < 20) {
-				cancelledCars.push(diagCar);
+				cancelCar(diagCar, currentTimestep);
 				continue;
 			}
 
@@ -145,23 +145,26 @@ bool Center::runTestSimulation(int currentTimestep) {
 		if (!freeMUList.isEmpty()) {
 			Car* car = nullptr;
 			mechWaitingList.peek(car);
-			if (!car) continue;
-			if (assignToRandomBay(car, currentTimestep)) mechWaitingList.dequeue(car);
-			car->setStatus(STATUS_SERV);
+			if (car) {
+				if (assignToRandomBay(car, currentTimestep)) {mechWaitingList.dequeue(car); car->setStatus(STATUS_SERV);}
+				else car->setStatus(STATUS_WAIT);
+			}
 		}
 		if (!freeWUList.isEmpty()) {
 			Car* car = nullptr;
 			washWaitingList.peek(car);
-			if (!car) continue;
-			if (assignToRandomBay(car, currentTimestep)) washWaitingList.dequeue(car);
-			car->setStatus(STATUS_SERV);
+			if (car) {
+				if (assignToRandomBay(car, currentTimestep)) {washWaitingList.dequeue(car); car->setStatus(STATUS_SERV);}
+				else car->setStatus(STATUS_WAIT);
+			}
 		}
 		if (!freeEUList.isEmpty()) {
 			Car* car = nullptr;
 			elecWaitingList.peek(car);
-			if (!car) continue;
-			if (assignToRandomBay(car, currentTimestep)) elecWaitingList.dequeue(car);
-			car->setStatus(STATUS_SERV);
+			if (car) {
+				if (assignToRandomBay(car, currentTimestep)) {elecWaitingList.dequeue(car); car->setStatus(STATUS_SERV);}
+				else car->setStatus(STATUS_WAIT);
+			}
 		}
 	}
 
@@ -291,30 +294,45 @@ void Center::allocateBays(int count) {
 	}
 }
 
-void Center::printall(UI* X)
+void Center::printAll(UI* X)
 {
 	X->printQueue(idleList);
+	X->printSpacing();
 	X->printPriQueue(earlyList);
+	X->printSpacing();
 	X->printQueue(lateList);
+	X->printSpacing();
 	X->printQueue(readyList);
+	X->printSpacing();
 	X->printQueue(freeDUList);
+	X->printSpacing();
 	X->printPriQueue(diagCars);
+	X->printSpacing();
 	X->printQueue(mechWaitingList);
+	X->printSpacing();
 	X->printQueue(elecWaitingList);
+	X->printSpacing();
 	X->printQueue(washWaitingList);
+	X->printSpacing();
 	X->printQueue(freeMUList);
+	X->printSpacing();
 	X->printQueue(freeEUList);
+	X->printSpacing();
 	X->printQueue(freeWUList);
+	X->printSpacing();
 	X->printPriQueue(serviceCars);
+	X->printSpacing();
 	X->printStack(cancelledCars);
+	X->printSpacing();
 	X->printStack(finishedCars);
-	X->waitForInput();
+	X->printSpacing();
 }
 
 void Center::generateIdles() {
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 100; i++) {
 		Car* car = new Car(rand() % 1000, rand() % 50, (rand() % 50) + 50, 3);
 
 		idleList.enqueue(car);
+		car->setStatus(STATUS_IDLE);
 	}
 }

@@ -7,5 +7,6 @@ class ElecBay: public Bay
 		static int count;
 		
 		ElecBay();
+		string getBayName() override;
 };
 

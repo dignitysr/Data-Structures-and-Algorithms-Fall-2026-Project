@@ -42,6 +42,7 @@ int Bay::getCarCount() {
 BayType Bay::getType() {
 	return type;
 }
+
 bool Bay::isBusy()
 {
 	return carCount == maxCapacity;

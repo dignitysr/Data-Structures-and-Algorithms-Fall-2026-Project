@@ -16,6 +16,9 @@ void UI::printQueue(LinkedQueue<Car*> &Q) {
 	else if (x->getStatus() == STATUS_REDY) {
 		cout << co << " READY: ";
 	}
+	else if (x->getStatus() == STATUS_WAIT) {
+		cout << co << " WAITING: ";
+	}
 	while (Q.dequeue(x)) {
 		cout << x;
 		count++;
@@ -40,7 +43,7 @@ void UI::printQueue(LinkedQueue<MechBay*> &Q) {
 	if (!x) return;
 	cout << co << " MB Free: ";
 	while (Q.dequeue(x)) {
-		cout << x;
+		cout << x << " ";
 		Q1.enqueue(x);
 	}
 	while (Q1.dequeue(x)) {
@@ -56,7 +59,7 @@ void UI::printQueue(LinkedQueue<DiagBay*> &Q) {
 	if (!x) return;
 	cout << co << " Diag Bays: ";
 	while (Q.dequeue(x)) {
-		cout << x;
+		cout << x << " ";
 		Q1.enqueue(x);
 	}
 	while (Q1.dequeue(x)) {
@@ -72,7 +75,7 @@ void UI::printQueue(LinkedQueue<ElecBay*> &Q) {
 	if (!x) return;
 	cout << co << " EB Free: ";
 	while (Q.dequeue(x)) {
-		cout << x;
+		cout << x << " ";
 		Q1.enqueue(x);
 	}
 	while (Q1.dequeue(x)) {
@@ -88,7 +91,7 @@ void UI::printQueue(LinkedQueue<WashBay*> &Q) {
 	if (!x) return;
 	cout << co << " WB Free: ";
 	while (Q.dequeue(x)) {
-		cout << x;
+		cout << x << " ";
 		Q1.enqueue(x);
 	}
 	while (Q1.dequeue(x)) {
@@ -215,7 +218,6 @@ void UI::printPriQueue(PriorityQueue<Car*> &P)
 	P.peek(w, _);
 	PriorityQueue<Car*> P2;
 	if (w == nullptr) return;
-
 	int count2 = P.getCount();
 	int pri = 0;
 	if (w->getStatus()== STATUS_ERLY) {
@@ -249,8 +251,12 @@ int UI::getint()
 	cout << endl;
 }
 
+void UI::printSpacing() {
+	cout << endl << "=============================" << endl;
+}
+
 void UI::waitForInput()
 {
-	cout << "PRESS ANY KEY TO CONTINUE" << endl;
+	cout << "PRESS ENTER TO CONTINUE" << endl;
 	cin.get();
 }

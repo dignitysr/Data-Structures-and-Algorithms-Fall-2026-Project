@@ -8,3 +8,5 @@ MechBay::MechBay() {
 	MechBay::count++;
 	setID(MechBay::count);
 }
+
+string MechBay::getBayName() { return "Mech Bay"; }

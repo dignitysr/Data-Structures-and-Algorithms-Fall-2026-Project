@@ -8,3 +8,5 @@ DiagBay::DiagBay() {
 	DiagBay::count++;
 		setID(DiagBay::count);
 }
+
+string DiagBay::getBayName() {return "Diag Bay"; }

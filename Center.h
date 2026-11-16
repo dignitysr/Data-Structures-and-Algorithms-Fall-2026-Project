@@ -53,6 +53,6 @@ public:
 	
 	bool runTestSimulation(int currentTimestep);
 	void allocateBays(int count);
-	void printall(UI* X);
+	void printAll(UI* X);
 	void generateIdles();
 };

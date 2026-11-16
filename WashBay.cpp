@@ -8,3 +8,5 @@ WashBay::WashBay(int cap) {
 	WashBay::count++;
 		setID(WashBay::count);
 }
+
+string WashBay::getBayName() { return "Wash Bay"; }

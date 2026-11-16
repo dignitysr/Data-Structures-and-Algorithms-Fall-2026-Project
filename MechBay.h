@@ -7,5 +7,6 @@ class MechBay: public Bay
 		static int count;
 		
 		MechBay();
+		string getBayName() override;
 };
 

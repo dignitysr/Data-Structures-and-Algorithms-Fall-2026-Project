@@ -8,3 +8,5 @@ ElecBay::ElecBay() {
 	ElecBay::count++;
 setID(ElecBay::count);
 }
+
+string ElecBay::getBayName() { return "Elec Bay"; }

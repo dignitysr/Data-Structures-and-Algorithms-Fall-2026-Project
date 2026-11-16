@@ -7,5 +7,6 @@ class DiagBay: public Bay
 		static int count;
 		
 		DiagBay();
+		string getBayName() override;
 };
 
