@@ -1,8 +1,11 @@
 #include "Car.h"
 #include "iostream"
 
-Car::Car(int id, int pt, int vt, int dd, SequenceType st, CarStatus ss)
-    : ID(id), PT(pt), VT(vt), DD(dd), seqType(st), status(ss) {}
+Car::Car(int id, int pt, int vt, int dd, SequenceType st, CarStatus ss): ID(id), PT(pt), VT(vt), DD(dd), seqType(st), status(ss) 
+{
+    CT = -1;
+    FT = -1;
+}
 
 Car::~Car() {
     Service s;
