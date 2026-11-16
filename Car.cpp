@@ -139,32 +139,31 @@ ostream& operator<<(ostream& os,  Car* c)
 {
     switch (c->status) {
     case  STATUS_IDLE:
-        cout << " Cars: " << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        cout << "[C" << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case  STATUS_ERLY:
-        cout <<  "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        cout <<  "[C" << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case STATUS_LATE:
-        cout <<"[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        cout <<"[C" << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case STATUS_REDY:
-        cout <<  "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        cout <<  "[C" << c->ID << ", " << c->VT << ", " << c->PT << "] ";
         break;
     case STATUS_DIAG:
-        cout <<  "[ " << c->ID << ", " << c->currentBay->getID() << "] ";
+        cout <<  "[C" << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_WAIT:
-            cout << "[ " << c->ID << ", " << c->getTotalServiceTime() << "] ";
-        
+            cout << "[C" << c->ID << ", " << c->getTotalServiceTime() << "] ";
         break;
     case STATUS_SERV:
-        cout << "[ " << c->ID << ", " << c->currentBay->getID() << "] ";
+        cout << "[C" << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_CNCL:
-        cout << "[ " << c->ID << ", " << "] ";
+        cout << "[C" << c->ID << ", "<<c->getCanceltime() << "] ";
         break;
     case STATUS_FNSH:
-        cout << "[ " << c->ID << ", " << c->VT << ", " << c->PT << "] ";
+        cout << "[C" << c->ID << ", " << c->getFinishedtime()"] ";
         break;
     }
 }

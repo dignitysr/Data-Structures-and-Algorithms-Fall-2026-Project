@@ -8,7 +8,7 @@ template <typename T>
 		int co=Q.getCount();
 		int num = 0;
 		Q.peek(x);
-			if (IDLEList* idle = dynamic_cast<IDLEList*>(&Q)) {
+			if (IDLEList* idle = dynamic_cast<IDLEList*>(x)) {
 				cout << co<<" IDLE: ";
 				while (Q.dequeue(x)) {
 					Q1.enqueue(x);
@@ -18,28 +18,28 @@ template <typename T>
 					}
 				}
 			}
-			else if (LATEList late = dynamic_cast<LATEList*>(&Q)) {
+			else if (LATEList late = dynamic_cast<LATEList*>(x)) {
 				cout << co<<" LATE: ";
 				while (Q.dequeue(x)) {
 					Q1.enqueue(x);
 					cout << x;
 				}
 			}
-			else if (WaitEU* eu = dynamic_cast<WaitEU*>(&Q)) {
+			else if (WaitEU* eu = dynamic_cast<WaitEU*>(x)) {
 				cout <<co<< "EB Cars Waiting: ";
 				while (Q.dequeue(x)) {
 					Q1.enqueue(x);
 					cout << x;
 				}
 			}
-			else if (WaitMU* mu = dynamic_cast<WaitMU*>(&Q)) {
+			else if (WaitMU* mu = dynamic_cast<WaitMU*>(x)) {
 				cout <<co<< "MB Cars Waiting: ";
 				while (Q.dequeue(x)) {
 					Q1.enqueue(x);
 					cout << x;
 				}
 			}
-			else if (WaitWU* wu = dynamic_cast<WaitWU*>(&Q)) {
+			else if (WaitWU* wu = dynamic_cast<WaitWU*>(x)) {
 				cout << co << "WB Cars Waiting: ";
 				while (Q.dequeue(x)) {
 					Q1.enqueue(x);
@@ -89,12 +89,42 @@ template <typename T>
 template <typename T>
 void UI<T>::printStack(ArrayStack<T> &S)
 {
+	T y;
+	S.peek(y);
+	int count=S.getCount();
+	if (Car* car= dynamic_cast<Car *>(y)) {
+		if (car->getStatus() == STATUS_CNCL) {
+			cout << count << " Cancelled: ";
+		}
+		else if (car->getStatus() == STATUS_FNSH) {
+			cout << count << " DONE: ";
+		}
+		while (S.pop(y)) {
+			cout << y;
+		}
+	}
 		
 	}
 template <typename T>
 void UI<T>::printPriQueue(PriorityQueue<T> &P)
 {
-	
+	T w;
+	P.peek(w);
+	int count2 = P.getCount();
+	if (Car* car = dynamic_cast<Car*>(y)) {
+		if (car->getStatus()== STATUS_ERLY) {
+			cout << count2 << " ERLY: ";
+		}
+		else if (car->getStatus() == STATUS_DIAG) {
+			cout << count2 << " Cars in Diag: ";
+		}
+		else if (car->getStatus() == STATUS_SERV) {
+			cout << count2 << " Cars in Service: ";
+		}
+		while (P.dequeue(w)) {
+			cout << w;
+		}
+	}
 }
 template <typename T>
 int UI<T>::getint()
