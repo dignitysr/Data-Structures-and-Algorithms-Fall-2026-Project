@@ -20,6 +20,12 @@ int Car::getVT() { return VT;
 int Car::getDD() { 
     return DD;
 }
+int Car::getFT() { 
+    return FT;
+}
+int Car::getCT() { 
+    return CT;
+}
 Bay* Car::getBay() {
     return currentBay;
 }
@@ -57,6 +63,10 @@ void Car::setPT(int pt) {
 void Car::setVT(int vt) { VT = vt;
 }
 void Car::setDD(int dd) { DD = dd;
+}
+void Car::setCT(int ct) { CT = ct;
+}
+void Car::setFT(int ft) { FT = ft;
 }
 void Car::setSeqType(SequenceType st) { seqType = st;
 }

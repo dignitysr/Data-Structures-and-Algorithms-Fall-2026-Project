@@ -41,6 +41,9 @@ class Center
 public:
 	void loadFile();
 
+	void finishCar(Car* car, int currentTimestep);
+	void cancelCar(Car* car, int currentTimestep);
+
 	bool assignToWash(Car* car, int currentTimestep);
 	bool assignToMech(Car* car, int currentTimestep);
 	bool assignToElec(Car* car, int currentTimestep);

@@ -10,14 +10,15 @@ using namespace std;
 
 class Car {
 private:
-    int ID;                        
-    int PT;                        
-    int VT;                        
-    int DD;                         
+    int ID;
+    int PT;
+    int VT;
+    int DD;
+    int CT;
+    int FT;
     SequenceType seqType;           
     CarStatus status;     
     ServiceList srvList;
-
     Bay* currentBay;
     
 
@@ -30,6 +31,8 @@ public:
     int getPT();
     int getVT();
     int getDD();
+    int getFT();
+    int getCT();
     Bay* getBay();
     SequenceType getSeqType();
     CarStatus getStatus();
@@ -40,6 +43,8 @@ public:
     void setPT(int pt);
     void setVT(int vt);
     void setDD(int dd);
+    void setFT(int ft);
+    void setCT(int ct);
     void setBay(Bay* bay);
     void setSeqType(SequenceType st);
     void setStatus(CarStatus s);

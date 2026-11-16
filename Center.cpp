@@ -75,7 +75,7 @@ void Center::runTestSimulation(int currentTimestep) {
 
 	// cancel a random car and move it to cncl (10% chance)
 	Car* cancelledCar = lateList.cancelRandomCar(10);
-	if (cancelledCar) cancelledCars.push(cancelledCar);
+	if (cancelledCar) cancelCar(cancelledCar, currentTimestep);
 
 	// moving top 6 cars from the LATE list to the REDY list
 	for (int i = 0; i < 6; i++) {
@@ -172,7 +172,7 @@ void Center::runTestSimulation(int currentTimestep) {
 			servCar->setBay(nullptr);
 			bay->decrementCount();
 
-			if (rand() % 100 < 40) finishedCars.push(servCar);
+			if (rand() % 100 < 40) finishCar(servCar, currentTimestep);
 			else {
 				switch ((ServiceType)(rand() % 3)) {
 					case TYPE_MU:
@@ -188,6 +188,16 @@ void Center::runTestSimulation(int currentTimestep) {
 			}
 		} else break; 
 	}
+}
+
+void Center::finishCar(Car* car, int currentTimestep) {
+	car->setFT(currentTimestep);
+	finishedCars.push(car);
+}
+
+void Center::cancelCar(Car* car, int currentTimestep) {
+	car->setCT(currentTimestep);
+	cancelledCars.push(car);
 }
 
 // Sorry...
@@ -263,7 +273,7 @@ void Center::allocateBays(int count) {
 
 void Center::generateIdles() {
 	for (int i = 0; i < 1000; i++) {
-		Car* car = new Car(rand() % 1000, rand() % 50, (rand() % 50) + 50);
+		Car* car = new Car(rand() % 1000, rand() % 50, (rand() % 50) + 50, 3);
 
 		idleList.enqueue(car);
 	}
