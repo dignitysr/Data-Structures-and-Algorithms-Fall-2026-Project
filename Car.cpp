@@ -37,7 +37,7 @@ SequenceType Car::getSeqType() {
 CarStatus Car::getStatus() { return status;
 }
 
-int Car::getTotalServiceTime() 
+int Car::getTotalServiceTime() const 
 {
     return srvList.getTotalServiceTime();
 }
@@ -135,7 +135,7 @@ void Car::print()
 }
 void Car::setBay(Bay* bay) { currentBay = bay;
 }
-ostream& operator<<(ostream& os,  Car* c)
+ostream& operator<<(ostream& os,  const Car* c)
 {
     switch (c->status) {
     case  STATUS_IDLE:
@@ -160,10 +160,10 @@ ostream& operator<<(ostream& os,  Car* c)
         cout << "[C" << c->ID << ", " << c->currentBay->getID() << "] ";
         break;
     case STATUS_CNCL:
-        cout << "[C" << c->ID << ", "<<c->getCanceltime() << "] ";
+        cout << "[C" << c->ID << ", "<<c->CT << "] ";
         break;
     case STATUS_FNSH:
-        cout << "[C" << c->ID << ", " << c->getFinishedtime()"] ";
+        cout << "[C" << c->ID << ", " << c->FT<<"] ";
         break;
     }
 }

@@ -36,7 +36,7 @@ public:
     Bay* getBay();
     SequenceType getSeqType();
     CarStatus getStatus();
-    int getTotalServiceTime() ;
+    int getTotalServiceTime() const;
     void insertService(Service& service);
     void removeService();
 

@@ -1,6 +1,6 @@
 #include "ServiceList.h"
 
-int ServiceList::getTotalServiceTime() {
+int ServiceList::getTotalServiceTime() const {
 	int sum = 0;
 	Node <Service>* ptr;
 	ptr = frontPtr;
