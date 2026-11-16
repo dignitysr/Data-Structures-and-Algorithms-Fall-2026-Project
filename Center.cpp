@@ -294,36 +294,20 @@ void Center::allocateBays(int count) {
 void Center::printall(UI* X)
 {
 	X->printQueue(idleList);
-	cout << endl;
 	X->printPriQueue(earlyList);
-	cout << endl;
 	X->printQueue(lateList);
-	cout << endl;
 	X->printQueue(readyList);
-	cout << endl;
 	X->printQueue(freeDUList);
-	cout << endl;
 	X->printPriQueue(diagCars);
-	cout << endl;
 	X->printQueue(mechWaitingList);
-	cout << endl;
 	X->printQueue(elecWaitingList);
-	cout << endl;
 	X->printQueue(washWaitingList);
-	cout << endl;
 	X->printQueue(freeMUList);
-	cout << endl;
 	X->printQueue(freeEUList);
-	cout << endl;
 	X->printQueue(freeWUList);
-	cout << endl;
 	X->printPriQueue(serviceCars);
-	cout << endl;
 	X->printStack(cancelledCars);
-	cout << endl;
 	X->printStack(finishedCars);
-	cout << endl;
-	cout << "PRESS ANY KEY TO CONTINUE" << endl;
 	X->waitForInput();
 }
 

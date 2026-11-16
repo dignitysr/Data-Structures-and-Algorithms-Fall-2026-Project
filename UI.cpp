@@ -1,64 +1,100 @@
 #include "UI.h"
 
-void UI::printQueue(LinkedQueue<Car*> Q) {
+void UI::printQueue(LinkedQueue<Car*> &Q) {
 	Car* x = nullptr;
 	int co = Q.getCount();
 	Q.peek(x);
+	LinkedQueue<Car*> Q1;
 	int count = 0;
-
 	if (!x) return;
-
+	if (x->getStatus()==STATUS_IDLE) {
+		cout << co << " IDLE: ";
+	}
+	else if (x->getStatus() == STATUS_LATE) {
+		cout << co << " LATE: ";
+	}
+	else if (x->getStatus() == STATUS_REDY) {
+		cout << co << " READY: ";
+	}
 	while (Q.dequeue(x)) {
 		cout << x;
 		count++;
-		if (count == 15) {
-			break;
+		Q1.enqueue(x);
+		if (x->getStatus() == STATUS_IDLE) {
+			if (count == 15) {
+				break;
+			}
 		}
 	}
+	while (Q1.dequeue(x)) {
+		Q.enqueue(x);
+	}
+	cout << endl;
 }
-void UI::printQueue(LinkedQueue<MechBay*> Q) {
+void UI::printQueue(LinkedQueue<MechBay*> &Q) {
 	MechBay* x = nullptr;
 	int co = Q.getCount();
+	LinkedQueue<MechBay*> Q1;
 	Q.peek(x);
 
 	if (!x) return;
-
+	cout << co << " MB Free: ";
 	while (Q.dequeue(x)) {
 		cout << x;
+		Q1.enqueue(x);
 	}
+	while (Q1.dequeue(x)) {
+		Q.enqueue(x);
+	}
+	cout << endl;
 }
-void UI::printQueue(LinkedQueue<DiagBay*> Q) {
+void UI::printQueue(LinkedQueue<DiagBay*> &Q) {
 	DiagBay* x = nullptr;
 	int co = Q.getCount();
 	Q.peek(x);
-
+	LinkedQueue<DiagBay*>Q1;
 	if (!x) return;
-
+	cout << co << " Diag Bays: ";
 	while (Q.dequeue(x)) {
 		cout << x;
+		Q1.enqueue(x);
 	}
+	while (Q1.dequeue(x)) {
+		Q.enqueue(x);
+	}
+	cout << endl;
 }
-void UI::printQueue(LinkedQueue<ElecBay*> Q) {
+void UI::printQueue(LinkedQueue<ElecBay*> &Q) {
 	ElecBay* x = nullptr;
 	int co = Q.getCount();
 	Q.peek(x);
-
+	LinkedQueue<ElecBay*>Q1;
 	if (!x) return;
-
+	cout << co << " EB Free: ";
 	while (Q.dequeue(x)) {
 		cout << x;
+		Q1.enqueue(x);
 	}
+	while (Q1.dequeue(x)) {
+		Q.enqueue(x);
+	}
+	cout << endl;
 }
-void UI::printQueue(LinkedQueue<WashBay*> Q) {
+void UI::printQueue(LinkedQueue<WashBay*> &Q) {
 	WashBay* x = nullptr;
 	int co = Q.getCount();
 	Q.peek(x);
-
+	LinkedQueue<WashBay*>Q1;
 	if (!x) return;
-
+	cout << co << " WB Free: ";
 	while (Q.dequeue(x)) {
 		cout << x;
+		Q1.enqueue(x);
 	}
+	while (Q1.dequeue(x)) {
+		Q.enqueue(x);
+	}
+	cout << endl;
 }
 
 //template <typename T>
@@ -148,14 +184,14 @@ void UI::printQueue(LinkedQueue<WashBay*> Q) {
 //		}
 //}
 
-void UI::printStack(ArrayStack<Car*> S)
+void UI::printStack(ArrayStack<Car*> &S)
 {
 	int count = S.getCount();
 	Car* y = nullptr;
 	S.peek(y);
+	ArrayStack<Car*> S2;
 
 	if (!y) return;
-
 	if (y->getStatus() == STATUS_CNCL) {
 		cout << count << " Cancelled: ";
 	}
@@ -164,15 +200,20 @@ void UI::printStack(ArrayStack<Car*> S)
 	}
 	while (S.pop(y)) {
 		cout << y;
+		S2.push(y);
 	}
+	while (S2.pop(y)) {
+		S.push(y);
+	}
+	cout << endl;
 }
 
-void UI::printPriQueue(PriorityQueue<Car*> P)
+void UI::printPriQueue(PriorityQueue<Car*> &P)
 {
 	Car* w = nullptr;
 	int _;
 	P.peek(w, _);
-
+	PriorityQueue<Car*> P2;
 	if (w == nullptr) return;
 
 	int count2 = P.getCount();
@@ -188,7 +229,12 @@ void UI::printPriQueue(PriorityQueue<Car*> P)
 	}
 	while (P.dequeue(w,pri)) {
 		cout << w;
+		P2.enqueue(w, pri);
 	}
+	while (P2.dequeue(w, pri)) {
+		P.enqueue(w, pri);
+	}
+	cout << endl;
 }
 int UI::getint()
 {
@@ -200,9 +246,11 @@ int UI::getint()
 		cin >> x;
 	}
 	return x;
+	cout << endl;
 }
 
 void UI::waitForInput()
 {
+	cout << "PRESS ANY KEY TO CONTINUE" << endl;
 	cin.get();
 }
