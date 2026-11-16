@@ -42,15 +42,15 @@ Node<T>* Node<T>::getNext() const
 	return next;
 }
 
-#include "Service.h"
 class Car;
 class MechBay;
 class WashBay;
 class ElecBay;
 class DiagBay;
+class Service;
 
 template class Node<Car*>;
-template class Node<Service>;
+template class Node<Service*>;
 template class Node<MechBay*>;
 template class Node<WashBay*>;
 template class Node<ElecBay*>;

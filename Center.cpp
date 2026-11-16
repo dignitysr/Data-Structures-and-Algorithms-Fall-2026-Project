@@ -46,7 +46,7 @@ void Center::loadFile() {
 
 bool Center::runTestSimulation(int currentTimestep) {
 
-	if (idleList.isEmpty() && earlyList.isEmpty() && lateList.isEmpty() && readyList.isEmpty() && diagCars.isEmpty() && serviceCars.isEmpty() && mechWaitingList.isEmpty() && elecWaitingList.isEmpty() && washWaitingList.isEmpty()) {
+	if (cancelledCars.getCount() + finishedCars.getCount() == 100) {
 		return false;
 	}
 

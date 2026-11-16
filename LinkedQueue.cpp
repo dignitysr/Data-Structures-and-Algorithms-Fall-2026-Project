@@ -149,15 +149,15 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 }
 
 
-#include "Service.h"
 class Car;
 class MechBay;
 class WashBay;
 class ElecBay;
+class Service;
 class DiagBay;
 
 template class LinkedQueue<Car*>;
-template class LinkedQueue<Service>;
+template class LinkedQueue<Service*>;
 template class LinkedQueue<MechBay*>;
 template class LinkedQueue<WashBay*>;
 template class LinkedQueue<ElecBay*>;
