@@ -81,6 +81,14 @@ void Car::setSeqType(SequenceType st) { seqType = st;
 }
 void Car::setStatus(CarStatus s) { status = s;
 }
+int Car::getTotalWaitingTime()
+{
+    return totalWaitingTime;
+}
+void Car::addTotalWaitingTime(int time)
+{
+    totalWaitingTime += time;
+}
 void Car::print()
 {
     cout << "Car ID is: " << getID();
