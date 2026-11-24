@@ -77,12 +77,7 @@ void Statistics::incrementCancellationCount()
 {
     cancellationCount++;
 }
-void Statistics::addTotalBayCount(Bay* bay, int count) {
-    if (dynamic_cast<MechBay*>(bay)) MBCount += count;
-    else if (dynamic_cast<WashBay*>(bay)) WBCount += count;
-    else if (dynamic_cast<ElecBay*>(bay)) EBCount += count;
-    else if (dynamic_cast<DiagBay*>(bay)) DBCount += count;
-}
+
 int Statistics::getTotalSimulationTime() const
 {
     return totalSimulationTime;
