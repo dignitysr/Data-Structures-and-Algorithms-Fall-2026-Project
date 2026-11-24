@@ -7,27 +7,22 @@ void Center::loadFile() {
 	ifstream InFile("input.txt");
 	if (InFile.is_open()) {
 		InFile >> N_DU;
-		for (int i = 0;i < N_DU;i++) {
-			DiagBay* dummy = new DiagBay();
-			freeDUList.enqueue(dummy);
-		}
+		DiagBay DB;
+		allocateNewBays(&DB, N_DU);
 		InFile >> N_MU;
-		for (int i = 0;i < N_MU;i++) {
-			MechBay* dummy = new MechBay();
-			freeMUList.enqueue(dummy);
-		}
+		MechBay MB;
+		allocateNewBays(&MB, N_MU);
+		centerStatistics.addTotalBayCount(N_MU);
 		InFile >> N_EU;
-		for (int i = 0;i < N_EU;i++) {
-			ElecBay* dummy = new ElecBay();
-			freeEUList.enqueue(dummy);
-		}
+		ElecBay EB;
+		allocateNewBays(&EB, N_EU);
+		centerStatistics.addTotalBayCount(N_EU);
 		InFile >> N_WU;
-
 		InFile >> WB_Cap;
-		for (int i = 0;i < N_WU;i++) {
-			WashBay* dummy = new WashBay(WB_Cap);
-			freeWUList.enqueue(dummy);
-		}
+		WashBay WB(WB_Cap);
+		allocateNewBays(&WB, N_WU, WB_Cap);
+		centerStatistics.addTotalBayCount(N_WU);
+		
 		InFile >> Pcancel;
 		InFile >> Presc;
 
@@ -375,6 +370,34 @@ void Center::allocateBays(int count) {
 		freeMUList.enqueue(mechBay);
 		freeWUList.enqueue(washBay);
 		freeEUList.enqueue(elecBay);
+	}
+}
+
+void Center::allocateNewBays(Bay* bay, int number, int cap)
+{
+	if (dynamic_cast<MechBay*>(bay)) {
+		for (int i = 0;i < number;i++) {
+			MechBay* dummy = new MechBay();
+			freeMUList.enqueue(dummy);
+		}
+	}
+	else if (dynamic_cast<WashBay*>(bay)) {
+		for (int i = 0;i < number;i++) {
+			WashBay* dummy = new WashBay(cap);
+			freeWUList.enqueue(dummy);
+		}
+	}
+	else if (dynamic_cast<ElecBay*>(bay)) {
+		for (int i = 0;i < number;i++) {
+			ElecBay* dummy = new ElecBay();
+			freeEUList.enqueue(dummy);
+		}
+	}
+	else if (dynamic_cast<DiagBay*>(bay)) {
+		for (int i = 0;i < number;i++) {
+			DiagBay* dummy = new DiagBay();
+			freeDUList.enqueue(dummy);
+		}
 	}
 }
 

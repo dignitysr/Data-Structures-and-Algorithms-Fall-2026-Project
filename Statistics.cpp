@@ -7,19 +7,20 @@ Statistics::Statistics()
     totalServiceTime = 0;
     FSTotalWaitingTime = 0;
     SSTotalWaitingTime = 0;
-    MBCount = 0;
-    WBCount = 0;
-    EBCount = 0;
-    DBCount = 0;
+    MBUtilization = 0;
+    WBUtilization = 0;
+    EBUtilization = 0;
+    DBUtilization = 0;
 
     cancellationCount = 0;
     reschedulingCount = 0;
 
     FScount = 0;
     SScount = 0;
+    totalBayCount = 0;
 }
 
-void Statistics::addWaitingTime(Car* car, int time)
+void Statistics::addTotalWaitingTime(Car* car, int time)
 {
     car->addTotalWaitingTime(time);
     SequenceType type = car->getSeqType();
@@ -43,7 +44,7 @@ void Statistics::incrementReschedulingCount()
 {
     reschedulingCount++;
 }
-void Statistics::incrementTypeCount(Car * car)
+void Statistics::incrementSeqTypeCount(Car * car)
 {
     SequenceType type = car->getSeqType();
     if (type == FS) {
@@ -65,17 +66,20 @@ void Statistics::addTotalServiceTime(int time)
     totalServiceTime += time;
 }
 
-void Statistics::incrementBayCount(Bay* bay)
+void Statistics::addBayUtilization(Bay* bay,Service* service)
 {
-    if (dynamic_cast<MechBay*>(bay)) MBCount++;
-    else if (dynamic_cast<WashBay*>(bay)) WBCount++;
-    else if (dynamic_cast<ElecBay*>(bay)) EBCount++;
+    if (dynamic_cast<MechBay*>(bay)) MBUtilization+= service->getDuration() ;
+    else if (dynamic_cast<WashBay*>(bay)) WBUtilization+= service->getDuration();
+    else if (dynamic_cast<ElecBay*>(bay)) EBUtilization+= service->getDuration();
+    /*else if (dynamic_cast<DiagBay*>(bay)) DBUtilization+=*/
 }
 void Statistics::incrementCancellationCount()
 {
     cancellationCount++;
 }
-
+void Statistics::addTotalBayCount(int count) {
+    totalBayCount += count;
+}
 int Statistics::getTotalSimulationTime() const
 {
     return totalSimulationTime;
@@ -101,24 +105,24 @@ int Statistics::getTotalServiceTime() const
     return totalServiceTime;
 }
 
-int Statistics::getMBCount() const
+int Statistics::getMBUtilization() const
 {
-    return MBCount;
+    return MBUtilization;
 }
 
-int Statistics::getWBCount() const
+int Statistics::getWBUtilization() const
 {
-    return WBCount;
+    return WBUtilization;
 }
 
-int Statistics::getEBCount() const
+int Statistics::getEBUtilization() const
 {
-    return EBCount;
+    return EBUtilization;
 }
 
-int Statistics::getDBCount() const
+int Statistics::getDBUtilization() const
 {
-    return DBCount;
+    return DBUtilization;
 }
 
 int Statistics::getCancellationCount() const

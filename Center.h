@@ -62,6 +62,7 @@ public:
 	bool runTestSimulation(int currentTimestep);
 	bool runSimulation(int currentTimestep);
 	void allocateBays(int count);
+	void allocateNewBays(Bay* bay, int number, int cap = 1);
 	void printAll(UI* X);
 	void generateIdles();
 };
