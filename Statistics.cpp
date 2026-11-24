@@ -66,12 +66,12 @@ void Statistics::addTotalServiceTime(int time)
     totalServiceTime += time;
 }
 
-void Statistics::addBayUtilization(Bay* bay,Service* service)
+void Statistics::addBayUtilization(Bay* bay,Service* service,Car*car)
 {
-    if (dynamic_cast<MechBay*>(bay)) MBUtilization+= service->getDuration() ;
-    else if (dynamic_cast<WashBay*>(bay)) WBUtilization+= service->getDuration();
-    else if (dynamic_cast<ElecBay*>(bay)) EBUtilization+= service->getDuration();
-    /*else if (dynamic_cast<DiagBay*>(bay)) DBUtilization+=*/
+    if (dynamic_cast<MechBay*>(bay)) MBUtilization += service->getDuration();
+    else if (dynamic_cast<WashBay*>(bay)) WBUtilization += service->getDuration();
+    else if (dynamic_cast<ElecBay*>(bay)) EBUtilization += service->getDuration();
+    else if (dynamic_cast<DiagBay*>(bay)) DBUtilization += car->getDD();
 }
 void Statistics::incrementCancellationCount()
 {

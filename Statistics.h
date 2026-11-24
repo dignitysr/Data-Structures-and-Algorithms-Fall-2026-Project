@@ -15,7 +15,7 @@ class Statistics
 	int SSTotalWaitingTime;
 	//Totalservicetime of all cars combined
 	int totalServiceTime;
-	//Bay Utilization Count
+	//Bay Utilization 
 	int MBUtilization;
 	int WBUtilization;
 	int EBUtilization;
@@ -34,7 +34,7 @@ public:
 	void setTotalCars(int cars); //setter for the number of the total cars in idle #DO NOT CALL
 	void incrementTotalCars(); //inc the number of total cars (useless) #DO NOT CALL
 	void addTotalServiceTime(int time); //adds the totalservicetime of ALL the cars combined (Hint use func gettotalservicetime in Car class) #CALLED AFTER DIAG
-	void addBayUtilization(Bay* bay,Service* service);   //inc the count of the type of bay used #IS CALLED AFTER EACH DEQUEUING FROM WAITINGLIST
+	void addBayUtilization(Bay* bay,Service* service,Car* car);   //inc the time used of the type of bay used #IS CALLED AFTER DEQUEUING THER SERVICE FROM THE SERVICE LIST BEFORE ASSINGING THE CAR TO BAY 
 	void incrementCancellationCount(); //inc the count of the cancelled cars #COULD BE CALLED IN LATE AND AFTER DIAG
 	void incrementReschedulingCount(); //inc the count of the rescheduled cars #COULD BE CALLED IN EARLY
 	void incrementSeqTypeCount(Car * car); //inc the count of seqtype of each car (FS OR SS) #CALL AFTER DIAGNOSIS 
