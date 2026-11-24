@@ -20,6 +20,11 @@ class Statistics
 	int WBUtilization;
 	int EBUtilization;	
 	int DBUtilization;
+	//Bay Count 
+	int MBCount;
+	int WBCount;
+	int EBCount;
+	int DBCount;
 	//Rate of cancellation/Resche.
 	int cancellationCount;
 	int reschedulingCount;
@@ -29,7 +34,7 @@ class Statistics
 	int totalBayCount;
 public:
 	Statistics();
-	void addTotalWaitingTime(Car * car,int time); //adds the totalwaitingtime of ALL the cars combined (you must also use addtotalwaitingtime func in Car besides it) #Called between waitinglist and bay ig?
+	void addTotalWaitingTime(Car * car,int time); //adds the totalwaitingtime of ALL the cars combined (you must also use addtotalwaitingtime func in Car besides it) #Called between ready and diabay also between waitinglist and bay 
 	void setTotalSimulationTime(int time); //Call it at the end of the simulation #Probably Called in Main
 	void setTotalCars(int cars); //setter for the number of the total cars in idle #DO NOT CALL
 	void incrementTotalCars(); //inc the number of total cars (useless) #DO NOT CALL
@@ -38,7 +43,7 @@ public:
 	void incrementCancellationCount(); //inc the count of the cancelled cars #COULD BE CALLED IN LATE AND AFTER DIAG
 	void incrementReschedulingCount(); //inc the count of the rescheduled cars #COULD BE CALLED IN EARLY
 	void incrementSeqTypeCount(Car * car); //inc the count of seqtype of each car (FS OR SS) #CALL AFTER DIAGNOSIS 
-	void addTotalBayCount(int count);
+	void addTotalBayCount(Bay * bay,int count);
 	//GETTERS
 	int getTotalSimulationTime() const; 
 	int getTotalCars() const;
