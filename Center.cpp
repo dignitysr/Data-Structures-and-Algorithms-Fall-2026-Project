@@ -106,7 +106,9 @@ void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
 
 void Center::handleLateCars(int currentTimestep) {
 	Car* car = nullptr;
+	int carsTransferred = 0;
 	while (lateList.peek(car) && car->getCountOnArrival() >= onTimeCount) {
+		if (carsTransferred == 2) return;
 		lateList.dequeue(car);
 
 		car->setStatus(STATUS_REDY);
@@ -114,6 +116,7 @@ void Center::handleLateCars(int currentTimestep) {
 		readyList.enqueue(car);
 
 		car = nullptr;
+		carsTransferred++;
 	}
 }
 
