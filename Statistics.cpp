@@ -24,10 +24,10 @@ void Statistics::addWaitingTime(Car* car, int time)
     car->addTotalWaitingTime(time);
     SequenceType type = car->getSeqType();
     if (type == FS) {
-        FSTotalWaitingCount += time;
+        FSTotalWaitingTime += time;
     }
     else if (type == SS) {
-        SSTotalWaitingCount += time;
+        SSTotalWaitingTime += time;
     }
 }
 
@@ -86,14 +86,14 @@ int Statistics::getTotalCars() const
     return totalCars;
 }
 
-int Statistics::getFSTotalWaitingCount() const
+int Statistics::getFSTotalWaitingTime() const
 {
-    return FSTotalWaitingCount;
+    return FSTotalWaitingTime;
 }
 
-int Statistics::getSSTotalWaitingCount() const
+int Statistics::getSSTotalWaitingTime() const
 {
-    return SSTotalWaitingCount;
+    return SSTotalWaitingTime;
 }
 
 int Statistics::getTotalServiceTime() const

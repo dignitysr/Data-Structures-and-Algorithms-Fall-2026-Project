@@ -7,18 +7,24 @@
 class Statistics
 {
 	int totalSimulationTime;
+	//total number of cars
 	int totalCars;
-	int FSTotalWaitingCount;
-	int SSTotalWaitingCount;
+	//Totalwaitingtime of all cars combined based on their seqtype
+	int FSTotalWaitingTime;
+	int SSTotalWaitingTime;
+	//Totalservicetime of all cars combined
 	int totalServiceTime;
+	//Bay Utilization Count
 	int MBCount;
 	int WBCount;
 	int EBCount;
 	int DBCount;
+	//Rate of cancellation/Resche.
 	int cancellationCount;
 	int reschedulingCount;
+	//number of cars based on their SeqType
 	int FScount;	
-	int SScount;
+	int SScount;	
 public:
 	Statistics();
 	void addWaitingTime(Car * car,int time); //adds the totalwaitingtime of ALL the cars combined (you must also use addtotalwaitingtime func in Car besides it) #Called between waitinglist and bay ig?
@@ -33,8 +39,8 @@ public:
 	//GETTERS
 	int getTotalSimulationTime() const; 
 	int getTotalCars() const;
-	int getFSTotalWaitingCount() const;
-	int getSSTotalWaitingCount() const;
+	int getFSTotalWaitingTime() const;
+	int getSSTotalWaitingTime() const;
 	int getTotalServiceTime() const;
 	int getMBCount() const;
 	int getWBCount() const;
