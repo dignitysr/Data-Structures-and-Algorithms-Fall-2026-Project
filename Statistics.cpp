@@ -5,8 +5,8 @@ Statistics::Statistics()
     totalSimulationTime = 0;
     totalCars = 0;
     totalServiceTime = 0;
-    FSTotalWaitingCount = 0;
-    SSTotalWaitingCount = 0;
+    FSTotalWaitingTime = 0;
+    SSTotalWaitingTime = 0;
     MBCount = 0;
     WBCount = 0;
     EBCount = 0;
