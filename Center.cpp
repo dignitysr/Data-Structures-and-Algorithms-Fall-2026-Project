@@ -32,6 +32,7 @@ void Center::loadFile() {
 		InFile >> Presc;
 
 		InFile >> M;
+		centerStatistics.setTotalCars(M);
 		for (int i = 0;i < M;i++)
 		{
 			InFile >> VT;
@@ -40,6 +41,7 @@ void Center::loadFile() {
 			InFile >> DD;
 			Car* dummy = new Car(CID, PT, VT, DD);
 			idleList.enqueue(dummy);
+			
 		}
 	}
 }

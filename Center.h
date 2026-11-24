@@ -14,6 +14,7 @@
 #include"LATE_List.h"
 #include"IDLE_List.h"
 #include"ERLY_List.h"
+#include"Statistics.h"
 #include "DEFS.h"
 #include <fstream>
 
@@ -23,7 +24,7 @@ class Center
 	float Presc;
 
 	int onTimeCount = 0;
-
+	Statistics centerStatistics;
 	PriorityQueue<Car*> serviceCars;
 	ArrayStack<Car*> finishedCars;
 	ArrayStack<Car*> cancelledCars;

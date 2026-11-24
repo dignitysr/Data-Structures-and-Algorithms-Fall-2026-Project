@@ -4,9 +4,9 @@ Statistics::Statistics()
 {
     totalSimulationTime = 0;
     totalCars = 0;
-    totalWaitingTime = 0;
     totalServiceTime = 0;
-
+    FSTotalWaitingCount = 0;
+    SSTotalWaitingCount = 0;
     MBCount = 0;
     WBCount = 0;
     EBCount = 0;
@@ -19,57 +19,63 @@ Statistics::Statistics()
     SScount = 0;
 }
 
+void Statistics::addWaitingTime(Car* car, int time)
+{
+    SequenceType type = car->getSeqType();
+    if (type == FS) {
+        FSTotalWaitingCount += time;
+    }
+    else if (type == SS) {
+        SSTotalWaitingCount += time;
+    }
+}
+
 void Statistics::setTotalSimulationTime(int time)
 {
     totalSimulationTime = time;
+}
+void Statistics::setTotalCars(int cars)
+{
+    totalCars = cars;
+}
+void Statistics::incrementReschedulingCount()
+{
+    reschedulingCount++;
+}
+void Statistics::incrementTypeCount(Car * car)
+{
+    SequenceType type = car->getSeqType();
+    if (type == FS) {
+        FScount++;
+    }
+    else if (type == SS) {
+        SScount++;
+    }
 }
 void Statistics::incrementTotalCars()
 {
     totalCars++;
 }
 
-void Statistics::addTotalWaitingTime(int time)
-{
-    totalWaitingTime += time;
-}
+
 
 void Statistics::addTotalServiceTime(int time)
 {
     totalServiceTime += time;
 }
 
-void Statistics::incrementMBCount()
+void Statistics::incrementBayCount(Bay* bay)
 {
-    MBCount++;
+    if (dynamic_cast<MechBay*>(bay)) MBCount++;
+    else if (dynamic_cast<WashBay*>(bay)) WBCount++;
+    else if (dynamic_cast<ElecBay*>(bay)) EBCount++;
 }
 
-void Statistics::incrementWBCount()
-{
-    WBCount++;
-}
-
-void Statistics::incrementEBCount()
-{
-    EBCount++;
-}
-
-void Statistics::incrementDBCount()
-{
-    DBCount++;
-}
 
 void Statistics::incrementCancellationCount()
 {
     cancellationCount++;
 }
 
-void Statistics::incrementFScount()
-{
-    FScount++;
-}
 
-void Statistics::incrementSScount()
-{
-    SScount++;
-}
 

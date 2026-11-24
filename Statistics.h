@@ -1,9 +1,15 @@
 #pragma once
+#include "Car.h"
+#include "Bay.h"
+#include "MechBay.h"
+#include "ElecBay.h"
+#include "WashBay.h"
 class Statistics
 {
 	int totalSimulationTime;
 	int totalCars;
-	int totalWaitingTime;
+	int FSTotalWaitingCount;
+	int SSTotalWaitingCount;
 	int totalServiceTime;
 	int MBCount;
 	int WBCount;
@@ -15,18 +21,15 @@ class Statistics
 	int SScount;
 public:
 	Statistics();
+	void addWaitingTime(Car * car,int time);
 	void setTotalSimulationTime(int time);
+	void setTotalCars(int cars);
 	void incrementTotalCars();
-	void addTotalWaitingTime(int time);
 	void addTotalServiceTime(int time);
-	void incrementMBCount();
-	void incrementWBCount();
-	void incrementEBCount();
-	void incrementDBCount();
+	void incrementBayCount(Bay* bay);
 	void incrementCancellationCount();
 	void incrementReschedulingCount();
-	void incrementFScount();
-	void incrementSScount();
+	void incrementTypeCount(Car * car);
 
 };
 

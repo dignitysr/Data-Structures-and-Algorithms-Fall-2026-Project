@@ -19,7 +19,8 @@ int Car::getID() {
 }
 int Car::getPT()  { 
     return PT; }
-int Car::getVT() { return VT;
+int Car::getVT() { 
+    return VT;
 }
 int Car::getDD() { 
     return DD;
