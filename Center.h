@@ -22,6 +22,8 @@ class Center
 	float Pcancel;
 	float Presc;
 
+	int onTimeCount = 0;
+
 	PriorityQueue<Car*> serviceCars;
 	ArrayStack<Car*> finishedCars;
 	ArrayStack<Car*> cancelledCars;
@@ -51,7 +53,13 @@ public:
 	bool assignToElec(Car* car, int currentTimestep);
 	bool assignToRandomBay(Car* car, int currentTimestep);
 	
+	int distributeIdleCars(int currentTimestep);
+	void diagnoseCars(int currentTimestep);
+	void handleEarlyCars(int currentTimestep, int distributedCars);
+	void handleLateCars(int currentTimestep);
+	
 	bool runTestSimulation(int currentTimestep);
+	bool runSimulation(int currentTimestep);
 	void allocateBays(int count);
 	void printAll(UI* X);
 	void generateIdles();

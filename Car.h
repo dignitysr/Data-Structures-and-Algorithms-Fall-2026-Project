@@ -16,11 +16,12 @@ private:
     int DD;
     int CT;
     int FT;
-    SequenceType seqType;           
+    SequenceType seqType;
     CarStatus status;     
     ServiceList srvList;
     Bay* currentBay;
     
+    int countOnArrival; // for late cars
 
 public:
     Car(int id, int pt, int vt, int dd, SequenceType st = SS, CarStatus ss = STATUS_IDLE);
@@ -33,6 +34,7 @@ public:
     int getDD();
     int getFT();
     int getCT();
+    int getCountOnArrival();
     Bay* getBay();
     SequenceType getSeqType();
     CarStatus getStatus();
@@ -45,6 +47,7 @@ public:
     void setDD(int dd);
     void setFT(int ft);
     void setCT(int ct);
+    void setCountOnArrival(int count);
     void setBay(Bay* bay);
     void setSeqType(SequenceType st);
     void setStatus(CarStatus s);

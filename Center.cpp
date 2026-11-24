@@ -44,6 +44,85 @@ void Center::loadFile() {
 	}
 }
 
+int Center::distributeIdleCars(int currentTimestep) {
+	int distributedCars = 0;
+	while (!idleList.isEmpty()) {
+		Car* car = nullptr;
+		idleList.peek(car);
+		int VT = car->getVT();
+
+		if (VT != currentTimestep) return;
+
+		idleList.dequeue(car);
+		distributedCars++;
+
+		if (VT == car->getPT()) {
+			car->setStatus(STATUS_REDY);
+			onTimeCount++;
+			readyList.enqueue(car);
+		}
+		else if (VT > car->getPT()) {
+			car->setStatus(STATUS_LATE);
+			car->setCountOnArrival(onTimeCount);
+			lateList.enqueue(car);
+		}
+		else {
+			car->setStatus(STATUS_ERLY);
+			earlyList.enqueue(car, -car->getPT());
+		}
+	}
+
+	return distributedCars;
+}
+
+void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
+	if (readyList.isEmpty() && distributedCars == 0) {
+		for (int i = 0; i < 3; i++) {
+			Car* car = nullptr;
+			int _ = 0;
+			earlyList.dequeue(car, _);
+
+			if (!car) return;
+
+			car->setStatus(STATUS_REDY);
+			onTimeCount++;
+			readyList.enqueue(car);
+		}
+	}
+
+	Car* car = nullptr;
+	int VT = 0;
+	while (earlyList.peek(car, VT) && car && VT == currentTimestep) {
+		earlyList.dequeue(car, VT);
+
+		car->setStatus(STATUS_REDY);
+		onTimeCount++;
+		readyList.enqueue(car);
+
+		car = nullptr;
+		VT = 0;
+	}
+}
+
+void Center::handleLateCars(int currentTimestep) {
+	Car* car = nullptr;
+	while (lateList.peek(car) && car->getCountOnArrival() >= onTimeCount) {
+		lateList.dequeue(car);
+
+		car->setStatus(STATUS_REDY);
+		onTimeCount++;
+		readyList.enqueue(car);
+
+		car = nullptr;
+	}
+}
+
+bool Center::runSimulation(int currentTimestep) {
+	int distributedCars = distributeIdleCars(currentTimestep);
+	handleEarlyCars(currentTimestep, distributedCars);
+	handleLateCars(currentTimestep);
+}
+
 bool Center::runTestSimulation(int currentTimestep) {
 
 	if (cancelledCars.getCount() + finishedCars.getCount() == 1000) {

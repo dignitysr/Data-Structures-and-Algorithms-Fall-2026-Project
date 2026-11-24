@@ -5,6 +5,7 @@ Car::Car(int id, int pt, int vt, int dd, SequenceType st, CarStatus ss): ID(id),
 {
     CT = -1;
     FT = -1;
+    countOnArrival = -1;
 }
 
 Car::~Car() {
@@ -28,6 +29,9 @@ int Car::getFT() {
 }
 int Car::getCT() { 
     return CT;
+}
+int Car::getCountOnArrival() { 
+    return countOnArrival;
 }
 Bay* Car::getBay() {
     return currentBay;
@@ -70,6 +74,8 @@ void Car::setDD(int dd) { DD = dd;
 void Car::setCT(int ct) { CT = ct;
 }
 void Car::setFT(int ft) { FT = ft;
+}
+void Car::setCountOnArrival(int count) { countOnArrival = count;
 }
 void Car::setSeqType(SequenceType st) { seqType = st;
 }
