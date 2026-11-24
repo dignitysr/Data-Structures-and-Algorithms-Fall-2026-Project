@@ -17,6 +17,7 @@
 #include"Statistics.h"
 #include "DEFS.h"
 #include <fstream>
+#include <iomanip>
 
 class Center
 {
@@ -45,6 +46,7 @@ class Center
 
 public:
 	void loadFile();
+	void saveStatistics(string fileName);
 
 	void finishCar(Car* car, int currentTimestep);
 	void cancelCar(Car* car, int currentTimestep);

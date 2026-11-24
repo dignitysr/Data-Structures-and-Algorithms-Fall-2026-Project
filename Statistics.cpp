@@ -7,6 +7,7 @@ Statistics::Statistics()
     totalServiceTime = 0;
     FSTotalWaitingTime = 0;
     SSTotalWaitingTime = 0;
+    NSTotalWaitingTime = 0;
     MBUtilization = 0;
     WBUtilization = 0;
     EBUtilization = 0;
@@ -29,6 +30,9 @@ void Statistics::addTotalWaitingTime(Car* car, int time)
     }
     else if (type == SS) {
         SSTotalWaitingTime += time;
+    }
+    else if (type == NS) {
+        NSTotalWaitingTime += time;
     }
 }
 
@@ -88,6 +92,11 @@ int Statistics::getTotalCars() const
     return totalCars;
 }
 
+int Statistics::getNSTotalWaitingTime() const
+{
+    return NSTotalWaitingTime;
+}
+
 int Statistics::getFSTotalWaitingTime() const
 {
     return FSTotalWaitingTime;
@@ -96,6 +105,11 @@ int Statistics::getFSTotalWaitingTime() const
 int Statistics::getSSTotalWaitingTime() const
 {
     return SSTotalWaitingTime;
+}
+
+int Statistics::getTotalWaitingTime() const
+{
+    return NSTotalWaitingTime+FSTotalWaitingTime+SSTotalWaitingTime;
 }
 
 int Statistics::getTotalServiceTime() const

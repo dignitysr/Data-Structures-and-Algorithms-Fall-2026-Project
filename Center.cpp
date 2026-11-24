@@ -36,6 +36,73 @@ void Center::loadFile() {
 	}
 }
 
+void Center::saveStatistics(string fileName)
+{
+	ofstream outFile(fileName+".txt");
+	if (outFile.is_open()) {
+		outFile << left;
+		outFile << setw(10) << "FT" << setw(10) << "CID" << setw(10) << "PT" << setw(10) << "VT" << setw(10) << "TW" << setw(10) << "TS" << setw(10) << "State";
+		outFile << endl;
+		Car* car1, *car2;
+		while (finishedCars.peek(car1) && cancelledCars.peek(car2)) {
+			if (car1->getFT() >= car2->getFT()) {
+				finishedCars.pop(car1);
+				outFile << setw(10) << car1->getFT() << setw(10) << car1->getID() << setw(10) << car1->getPT() << setw(10) << car1->getVT() << setw(10) << car1->getTotalWaitingTime() << setw(10) << car1->getTotalServiceTime() << setw(10) << "F" << endl;
+			}
+			else {
+				cancelledCars.pop(car2);
+				outFile << setw(10) << car2->getFT() << setw(10) << car2->getID() << setw(10) << car2->getPT() << setw(10) << car2->getVT() << setw(10) << car2->getTotalWaitingTime() << setw(10) << car2->getTotalServiceTime() << setw(10) << "C" << endl;
+			}
+		}
+		while (finishedCars.pop(car1)) {
+			outFile << setw(10) << car1->getFT() << setw(10) << car1->getID() << setw(10) << car1->getPT() << setw(10) << car1->getVT() << setw(10) << car1->getTotalWaitingTime() << setw(10) << car1->getTotalServiceTime() << setw(10) << "F" << endl;
+			
+		}
+		while (cancelledCars.pop(car2)) {
+			outFile << setw(10) << car2->getFT() << setw(10) << car2->getID() << setw(10) << car2->getPT() << setw(10) << car2->getVT() << setw(10) << car2->getTotalWaitingTime() << setw(10) << car2->getTotalServiceTime() << setw(10) << "C" << endl;
+
+		}
+		float avgWaitingTime = float(float(centerStatistics.getTotalWaitingTime()) / centerStatistics.getTotalCars());
+		float avgServiceTime = float(float(centerStatistics.getTotalServiceTime()) / centerStatistics.getTotalCars());
+		int totalTimeStep = centerStatistics.getTotalSimulationTime();
+		int totalCars = centerStatistics.getTotalCars();
+		float avgWaitToServiceRatio = avgWaitingTime / avgServiceTime;
+		float MBUti = float(float(centerStatistics.getMBUtilization()) / totalTimeStep)*100.0F;
+		float WBUti = float(float(centerStatistics.getWBUtilization()) / totalTimeStep)*100.0F;
+		float EBUti = float(float(centerStatistics.getEBUtilization()) / totalTimeStep)*100.0F;
+		float DBUti = float(float(centerStatistics.getDBUtilization()) / totalTimeStep)*100.0F;
+		float cancelRate = float(float(centerStatistics.getCancellationCount()) / totalCars) * 100.0F;
+		float rescheduleRate = float(float(centerStatistics.getReschedulingCount()) / totalCars) * 100.0F;
+		int FSAvgWT = centerStatistics.getFSTotalWaitingTime() / centerStatistics.getFScount();
+		int SSAvgWT = centerStatistics.getSSTotalWaitingTime() / centerStatistics.getSScount();
+		float latencyReduction = float(float(SSAvgWT - FSAvgWT) / SSAvgWT) * 100.0F;
+
+		outFile << "------------------------Statistics---------------------------------------" << endl;
+		outFile << "Total Simulation Time = " << totalTimeStep<< "|Total Cars = " << totalCars << endl;
+		outFile << "Avg Waiting Time(TW) = " <<avgWaitingTime << " timesteps | Avg Service Time(TS) = " << avgServiceTime << " timesteps" << endl;
+		outFile << "Average Wait - to - Service Ratio : " << avgWaitToServiceRatio << "%" << endl;
+		outFile << "Bay Utilization : MB = " << MBUti << "%, WB = " << WBUti << "%, EB = " << EBUti << "%, DB = " << DBUti << "% " << endl;
+		outFile << "Cancellation Rate = " << cancelRate << "% | Rescheduling Rate = " << rescheduleRate << "% " << endl;
+		outFile << "Flexible Sequence(FS) Average WT : " << FSAvgWT << " timesteps" << endl;
+		outFile << "Strict Sequence(SS) Average WT : " << SSAvgWT << " timesteps" << endl;
+		outFile << latencyReduction << "% latency reduction via FS" << endl;
+		outFile.close();
+
+	}
+
+	
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+}
+
 int Center::distributeIdleCars(int currentTimestep) {
 	int distributedCars = 0;
 	while (!idleList.isEmpty()) {

@@ -13,6 +13,7 @@ class Statistics
 	//Totalwaitingtime of all cars combined based on their seqtype
 	int FSTotalWaitingTime;
 	int SSTotalWaitingTime;
+	int NSTotalWaitingTime;
 	//Totalservicetime of all cars combined
 	int totalServiceTime;
 	//Bay Utilization 
@@ -44,8 +45,10 @@ public:
 	//GETTERS
 	int getTotalSimulationTime() const; 
 	int getTotalCars() const;
+	int getNSTotalWaitingTime() const;
 	int getFSTotalWaitingTime() const;
 	int getSSTotalWaitingTime() const;
+	int getTotalWaitingTime() const;
 	int getTotalServiceTime() const;
 	int getMBUtilization() const;
 	int getWBUtilization() const;

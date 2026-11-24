@@ -25,7 +25,7 @@ private:
     int countOnArrival; // for late cars
 
 public:
-    Car(int id, int pt, int vt, int dd, SequenceType st = SS, CarStatus ss = STATUS_IDLE);
+    Car(int id, int pt, int vt, int dd, SequenceType st = NS, CarStatus ss = STATUS_IDLE);
     ~Car();
 
    

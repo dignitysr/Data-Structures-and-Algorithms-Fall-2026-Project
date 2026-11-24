@@ -20,7 +20,8 @@ enum ServiceType {
 // Sequence Type
 enum SequenceType {
    SS,
-   FS
+   FS,
+   NS //No sequence
 };
 
 enum BayType {
