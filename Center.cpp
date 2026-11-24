@@ -12,20 +12,15 @@ void Center::loadFile() {
 		InFile >> N_MU;
 		MechBay MB;
 		allocateNewBays(&MB, N_MU);
-		centerStatistics.addTotalBayCount(N_MU);
 		InFile >> N_EU;
 		ElecBay EB;
-		allocateNewBays(&EB, N_EU);
-		centerStatistics.addTotalBayCount(N_EU);
+		allocateNewBays(&EB, N_EU);	
 		InFile >> N_WU;
 		InFile >> WB_Cap;
 		WashBay WB(WB_Cap);
-		allocateNewBays(&WB, N_WU, WB_Cap);
-		centerStatistics.addTotalBayCount(N_WU);
-		
+		allocateNewBays(&WB, N_WU, WB_Cap);	
 		InFile >> Pcancel;
 		InFile >> Presc;
-
 		InFile >> M;
 		centerStatistics.setTotalCars(M);
 		for (int i = 0;i < M;i++)
