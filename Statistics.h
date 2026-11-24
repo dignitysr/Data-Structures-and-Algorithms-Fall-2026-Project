@@ -18,7 +18,7 @@ class Statistics
 	//Bay Utilization 
 	int MBUtilization;
 	int WBUtilization;
-	int EBUtilization;
+	int EBUtilization;	
 	int DBUtilization;
 	//Rate of cancellation/Resche.
 	int cancellationCount;
@@ -33,7 +33,7 @@ public:
 	void setTotalSimulationTime(int time); //Call it at the end of the simulation #Probably Called in Main
 	void setTotalCars(int cars); //setter for the number of the total cars in idle #DO NOT CALL
 	void incrementTotalCars(); //inc the number of total cars (useless) #DO NOT CALL
-	void addTotalServiceTime(int time); //adds the totalservicetime of ALL the cars combined (Hint use func gettotalservicetime in Car class) #CALLED AFTER DIAG
+	void addTotalServiceTime(int time); //adds the totalservicetime of ALL the cars combined (Hint use func gettotalservicetime in Car class) #CALLED AFTER DIAG AFTER CHECKING THAT IT WONT CANCEL
 	void addBayUtilization(Bay* bay,Service* service,Car* car);   //inc the time used of the type of bay used #IS CALLED AFTER DEQUEUING THER SERVICE FROM THE SERVICE LIST BEFORE ASSINGING THE CAR TO BAY 
 	void incrementCancellationCount(); //inc the count of the cancelled cars #COULD BE CALLED IN LATE AND AFTER DIAG
 	void incrementReschedulingCount(); //inc the count of the rescheduled cars #COULD BE CALLED IN EARLY
