@@ -21,6 +21,7 @@ Statistics::Statistics()
 
 void Statistics::addWaitingTime(Car* car, int time)
 {
+    car->addTotalWaitingTime(time);
     SequenceType type = car->getSeqType();
     if (type == FS) {
         FSTotalWaitingCount += time;
@@ -70,11 +71,74 @@ void Statistics::incrementBayCount(Bay* bay)
     else if (dynamic_cast<WashBay*>(bay)) WBCount++;
     else if (dynamic_cast<ElecBay*>(bay)) EBCount++;
 }
-
-
 void Statistics::incrementCancellationCount()
 {
     cancellationCount++;
+}
+
+int Statistics::getTotalSimulationTime() const
+{
+    return totalSimulationTime;
+}
+
+int Statistics::getTotalCars() const
+{
+    return totalCars;
+}
+
+int Statistics::getFSTotalWaitingCount() const
+{
+    return FSTotalWaitingCount;
+}
+
+int Statistics::getSSTotalWaitingCount() const
+{
+    return SSTotalWaitingCount;
+}
+
+int Statistics::getTotalServiceTime() const
+{
+    return totalServiceTime;
+}
+
+int Statistics::getMBCount() const
+{
+    return MBCount;
+}
+
+int Statistics::getWBCount() const
+{
+    return WBCount;
+}
+
+int Statistics::getEBCount() const
+{
+    return EBCount;
+}
+
+int Statistics::getDBCount() const
+{
+    return DBCount;
+}
+
+int Statistics::getCancellationCount() const
+{
+    return cancellationCount;
+}
+
+int Statistics::getReschedulingCount() const
+{
+    return reschedulingCount;
+}
+
+int Statistics::getFScount() const
+{
+    return FScount;
+}
+
+int Statistics::getSScount() const
+{
+    return SScount;
 }
 
 
