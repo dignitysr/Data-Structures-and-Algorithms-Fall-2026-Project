@@ -20,6 +20,7 @@ private:
     CarStatus status;     
     ServiceList srvList;
     Bay* currentBay;
+    int totalWaitingTime;
     
     int countOnArrival; // for late cars
 
@@ -51,6 +52,8 @@ public:
     void setBay(Bay* bay);
     void setSeqType(SequenceType st);
     void setStatus(CarStatus s);
+    int getTotalWaitingTime();
+    void addTotalWaitingTime(int time);
 
     // for ui ya maro
     void print();
