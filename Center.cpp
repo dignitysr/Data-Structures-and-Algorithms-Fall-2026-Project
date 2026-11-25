@@ -113,6 +113,21 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 	}
 }
 
+bool Center::ReadytoDiag(Car* car, int currentTimestep)
+{
+	return false;
+}
+
+bool Center::assignServiceCar(Car* car, int currentTimestep)
+{
+	return false;
+}
+
+bool Center::toFinishList(Car* car, int currentTimestep)
+{
+	return false;
+}
+
 
 
 int Center::distributeIdleCars(int currentTimestep) {
