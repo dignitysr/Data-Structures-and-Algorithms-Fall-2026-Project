@@ -108,7 +108,7 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 	Car* finishedCars;
 	int finishedTime;
 	while (diagCars.peek(finishedCars, finishedTime) && finishedTime==-currentTimestep) {
-		diagCars.dequeue(finishedCars);
+		diagCars.dequeue(finishedCars,finishedTime);
 		finishedCars->generateRandomservices();
 	}
 }
