@@ -111,6 +111,9 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 		diagCars.dequeue(finishedCars,finishedTime);
 		finishedCars->generateRandomservices();
 		Car* cancelledCar= handleCarAfterDiag(finishedCars, currentTimestep);
+
+
+
 	}
 }
 
