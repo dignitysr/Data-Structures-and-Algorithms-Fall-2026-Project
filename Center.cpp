@@ -110,6 +110,7 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 	while (diagCars.peek(finishedCars, finishedTime) && finishedTime==-currentTimestep) {
 		diagCars.dequeue(finishedCars,finishedTime);
 		finishedCars->generateRandomservices();
+		Car* cancelledCar= handleCarAfterDiag(finishedCars, currentTimestep);
 	}
 }
 
@@ -191,6 +192,8 @@ void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
 }
 
 void Center::handleLateCars(int currentTimestep) {
+	Car* cancelledCar = lateList.cancelRandomCar(Pcancel); //cancels a late car randomly if it meets the probability
+	if (cancelledCar) { cancelCar(cancelledCar, currentTimestep); cancelledCar->setStatus(STATUS_CNCL); }
 	Car* car = nullptr;
 	int carsTransferred = 0;
 	while (lateList.peek(car) && car->getCountOnArrival() >= onTimeCount) {
@@ -204,6 +207,14 @@ void Center::handleLateCars(int currentTimestep) {
 		car = nullptr;
 		carsTransferred++;
 	}
+}
+Car* Center::handleCarAfterDiag(Car* car, int currentTimestep) {
+	if (rand() % 100 < Pcancel) {
+		cancelCar(car, currentTimestep);
+		car->setStatus(STATUS_CNCL);
+		return car;
+	}
+	return nullptr;
 }
 
 

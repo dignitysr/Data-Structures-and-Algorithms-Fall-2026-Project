@@ -63,6 +63,7 @@ public:
 	// i hate me
 	void Check_finished_Diagnosis_and_generate_the_service_list(int currentTimestep);
 
+	Car* handleCarAfterDiag(Car* car, int currentTimestep);
 
 	bool ReadytoDiag(Car* car,int currentTimestep);
 	bool assignServiceCar(Car* car, int currentTimestep);
