@@ -178,9 +178,23 @@ bool Center::assignServiceCar(Car* car, WaitWU wu, int currentTimestep)
 	return true;
 }
 
+bool Center::checkFinalService(Car* car, int currentTimestep)
+{
+	if (car->getSrvList().isEmpty() && car->getStatus() == STATUS_SERV) {
+		car->setStatus(STATUS_FNSH);
+		return true;
+	}
+	//To be Continued (after mohammed implements a func that assigns a car to its upcoming waiting list)
+
+}
+
 bool Center::toFinishList(Car* car, int currentTimestep)
 {
-	return false;
+	if (car->getStatus() != STATUS_FNSH) {
+		return false;
+	}
+	finishedCars.push(car);
+	return true;
 }
 
 

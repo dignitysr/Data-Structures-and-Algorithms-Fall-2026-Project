@@ -34,6 +34,10 @@ int Car::getCT() {
 int Car::getCountOnArrival() { 
     return countOnArrival;
 }
+ServiceList Car::getSrvList()
+{
+    return srvList;
+}
 Bay* Car::getBay() {
     return currentBay;
 }

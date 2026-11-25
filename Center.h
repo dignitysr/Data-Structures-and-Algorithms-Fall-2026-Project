@@ -69,6 +69,7 @@ public:
 	bool assignServiceCar(Car* car, WaitMU mu,int currentTimestep);
 	bool assignServiceCar(Car* car, WaitEU eu, int currentTimestep);
 	bool assignServiceCar(Car* car, WaitWU wu, int currentTimestep);
+	bool checkFinalService(Car* car, int currentTimestep);
 	bool toFinishList(Car* car, int currentTimestep);
 
 	bool runTestSimulation(int currentTimestep);
