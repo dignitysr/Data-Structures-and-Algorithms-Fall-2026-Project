@@ -42,6 +42,7 @@ public:
     int getTotalServiceTime() const;
     void insertService(Service* service);
     void removeService();
+    void generateRandomservices();
 
     void setPT(int pt);
     void setVT(int vt);
@@ -54,7 +55,6 @@ public:
     void setStatus(CarStatus s);
     int getTotalWaitingTime();
     void addTotalWaitingTime(int time);
-
     // for ui ya maro
     void print();
     friend ostream& operator<<(ostream& os, const Car* c);

@@ -91,17 +91,29 @@ void Center::saveStatistics(string fileName)
 	}
 
 	
-		
-		
-		
-		
-		
+	
+
+
+
+
 		
 		
 		
 
 
 }
+
+void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentTimestep)
+{
+	Car* finishedCars;
+	int finishedTime;
+	while (diagCars.peek(finishedCars, finishedTime) && finishedTime==-currentTimestep) {
+		diagCars.dequeue(finishedCars);
+		finishedCars->generateRandomservices();
+	}
+}
+
+
 
 int Center::distributeIdleCars(int currentTimestep) {
 	int distributedCars = 0;
@@ -178,6 +190,8 @@ void Center::handleLateCars(int currentTimestep) {
 		carsTransferred++;
 	}
 }
+
+
 
 bool Center::runSimulation(int currentTimestep) {
 	int distributedCars = distributeIdleCars(currentTimestep);

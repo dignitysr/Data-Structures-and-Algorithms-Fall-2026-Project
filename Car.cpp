@@ -62,6 +62,11 @@ void Car::removeService()
         //later to be done!!
     }
 }
+void Car::generateRandomservices() {
+
+
+
+}
 
 
 

@@ -60,7 +60,12 @@ public:
 	void diagnoseCars(int currentTimestep);
 	void handleEarlyCars(int currentTimestep, int distributedCars);
 	void handleLateCars(int currentTimestep);
-	
+	// i hate me
+	void Check_finished_Diagnosis_and_generate_the_service_list(int currentTimestep);
+
+
+
+
 	bool runTestSimulation(int currentTimestep);
 	bool runSimulation(int currentTimestep);
 	void allocateBays(int count);
