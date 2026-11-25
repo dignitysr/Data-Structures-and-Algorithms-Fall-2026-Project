@@ -66,7 +66,9 @@ public:
 	Car* handleCarAfterDiag(Car* car, int currentTimestep);
 
 	bool ReadytoDiag(Car* car,int currentTimestep);
-	bool assignServiceCar(Car* car, int currentTimestep);
+	bool assignServiceCar(Car* car, WaitMU mu,int currentTimestep);
+	bool assignServiceCar(Car* car, WaitEU eu, int currentTimestep);
+	bool assignServiceCar(Car* car, WaitWU wu, int currentTimestep);
 	bool toFinishList(Car* car, int currentTimestep);
 
 	bool runTestSimulation(int currentTimestep);

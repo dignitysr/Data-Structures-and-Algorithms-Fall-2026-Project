@@ -139,9 +139,43 @@ bool Center::ReadytoDiag(Car* car, int currentTimestep)
 	return true;
 }
 
-bool Center::assignServiceCar(Car* car, int currentTimestep)
+bool Center::assignServiceCar(Car* car,WaitMU mu ,int currentTimestep)
 {
-   
+	if (freeMUList.isEmpty() || car->getStatus()!=STATUS_WAIT) {
+		return false;
+	}
+	MechBay* bay;
+	freeMUList.dequeue(bay);
+	car->setBay(bay);
+	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
+	car->setStatus(STATUS_SERV);
+	return true;
+}
+
+bool Center::assignServiceCar(Car* car, WaitEU eu, int currentTimestep)
+{
+	if (freeEUList.isEmpty() || car->getStatus() != STATUS_WAIT) {
+		return false;
+	}
+	ElecBay* bay;
+	freeEUList.dequeue(bay);
+	car->setBay(bay);
+	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
+	car->setStatus(STATUS_SERV);
+	return true;
+}
+
+bool Center::assignServiceCar(Car* car, WaitWU wu, int currentTimestep)
+{
+	if (freeWUList.isEmpty() || car->getStatus() != STATUS_WAIT) {
+		return false;
+	}
+	WashBay* bay;
+	freeWUList.dequeue(bay);
+	car->setBay(bay);
+	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
+	car->setStatus(STATUS_SERV);
+	return true;
 }
 
 bool Center::toFinishList(Car* car, int currentTimestep)
