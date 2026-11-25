@@ -116,12 +116,20 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 
 bool Center::ReadytoDiag(Car* car, int currentTimestep)
 {
-	return false;
+	if (readyList.isEmpty() || freeDUList.isEmpty()) {
+		return false;
+	}
+	DiagBay* bay;
+	freeDUList.dequeue(bay);
+	car->setBay(bay);
+	car->setStatus(STATUS_DIAG);
+	diagCars.enqueue(car, -(currentTimestep+car->getTotalServiceTime()));
+	return true;
 }
 
 bool Center::assignServiceCar(Car* car, int currentTimestep)
 {
-	return false;
+   
 }
 
 bool Center::toFinishList(Car* car, int currentTimestep)
