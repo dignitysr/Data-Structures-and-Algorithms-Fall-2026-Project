@@ -107,10 +107,19 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 {
 	Car* finishedCars;
 	int finishedTime;
+	bool canncelled = false;
 	while (diagCars.peek(finishedCars, finishedTime) && finishedTime==-currentTimestep) {
 		diagCars.dequeue(finishedCars,finishedTime);
 		finishedCars->generateRandomservices();
-		Car* cancelledCar= handleCarAfterDiag(finishedCars, currentTimestep);
+		if (Car* cancelledCar = handleCarAfterDiag(finishedCars, currentTimestep))
+		{
+			canncelled = true;
+		}
+		if (!canncelled){
+
+			centerStatistics.addTotalServiceTime(finishedCars->getTotalServiceTime());
+			centerStatistics.incrementSeqTypeCount(finishedCars);
+		}
 
 
 
