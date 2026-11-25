@@ -64,7 +64,9 @@ public:
 	void Check_finished_Diagnosis_and_generate_the_service_list(int currentTimestep);
 
 
-
+	bool ReadytoDiag(Car* car,int currentTimestep);
+	bool assignServiceCar(Car* car, int currentTimestep);
+	bool toFinishList(Car* car, int currentTimestep);
 
 	bool runTestSimulation(int currentTimestep);
 	bool runSimulation(int currentTimestep);
