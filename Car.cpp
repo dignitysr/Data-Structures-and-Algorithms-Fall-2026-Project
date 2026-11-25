@@ -63,8 +63,40 @@ void Car::removeService()
     }
 }
 void Car::generateRandomservices() {
+    int numServices = (rand() % 3) + 1;
+    int count = 0;
+    Service* randomService;
+    bool addedMU = false;
+    bool addedEU = false;
+    bool addedWU = false;
+ 
+    seqType = (rand() % 2 == 0) ? FS : SS;
 
-
+    while (count < numServices) {
+        int r = rand() % 3;
+  
+        if (r == 0 && !addedMU) {
+            int randomDuration = (rand() % 4 + 3);
+            randomService = new Service(TYPE_MU, randomDuration);
+            insertService(randomService);
+            addedMU = true;
+            count++;
+        }
+        else if (r == 1 && !addedEU) {
+            int randomDuration = (rand() % 4 + 3);
+            randomService = new Service(TYPE_EU, randomDuration);
+            insertService(randomService);
+            addedEU = true;
+            count++;
+        }
+        else if (r == 2 && !addedWU) {
+            int randomDuration = (rand() % 4 + 3);
+            randomService = new Service(TYPE_WU, randomDuration);
+            insertService(randomService);
+            addedWU = true;
+            count++;
+        }
+    }
 
 }
 
