@@ -66,7 +66,7 @@ public:
 
 	Car* handleCarAfterDiag(Car* car, int currentTimestep);
 
-	bool ReadytoDiag(Car* car,int currentTimestep); //Transfers a car from ready list to a diagnosis bay
+	bool readyToDiag(int currentTimestep); //Transfers a car from ready list to a diagnosis bay
 
 	//Assigns a car from the waiting list of a bay to its corresponding bay
 	bool assignServiceCar(Car* car, WaitMU mu,int currentTimestep); 

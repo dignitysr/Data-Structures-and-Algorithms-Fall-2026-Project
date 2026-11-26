@@ -148,40 +148,21 @@ bool Center::handleNextService(Car* car,int currentTimestep) {
 		}
 		
 		return true;
-	}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-bool Center::ReadytoDiag(Car* car, int currentTimestep)
+bool Center::readyToDiag(int currentTimestep)
 {
 	//Checks if no car is in ready list or if no free diagnosis bays are available
-	if (readyList.isEmpty() || freeDUList.isEmpty()) {
-		return false;
+	while (readyList.isEmpty() || freeDUList.isEmpty()) {
+		Car* car = nullptr;
+		readyList.dequeue(car);
+		DiagBay* bay;
+		freeDUList.dequeue(bay); //dequeues a free diagnosis bay
+		car->setBay(bay); //sets bay to that car
+		car->setStatus(STATUS_DIAG); //changes car status
+		diagCars.enqueue(car, -(currentTimestep+car->getDD())); //Enqueues the car into the cars being diagnosed list according to how much time it will take
+		return true;
 	}
-	DiagBay* bay;
-	freeDUList.dequeue(bay); //dequeues a free diagnosis bay
-	car->setBay(bay); //sets bay to that car
-	car->setStatus(STATUS_DIAG); //changes car status
-	diagCars.enqueue(car, -(currentTimestep+car->getDD())); //Enqueues the car into the cars being diagnosed list according to how much time it will take
-	return true;
 }
 
 bool Center::assignServiceCar(Car* car,WaitMU mu ,int currentTimestep)
@@ -344,6 +325,8 @@ bool Center::runSimulation(int currentTimestep) {
 	int distributedCars = distributeIdleCars(currentTimestep);
 	handleEarlyCars(currentTimestep, distributedCars);
 	handleLateCars(currentTimestep);
+	readyToDiag(currentTimestep);
+	handleDiagnosis(currentTimestep);
 
 	return true;
 }
