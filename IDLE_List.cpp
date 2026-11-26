@@ -9,7 +9,7 @@ bool IDLEList::insertCar(Car* car_rescheduled) {
     int Pri = 0;
     if (isEmpty())
     {
-        temp.enqueue(car_rescheduled, -car_rescheduled->getVT());
+        enqueue(car_rescheduled);
         return true;
     }
 
