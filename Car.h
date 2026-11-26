@@ -20,6 +20,7 @@ private:
     SequenceType seqType;
     CarStatus status;     
     ServiceList srvList;
+    int totalServiceTime;
     Bay* currentBay;
     int totalWaitingTime;
     
@@ -46,6 +47,7 @@ public:
     void removeService();
     void generateRandomservices();
     void setInitialTimestep(int currentTimestep);
+    void setTotalServicetime();
 
     void setPT(int pt);
     void setVT(int vt);
