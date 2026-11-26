@@ -16,10 +16,11 @@ int WaitingList::getTotalServiceTime() {
 		total = total + carp->getTotalServiceTime();
 		temp.enqueue(carp);
 	}
-	return total;
 
 	while (temp.dequeue(carp)) {
 		enqueue(carp);
 	}
+
+	return total;
 
 }

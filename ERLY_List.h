@@ -5,5 +5,5 @@
 
 class ERLYList: public PriorityQueue<Car*> {
     public:
-        Car* removeRandomCar();
+        Car* removeRandomCar(int pCancel);
 };

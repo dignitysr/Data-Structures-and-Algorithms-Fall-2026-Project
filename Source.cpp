@@ -18,9 +18,10 @@ int main() {
 	UI* ui = new UI;
 
 	int timestep = 0;
-	while (testCenter.runTestSimulation(timestep)) {
+	while (testCenter.runSimulation(timestep)) {
 		timestep++;
 		testCenter.printAll(ui);
+		cout << "CURRENT TIMESTEP: " << timestep << endl;
 		ui->waitForInput();
 	}
 

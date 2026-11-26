@@ -173,6 +173,7 @@
     <ClCompile Include="Center.cpp" />
     <ClCompile Include="DiagBay.cpp" />
     <ClCompile Include="ElecBay.cpp" />
+    <ClCompile Include="ERLY_List.cpp" />
     <ClCompile Include="IDLE_List.cpp" />
     <ClCompile Include="LATE_List.cpp" />
     <ClCompile Include="LinkedQueue.cpp" />

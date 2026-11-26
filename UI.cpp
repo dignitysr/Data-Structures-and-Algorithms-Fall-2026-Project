@@ -20,14 +20,9 @@ void UI::printQueue(LinkedQueue<Car*> &Q) {
 		cout << co << " WAITING: ";
 	}
 	while (Q.dequeue(x)) {
-		cout << x;
+		if ((!x->getStatus() == STATUS_IDLE) || (count < 15)) cout << x;
 		count++;
 		Q1.enqueue(x);
-		if (x->getStatus() == STATUS_IDLE) {
-			if (count == 15) {
-				break;
-			}
-		}
 	}
 	while (Q1.dequeue(x)) {
 		Q.enqueue(x);

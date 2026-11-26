@@ -18,13 +18,11 @@ Service* ServiceList::getfirstservice(){
 
 void ServiceList::makeitflixable(WaitEU& eu, WaitMU& mu, WaitWU& wu)
 {
-	Node<Service*>* curr = frontPtr;
 	PriorityQueue<Service*> tempPriqeue;
 	Service* temp;
 	int tempPri;
 
-	while (curr != nullptr) {
-		dequeue(temp);
+	while (dequeue(temp)) {
 
 		switch (temp->getServiceType()) {
 
@@ -49,11 +47,9 @@ void ServiceList::makeitflixable(WaitEU& eu, WaitMU& mu, WaitWU& wu)
 			
 
 		}
-			   curr = curr->getNext();
 	}
-
+	}
 	while (tempPriqeue.dequeue(temp,tempPri)) {
 		enqueue(temp);
 	}
-}
 }

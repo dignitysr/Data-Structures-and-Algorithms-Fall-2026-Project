@@ -50,6 +50,7 @@ public:
 
 	void finishCar(Car* car, int currentTimestep);
 	void cancelCar(Car* car, int currentTimestep);
+	void rescheduleCar(Car* car, int currentTimestep);
 
 	bool assignToWash(Car* car, int currentTimestep);
 	bool assignToMech(Car* car, int currentTimestep);
@@ -65,6 +66,7 @@ public:
     bool handleNextService(Car* car, int currentTimestep);
 
 	Car* handleCarAfterDiag(Car* car, int currentTimestep);
+	void returnBayToFreeList(Bay* bay);
 
 	bool readyToDiag(int currentTimestep); //Transfers a car from ready list to a diagnosis bay
 
@@ -78,7 +80,7 @@ public:
 
 
 	void toFinishList(Car* car, int currentTimestep); //Pushes a car into the finished list
-	bool checkService(Car* car, int currentTimestep); //Checks if a car has finished a service or not
+	bool checkService(int currentTimestep); //Checks if a car has finished a service or not
 
 	bool runTestSimulation(int currentTimestep);
 	bool runSimulation(int currentTimestep);

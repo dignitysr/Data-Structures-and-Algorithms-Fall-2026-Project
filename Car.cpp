@@ -34,7 +34,7 @@ int Car::getCT() {
 int Car::getCountOnArrival() { 
     return countOnArrival;
 }
-ServiceList Car::getSrvList()
+ServiceList& Car::getSrvList()
 {
     return srvList;
 }

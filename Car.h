@@ -36,7 +36,7 @@ public:
     int getFT();
     int getCT();
     int getCountOnArrival();
-    ServiceList getSrvList();
+    ServiceList& getSrvList();
     Bay* getBay();
     SequenceType getSeqType();
     CarStatus getStatus();
