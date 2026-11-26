@@ -284,13 +284,9 @@ bool Center::checkService(int currentTimestep)
 	bool serv = true;//get the car set to finish a service first and its predicted finish timestep
 	//Check if the current timestep and the predicted timestep are equal which shows whether the car finished a service or not
 	while (serviceCars.peek(temp, timestep)) {
-		int x = 0;
 		if (timestep == -currentTimestep) {
 			serviceCars.dequeue(temp, timestep);
 
-			if (temp->getSrvList().getCount() == 1) {
-				int x  = 0;
-			}
 			serv = handleNextService(temp, currentTimestep);
 
 			if (serv == false) {
@@ -342,7 +338,7 @@ void Center::rescheduleCar(Car* car, int currentTimestep) {
 	// sets a random VT and PT for the car, with the VT being the current timestep + random number between
 	// 1 and 7 and the PT being VT + a random number between 1 and 6
 	int VTNew = (currentTimestep + (rand() % 6) + 1);
-	int PTNew = (car->getVT() + (rand() % 5) + 1);
+	int PTNew = (VTNew + (rand() % 5) + 1);
 	idleList.reschedule(car, VTNew, PTNew);
 }
 
