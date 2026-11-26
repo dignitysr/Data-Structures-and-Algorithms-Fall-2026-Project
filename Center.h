@@ -78,7 +78,7 @@ public:
 
 
 	void toFinishList(Car* car, int currentTimestep); //Pushes a car into the finished list
-	bool checkService(Car* car, int currentTimestep); //Checks after each service if there are more services or not
+	bool checkService(Car* car, int currentTimestep); //Checks if a car has finished a service or not
 
 	bool runTestSimulation(int currentTimestep);
 	bool runSimulation(int currentTimestep);

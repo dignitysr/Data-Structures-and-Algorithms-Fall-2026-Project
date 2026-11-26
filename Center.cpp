@@ -240,24 +240,31 @@ void Center::assignService( int currentTimestep)
 	assignWashServiceCar(currentTimestep);
 	assignElecServiceCar(currentTimestep);
 }
+
 void Center::toFinishList(Car* car, int currentTimestep)
 {
 	car->setFT(currentTimestep); // sets the finish time of the car to the current timestep
+	car->setStatus(STATUS_FNSH);
 	finishedCars.push(car); //pushes the finished car into finished car stack
 	return;
 }
 
 bool Center::checkService(Car* car, int currentTimestep)
 {
-	//checks if the car has no services left and that it was being served
-	if (car->getSrvList().isEmpty() && car->getStatus() == STATUS_SERV) {
-		serviceCars.dequeue(car, currentTimestep); //removes the car from service cars
-		car->setStatus(STATUS_FNSH); //Changes the car status
-		toFinishList(car, currentTimestep);
-		return true;
+	Car* temp;
+	int timestep;
+	bool serv;
+	serviceCars.peek(temp, timestep);//get the car set to finish a service first and its predicted finish timestep
+	//Check if the current timestep and the predicted timestep are equal which shows whether the car finished a service or not
+	if (timestep == -currentTimestep) {
+		serviceCars.dequeue(temp, timestep);
+		serv = handleNextService(temp, currentTimestep);
 	}
-	handleNextService(car, currentTimestep);
-	return false;
+	//if next service couldn't be handled then that would mean that the car finished all services
+	if (serv == false) {
+		//transfer the car to finished stack
+		toFinishList(temp,currentTimestep);
+	}
 }
 
 int Center::distributeIdleCars(int currentTimestep) {
