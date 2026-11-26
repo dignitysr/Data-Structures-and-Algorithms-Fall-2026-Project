@@ -218,8 +218,10 @@ bool Center::assignMechServiceCar(int currentTimestep)
 	temp->setBay(bay);//sets bay to that car
 	temp->setStatus(STATUS_SERV); //Changes car Status
 	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
+	int time = temp->addTotalWaitingTime(currentTimestep);
+	centerStatistics.addTotalWaitingTime(temp, time);
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
-	centerStatistics.addBayUtilization(bay, ser, temp);
+	
 	return true;
 }
 
@@ -242,9 +244,11 @@ bool Center::assignElecServiceCar(  int currentTimestep)
 	bay->incrementCount();
 	temp->setBay(bay);//sets bay to that car
 	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
+	int time = temp->addTotalWaitingTime(currentTimestep);
+	centerStatistics.addTotalWaitingTime(temp, time);
 	temp->setStatus(STATUS_SERV); //Changes car Status
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration()));//Enqueues the car into cars in service based on its completion time
-	centerStatistics.addBayUtilization(bay,ser,temp);
+	
 	return true;
 }
 
@@ -269,8 +273,10 @@ bool Center::assignWashServiceCar( int currentTimestep)
 	temp->setBay(bay);//sets bay to that car
 	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
 	temp->setStatus(STATUS_SERV); //Changes car Status
+	int time = temp->addTotalWaitingTime(currentTimestep);
+	centerStatistics.addTotalWaitingTime(temp, time);
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
-	centerStatistics.addBayUtilization(bay, ser, temp);
+	
 	return true;
 }
 void Center::assignService( int currentTimestep)
@@ -299,8 +305,7 @@ bool Center::checkService(int currentTimestep)
 	while (serviceCars.peek(temp, timestep)) {
 		if (timestep == -currentTimestep) {
 			serviceCars.dequeue(temp, timestep);
-			int time = temp->addTotalWaitingTime(currentTimestep);
-			centerStatistics.addTotalWaitingTime(temp, time);
+			
 
 			serv = handleNextService(temp, currentTimestep);
 
