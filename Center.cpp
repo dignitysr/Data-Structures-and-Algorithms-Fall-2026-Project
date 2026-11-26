@@ -131,10 +131,9 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 bool Center::car_to_its_next_service_waiting_list(Car* car,int currentTimestep) {
 		if (!car) return;
 
-		if (!car->getSrvList()) {
+		if (car->getSrvList().isEmpty()) {
 			return false;
 		}
-
 
 		car->setStatus(STATUS_WAIT);
 		Service* choosenService;
@@ -156,7 +155,7 @@ bool Center::car_to_its_next_service_waiting_list(Car* car,int currentTimestep) 
 			break;
 		}
 		default: {
-			washWaitingList.enqueue(car)
+			washWaitingList.enqueue(car);
 			break;
 		}
 		}
@@ -175,7 +174,7 @@ bool Center::car_to_its_next_service_waiting_list(Car* car,int currentTimestep) 
 
 
 
-}
+
 
 
 
