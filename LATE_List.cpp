@@ -20,9 +20,7 @@ Car* LATEList::cancelRandomCar(int probability) {
 			return selectedCar;
 		}
 		ptr = ptr->getNext();
-		if (!ptr) { //restarts if it did NOT cancel!!!!
-			ptr = frontPtr;
-		}
+		
 	}
 
 	return nullptr;
