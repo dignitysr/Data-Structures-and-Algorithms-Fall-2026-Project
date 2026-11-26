@@ -49,7 +49,7 @@ CarStatus Car::getStatus() { return status;
 
 int Car::getTotalServiceTime() const 
 {
-    return totalServiceTime;
+    return srvList.getTotalServiceTime();
 }
 
 void Car::insertService(Service* service)
@@ -108,11 +108,6 @@ void Car::generateRandomservices() {
 void Car::setInitialTimestep(int currentTimestep)
 {
     waitingListInitialTimestep = currentTimestep;
-}
-
-void Car::setTotalServicetime()
-{
-    totalServiceTime = srvList.getTotalServiceTime();
 }
 
 

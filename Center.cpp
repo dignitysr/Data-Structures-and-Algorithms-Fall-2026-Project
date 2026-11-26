@@ -113,13 +113,11 @@ void Center::handleDiagnosis(int currentTimestep)
 		if (Car* cancelledCar = handleCarAfterDiag(finishedCars, currentTimestep))
 		{
 			canncelled = true;  // if cancelled doesn't add totalservicetime 
-			
+			centerStatistics.incrementSeqTypeCount(finishedCars);
 		}
 		if (!canncelled){
-			finishedCars->setTotalServicetime();
+
 			centerStatistics.addTotalServiceTime(finishedCars->getTotalServiceTime());
-			centerStatistics.incrementSeqTypeCount(finishedCars);
-			
 			handleNextService(finishedCars,finishedTime);
 		}
 	}
@@ -152,21 +150,18 @@ bool Center::handleNextService(Car* car,int currentTimestep) {
 
 		case  TYPE_MU: {
 			mechWaitingList.enqueue(car);
-			car->setInitialTimestep(currentTimestep); //sets the timestep when the car entered the waitinglist
 			break;
 		}
 		case  TYPE_EU: {
 			elecWaitingList.enqueue(car);
-			car->setInitialTimestep(currentTimestep); //sets the timestep when the car entered the waitinglist
 			break;
 		}
 		default: {
 			washWaitingList.enqueue(car);
-			car->setInitialTimestep(currentTimestep); //sets the timestep when the car entered the waitinglist
 			break;
 		}
 		}
-		
+		car->setInitialTimestep(currentTimestep); //sets the timestep when the car entered the waitinglist
 		
 		return true;
 }
