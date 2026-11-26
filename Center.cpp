@@ -213,6 +213,56 @@ bool Center::assignServiceCar(Car* car, WaitWU wu, int currentTimestep)
 	centerStatistics.addBayUtilization(bay, ser, car);
 	return true;
 }
+bool Center::checkWaitingList(Car* car, int currentTimestep)
+{
+	bool found = false;
+	Car* temp;
+	WaitEU E;
+	while (elecWaitingList.dequeue(temp)) {
+		if (temp == car) {
+			assignServiceCar(car,elecWaitingList,currentTimestep);
+			found = true;
+		}
+		E.enqueue(temp);
+	}
+	while (E.dequeue(temp)) {
+		elecWaitingList.enqueue(temp);
+	}
+	if (found == true) {
+		return true;
+	}
+	WaitWU W;
+	while (washWaitingList.dequeue(temp)) {
+		if (temp == car) {
+			assignServiceCar(car, washWaitingList, currentTimestep);
+			found = true;
+		}
+		W.enqueue(temp);
+	}
+	while (W.dequeue(temp)) {
+		washWaitingList.enqueue(temp);
+	}
+	if (found == true) {
+		return true;
+	}
+	WaitMU M;
+	while (mechWaitingList.dequeue(temp)) {
+		if (temp == car) {
+			assignServiceCar(car, mechWaitingList, currentTimestep);
+			found = true;
+		}
+		M.enqueue(temp);
+	}
+	while (M.dequeue(temp)) {
+		mechWaitingList.enqueue(temp);
+	}
+	if (found==true) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 void Center::toFinishList(Car* car, int currentTimestep)
 {
 	car->setFT(currentTimestep); // sets the finish time of the car to the current timestep
