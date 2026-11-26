@@ -4,8 +4,7 @@ int main() {
 	Center testCenter;
 
 	// randomly generating 1000 cars for the IDLE list
-	testCenter.generateIdles();
-	testCenter.getStatistics().setTotalCars(100);
+	testCenter.loadFile();
 
 	/*
 	* Note: We were not provided with a concrete amount of bays
@@ -14,14 +13,15 @@ int main() {
 	* bay quantity just in case though.
 	*/
 	
-	int bayCount = 20;
-	testCenter.allocateBays(bayCount);
+	
 	UI* ui = new UI;
 
 	int timestep = 0;
 	while (testCenter.runSimulation(timestep)) {
 		timestep++;
-	
+		testCenter.printAll(ui);
+		cout << timestep << endl;
+		ui->waitForInput();
 		
 	}
 	
