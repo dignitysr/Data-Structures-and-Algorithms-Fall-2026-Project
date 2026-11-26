@@ -245,7 +245,7 @@ bool Center::assignServiceCar(Car* car, WaitWU wu, int currentTimestep)
 }
 void Center::toFinishList(Car* car, int currentTimestep)
 {
-	serviceCars.dequeue(car,currentTimestep);
+	car->setFT(currentTimestep);
 	finishedCars.push(car);
 	return;
 }
