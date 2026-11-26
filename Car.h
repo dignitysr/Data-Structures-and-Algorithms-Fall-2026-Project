@@ -58,6 +58,7 @@ public:
     void addTotalWaitingTime(int time);
     // for ui ya maro
     void print();
+    bool operator==(const Car& other) const;
     friend ostream& operator<<(ostream& os, const Car* c);
     friend ostream& operator<<(ostream& os, Car* c);
 };

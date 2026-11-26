@@ -72,7 +72,10 @@ public:
 	bool assignServiceCar(Car* car, WaitMU mu,int currentTimestep); 
 	bool assignServiceCar(Car* car, WaitEU eu, int currentTimestep);
 	bool assignServiceCar(Car* car, WaitWU wu, int currentTimestep);
-	
+
+
+	bool checkWaitingList(Car* car,int currentTimestep); //Checks which waiting list a certain car is in
+
 
 	void toFinishList(Car* car, int currentTimestep); //Pushes a car into the finished list
 	bool checkService(Car* car, int currentTimestep); //Checks after each service if there are more services or not

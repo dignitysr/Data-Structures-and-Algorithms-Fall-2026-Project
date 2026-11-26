@@ -217,45 +217,55 @@ bool Center::checkWaitingList(Car* car, int currentTimestep)
 {
 	bool found = false;
 	Car* temp;
-	WaitEU E;
+	WaitEU E; //An extra Waiting list in order to enqueue back in the original list after dequeuing 
+	// Loops on Electrical bay waiting list to check if the car is in it
 	while (elecWaitingList.dequeue(temp)) {
 		if (temp == car) {
-			assignServiceCar(car,elecWaitingList,currentTimestep);
+			assignServiceCar(car,elecWaitingList,currentTimestep); // calls the corresponding assign service car function( depending on the waiting list)
 			found = true;
 		}
 		E.enqueue(temp);
 	}
+	//Loop to return the cars back to the waiting list after dequeueing
 	while (E.dequeue(temp)) {
 		elecWaitingList.enqueue(temp);
 	}
+	//Condition to stop the function in case the car has been found
 	if (found == true) {
 		return true;
 	}
-	WaitWU W;
+	WaitWU W; //An extra Waiting list in order to enqueue back in the original list after dequeuing 
+	// Loops on Washing bay waiting list to check if the car is in it
 	while (washWaitingList.dequeue(temp)) {
 		if (temp == car) {
-			assignServiceCar(car, washWaitingList, currentTimestep);
+			assignServiceCar(car, washWaitingList, currentTimestep);// calls the corresponding assign service car function( depending on the waiting list)
 			found = true;
 		}
 		W.enqueue(temp);
 	}
+	//Loop to return the cars back to the waiting list after dequeueing
 	while (W.dequeue(temp)) {
 		washWaitingList.enqueue(temp);
 	}
+	//Condition to stop the function in case the car has been found
 	if (found == true) {
 		return true;
 	}
-	WaitMU M;
+	WaitMU M; //An extra Waiting list in order to enqueue back in the original list after dequeueing 
+	// Loops on Mechanical bay waiting list to check if the car is in it
 	while (mechWaitingList.dequeue(temp)) {
 		if (temp == car) {
-			assignServiceCar(car, mechWaitingList, currentTimestep);
+			assignServiceCar(car, mechWaitingList, currentTimestep);// calls the corresponding assign service car function( depending on the waiting list)
 			found = true;
 		}
 		M.enqueue(temp);
 	}
+	//Loop to return the cars back to the waiting list after dequeueing
 	while (M.dequeue(temp)) {
 		mechWaitingList.enqueue(temp);
 	}
+
+	//What the boolean function ultimately returns
 	if (found==true) {
 		return true;
 	}

@@ -189,6 +189,15 @@ void Car::print()
         break;
     }
 }
+bool Car::operator==(const Car& other) const
+{
+    if (other.ID != ID || other.VT != VT || other.CT != CT || other.DD != DD || other.FT != FT || other.countOnArrival != countOnArrival ||  other.PT != PT|| other.totalWaitingTime!=totalWaitingTime) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
 void Car::setBay(Bay* bay) { currentBay = bay;
 }
 ostream& operator<<(ostream& os,  const Car* c)
