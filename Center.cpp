@@ -142,7 +142,7 @@ bool Center::car_to_its_next_service_waiting_list(Car* car,int currentTimestep) 
 			car->getSrvList().makeitflixable(elecWaitingList,mechWaitingList,washWaitingList);
         // if flixable rearrange sevices first
 		}
-		car->getSrvList().dequeue(choosenService);
+		car->getSrvList().peek(choosenService);
 
 		switch (choosenService->getServiceType()) {
 
@@ -159,6 +159,7 @@ bool Center::car_to_its_next_service_waiting_list(Car* car,int currentTimestep) 
 			break;
 		}
 		}
+		
 		return true;
 	}
 
@@ -201,10 +202,13 @@ bool Center::assignServiceCar(Car* car,WaitMU mu ,int currentTimestep)
 		return false;
 	}
 	MechBay* bay;
+	Service* ser;
+	car->getSrvList().dequeue(ser);
 	freeMUList.dequeue(bay);
 	car->setBay(bay);
 	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
 	car->setStatus(STATUS_SERV);
+	centerStatistics.addBayUtilization(bay, ser, car);
 	return true;
 }
 
@@ -214,10 +218,13 @@ bool Center::assignServiceCar(Car* car, WaitEU eu, int currentTimestep)
 		return false;
 	}
 	ElecBay* bay;
+	Service* ser;
+	car->getSrvList().dequeue(ser);
 	freeEUList.dequeue(bay);
 	car->setBay(bay);
 	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
 	car->setStatus(STATUS_SERV);
+	centerStatistics.addBayUtilization(bay,ser,car);
 	return true;
 }
 
@@ -227,31 +234,34 @@ bool Center::assignServiceCar(Car* car, WaitWU wu, int currentTimestep)
 		return false;
 	}
 	WashBay* bay;
+	Service* ser;
+	car->getSrvList().dequeue(ser);
 	freeWUList.dequeue(bay);
 	car->setBay(bay);
 	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
 	car->setStatus(STATUS_SERV);
+	centerStatistics.addBayUtilization(bay, ser, car);
 	return true;
+}
+void Center::toFinishList(Car* car, int currentTimestep)
+{
+	serviceCars.dequeue(car,currentTimestep);
+	finishedCars.push(car);
+	return;
 }
 
 bool Center::checkFinalService(Car* car, int currentTimestep)
 {
 	if (car->getSrvList().isEmpty() && car->getStatus() == STATUS_SERV) {
 		car->setStatus(STATUS_FNSH);
+		toFinishList(car, currentTimestep);
 		return true;
 	}
 	//To be Continued (after mohammed implements a func that assigns a car to its upcoming waiting list)
-
+	car_to_its_next_service_waiting_list(car, currentTimestep);
+	return false;
 }
 
-bool Center::toFinishList(Car* car, int currentTimestep)
-{
-	if (car->getStatus() != STATUS_FNSH) {
-		return false;
-	}
-	finishedCars.push(car);
-	return true;
-}
 
 
 
