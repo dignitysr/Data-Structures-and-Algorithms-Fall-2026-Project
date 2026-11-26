@@ -16,6 +16,7 @@ private:
     int DD;
     int CT;
     int FT;
+    int waitingListInitialTimestep; //records the timestep when the car entered a list
     SequenceType seqType;
     CarStatus status;     
     ServiceList srvList;
@@ -44,6 +45,7 @@ public:
     void insertService(Service* service);
     void removeService();
     void generateRandomservices();
+    void setInitialTimestep(int currentTimestep);
 
     void setPT(int pt);
     void setVT(int vt);
@@ -55,7 +57,7 @@ public:
     void setSeqType(SequenceType st);
     void setStatus(CarStatus s);
     int getTotalWaitingTime();
-    void addTotalWaitingTime(int time);
+    int addTotalWaitingTime(int timestep);
     // for ui ya maro
     void print();
     bool operator==(const Car& other) const;

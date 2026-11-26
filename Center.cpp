@@ -92,6 +92,11 @@ void Center::saveStatistics(string fileName)
 
 }
 
+Statistics& Center::getStatistics()
+{
+	return centerStatistics;
+}
+
 void Center::handleDiagnosis(int currentTimestep)
 {
 	Car* finishedCars;
@@ -107,12 +112,12 @@ void Center::handleDiagnosis(int currentTimestep)
 		finishedCars->generateRandomservices();  // generate random set of services
 		if (Car* cancelledCar = handleCarAfterDiag(finishedCars, currentTimestep))
 		{
-			canncelled = true;  // if cancelled doesn't add statitistics 
+			canncelled = true;  // if cancelled doesn't add totalservicetime 
+			centerStatistics.incrementSeqTypeCount(finishedCars);
 		}
 		if (!canncelled){
 
 			centerStatistics.addTotalServiceTime(finishedCars->getTotalServiceTime());
-			centerStatistics.incrementSeqTypeCount(finishedCars);
 			handleNextService(finishedCars,finishedTime);
 		}
 	}
@@ -156,6 +161,7 @@ bool Center::handleNextService(Car* car,int currentTimestep) {
 			break;
 		}
 		}
+		car->setInitialTimestep(currentTimestep); //sets the timestep when the car entered the waitinglist
 		
 		return true;
 }
@@ -183,6 +189,9 @@ bool Center::readyToDiag(int currentTimestep)
 		DiagBay* bay;
 		freeDUList.dequeue(bay); //dequeues a free diagnosis bay
 		car->setBay(bay); //sets bay to that car
+		centerStatistics.addBayUtilization(bay,nullptr, car);//records the timestep utilization of the type of this bay
+		int time=car->addTotalWaitingTime(currentTimestep); //adds the waiting time between ready and diag
+		centerStatistics.addTotalWaitingTime(car, time); 
 		car->setStatus(STATUS_DIAG); //changes car status
 		diagCars.enqueue(car, -(currentTimestep+car->getDD())); //Enqueues the car into the cars being diagnosed list according to how much time it will take
 	}
@@ -208,6 +217,7 @@ bool Center::assignMechServiceCar(int currentTimestep)
 	bay->incrementCount();
 	temp->setBay(bay);//sets bay to that car
 	temp->setStatus(STATUS_SERV); //Changes car Status
+	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
 	centerStatistics.addBayUtilization(bay, ser, temp);
 	return true;
@@ -231,6 +241,7 @@ bool Center::assignElecServiceCar(  int currentTimestep)
 	freeEUList.dequeue(bay);//Removes the bay from free bay list
 	bay->incrementCount();
 	temp->setBay(bay);//sets bay to that car
+	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
 	temp->setStatus(STATUS_SERV); //Changes car Status
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration()));//Enqueues the car into cars in service based on its completion time
 	centerStatistics.addBayUtilization(bay,ser,temp);
@@ -256,6 +267,7 @@ bool Center::assignWashServiceCar( int currentTimestep)
 	bay->incrementCount();
 	if (bay->getCarCount() == bay->getCapacity()) freeWUList.dequeue(bay);
 	temp->setBay(bay);//sets bay to that car
+	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
 	temp->setStatus(STATUS_SERV); //Changes car Status
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
 	centerStatistics.addBayUtilization(bay, ser, temp);
@@ -265,7 +277,7 @@ void Center::assignService( int currentTimestep)
 {
 	//Calls all three assign service car functions
 	assignMechServiceCar(currentTimestep);
-	assignWashServiceCar(currentTimestep);
+		assignWashServiceCar(currentTimestep);
 	assignElecServiceCar(currentTimestep);
 }
 
@@ -274,6 +286,7 @@ void Center::toFinishList(Car* car, int currentTimestep)
 	car->setFT(currentTimestep); // sets the finish time of the car to the current timestep
 	car->setStatus(STATUS_FNSH);
 	finishedCars.push(car); //pushes the finished car into finished car stack
+	centerStatistics.incrementFinishedCount();
 	return;
 }
 
@@ -286,6 +299,8 @@ bool Center::checkService(int currentTimestep)
 	while (serviceCars.peek(temp, timestep)) {
 		if (timestep == -currentTimestep) {
 			serviceCars.dequeue(temp, timestep);
+			int time = temp->addTotalWaitingTime(currentTimestep);
+			centerStatistics.addTotalWaitingTime(temp, time);
 
 			serv = handleNextService(temp, currentTimestep);
 
@@ -319,11 +334,13 @@ int Center::distributeIdleCars(int currentTimestep) {
 			car->setStatus(STATUS_REDY);
 			onTimeCount++;
 			readyList.enqueue(car);
+			car->setInitialTimestep(currentTimestep); //records the timestep when the car entered the list
 		}
 		else if (VT > car->getPT()) {
 			car->setStatus(STATUS_LATE);
 			car->setCountOnArrival(onTimeCount);
 			lateList.enqueue(car);
+			car->setInitialTimestep(currentTimestep);
 		}
 		else {
 			car->setStatus(STATUS_ERLY);
@@ -344,7 +361,9 @@ void Center::rescheduleCar(Car* car, int currentTimestep) {
 
 void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
 	Car* rescheduledCar = earlyList.removeRandomCar(Presc); // reschedule a random car
-	if (rescheduledCar) rescheduleCar(rescheduledCar, currentTimestep);
+	if (rescheduledCar) { rescheduleCar(rescheduledCar, currentTimestep); 
+	centerStatistics.incrementReschedulingCount();
+	}
 
 	// moves 3 early cars up to ready if 0 cars have been distributed from idle this timestep
 	if (readyList.isEmpty() && distributedCars == 0) {
@@ -378,7 +397,7 @@ void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
 
 void Center::handleLateCars(int currentTimestep) {
 	Car* cancelledCar = lateList.cancelRandomCar(Pcancel); //cancels a late car randomly if it meets the probability
-	if (cancelledCar) { cancelCar(cancelledCar, currentTimestep); cancelledCar->setStatus(STATUS_CNCL); }
+	if (cancelledCar) { cancelCar(cancelledCar, currentTimestep); cancelledCar->setStatus(STATUS_CNCL); centerStatistics.incrementCancellationCount(); }
 	Car* car = nullptr;
 	int carsTransferred = 0;
 	while (lateList.peek(car) && car->getCountOnArrival() >= onTimeCount) {
@@ -388,6 +407,8 @@ void Center::handleLateCars(int currentTimestep) {
 		car->setStatus(STATUS_REDY);
 		onTimeCount++;
 		readyList.enqueue(car);
+		int time = car->addTotalWaitingTime(currentTimestep); //adds the waiting time between late and ready!
+		centerStatistics.addTotalWaitingTime(car,time);
 
 		car = nullptr;
 		carsTransferred++;
@@ -397,6 +418,7 @@ Car* Center::handleCarAfterDiag(Car* car, int currentTimestep) {
 	if (rand() % 100 < Pcancel) {
 		cancelCar(car, currentTimestep);
 		car->setStatus(STATUS_CNCL);
+		centerStatistics.incrementCancellationCount();
 		return car;
 	}
 	return nullptr;
@@ -415,7 +437,16 @@ bool Center::runSimulation(int currentTimestep) {
 	assignService(currentTimestep);
 	checkService(currentTimestep);
 
+	if(endSimulation()){ return false; }
+	
 	return true;
+	
+}
+
+bool Center::endSimulation()
+{
+	if (centerStatistics.getFinishedCount() + centerStatistics.getCancellationCount() == centerStatistics.getTotalCars()) return true; //checks if all cars have been served
+	return false;
 }
 
 bool Center::runTestSimulation(int currentTimestep) {

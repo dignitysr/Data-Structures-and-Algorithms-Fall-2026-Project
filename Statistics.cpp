@@ -15,7 +15,7 @@ Statistics::Statistics()
 
     cancellationCount = 0;
     reschedulingCount = 0;
-
+    finishedCount = 0;
     FScount = 0;
     SScount = 0;
     totalBayCount = 0;
@@ -23,7 +23,6 @@ Statistics::Statistics()
 
 void Statistics::addTotalWaitingTime(Car* car, int time)
 {
-    car->addTotalWaitingTime(time);
     SequenceType type = car->getSeqType();
     if (type == FS) {
         FSTotalWaitingTime += time;
@@ -47,6 +46,10 @@ void Statistics::setTotalCars(int cars)
 void Statistics::incrementReschedulingCount()
 {
     reschedulingCount++;
+}
+void Statistics::incrementFinishedCount()
+{
+    finishedCount++;
 }
 void Statistics::incrementSeqTypeCount(Car * car)
 {
@@ -136,7 +139,9 @@ int Statistics::getDBUtilization() const
 {
     return DBUtilization;
 }
-
+int Statistics::getFinishedCount() const {
+    return finishedCount;
+}
 int Statistics::getCancellationCount() const
 {
     return cancellationCount;

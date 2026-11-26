@@ -47,6 +47,7 @@ class Center
 public:
 	void loadFile();
 	void saveStatistics(string fileName);
+	Statistics& getStatistics();
 
 	void finishCar(Car* car, int currentTimestep);
 	void cancelCar(Car* car, int currentTimestep);
@@ -84,6 +85,7 @@ public:
 
 	bool runTestSimulation(int currentTimestep);
 	bool runSimulation(int currentTimestep);
+	bool endSimulation();
 	void allocateBays(int count);
 	void allocateNewBays(Bay* bay, int number, int cap = 1);
 	void printAll(UI* X);

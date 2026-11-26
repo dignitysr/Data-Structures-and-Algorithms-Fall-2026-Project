@@ -10,6 +10,7 @@ class Statistics
 	int totalSimulationTime;
 	//total number of cars
 	int totalCars;
+	
 	//Totalwaitingtime of all cars combined based on their seqtype
 	int FSTotalWaitingTime;
 	int SSTotalWaitingTime;
@@ -23,7 +24,8 @@ class Statistics
 	int DBUtilization;
 	//Bay Count 
 
-	//Rate of cancellation/Resche.
+	//Rate of cancellation/Resche/finish.
+	int finishedCount;
 	int cancellationCount;
 	int reschedulingCount;
 	//number of cars based on their SeqType
@@ -40,6 +42,7 @@ public:
 	void addBayUtilization(Bay* bay,Service* service,Car* car);   //inc the time used of the type of bay used #IS CALLED AFTER DEQUEUING THER SERVICE FROM THE SERVICE LIST BEFORE ASSINGING THE CAR TO BAY 
 	void incrementCancellationCount(); //inc the count of the cancelled cars #COULD BE CALLED IN LATE AND AFTER DIAG
 	void incrementReschedulingCount(); //inc the count of the rescheduled cars #COULD BE CALLED IN EARLY
+	void incrementFinishedCount();
 	void incrementSeqTypeCount(Car * car); //inc the count of seqtype of each car (FS OR SS) #CALL AFTER DIAGNOSIS 
 	
 	//GETTERS
@@ -54,6 +57,7 @@ public:
 	int getWBUtilization() const;
 	int getEBUtilization() const;
 	int getDBUtilization() const;
+	int getFinishedCount() const;
 	int getCancellationCount() const;
 	int getReschedulingCount() const;
 	int getFScount() const;

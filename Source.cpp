@@ -1,10 +1,11 @@
 #include "Center.h"
-
+#include <iostream>
 int main() {
 	Center testCenter;
 
 	// randomly generating 1000 cars for the IDLE list
 	testCenter.generateIdles();
+	testCenter.getStatistics().setTotalCars(100);
 
 	/*
 	* Note: We were not provided with a concrete amount of bays
@@ -20,10 +21,16 @@ int main() {
 	int timestep = 0;
 	while (testCenter.runSimulation(timestep)) {
 		timestep++;
-		testCenter.printAll(ui);
-		cout << "CURRENT TIMESTEP: " << timestep << endl;
-		ui->waitForInput();
+	
+		
 	}
-
+	
+	testCenter.getStatistics().setTotalSimulationTime(timestep);
 	testCenter.printAll(ui);
+	cout << testCenter.getStatistics().getTotalWaitingTime();
+	
+	string filename;
+	
+	cin >> filename;
+	testCenter.saveStatistics(filename);
 }
