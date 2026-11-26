@@ -11,3 +11,49 @@ int ServiceList::getTotalServiceTime() const {
 
 	return sum;
 }
+
+Service* ServiceList::getfirstservice(){
+	return frontPtr->getItem();
+}
+
+void ServiceList::makeitflixable(WaitEU& eu, WaitMU& mu, WaitWU& wu)
+{
+	Node<Service*>* curr = frontPtr;
+	PriorityQueue<Service*> tempPriqeue;
+	Service* temp;
+	int tempPri;
+
+	while (curr != nullptr) {
+		dequeue(temp);
+
+		switch (temp->getServiceType()) {
+
+		case  TYPE_MU: {
+			tempPriqeue.enqueue(temp, -mu.getTotalServiceTime());
+			break;
+		}
+
+
+		case  TYPE_EU: {
+
+			tempPriqeue.enqueue(temp, -eu.getTotalServiceTime());
+			break;
+
+		}
+
+
+		default: {
+
+			tempPriqeue.enqueue(temp, -wu.getTotalServiceTime());
+			break;
+			
+
+		}
+			   curr = curr->getNext();
+	}
+
+	while (tempPriqeue.dequeue(temp,tempPri)) {
+		enqueue(temp);
+	}
+}
+

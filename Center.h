@@ -62,6 +62,7 @@ public:
 	void handleLateCars(int currentTimestep);
 	// i hate me
 	void Check_finished_Diagnosis_and_generate_the_service_list(int currentTimestep);
+    bool car_to_its_next_service_waiting_list(Car* car, int currentTimestep);
 
 	Car* handleCarAfterDiag(Car* car, int currentTimestep);
 

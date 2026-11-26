@@ -108,23 +108,80 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 	Car* finishedCars;
 	int finishedTime;
 	bool canncelled = false;
+
+	// check finished diagnosis
 	while (diagCars.peek(finishedCars, finishedTime) && finishedTime==-currentTimestep) {
-		diagCars.dequeue(finishedCars,finishedTime);
-		finishedCars->generateRandomservices();
+		diagCars.dequeue(finishedCars, finishedTime);
+		finishedCars->generateRandomservices();  // generate random set of services
 		if (Car* cancelledCar = handleCarAfterDiag(finishedCars, currentTimestep))
 		{
-			canncelled = true;
+			canncelled = true;  // if cancelled doesn't add statitistics 
 		}
 		if (!canncelled){
 
 			centerStatistics.addTotalServiceTime(finishedCars->getTotalServiceTime());
 			centerStatistics.incrementSeqTypeCount(finishedCars);
+			car_to_its_next_service_waiting_list(finishedCars,finishedTime);
 		}
 
 
 
 	}
 }
+bool Center::car_to_its_next_service_waiting_list(Car* car,int currentTimestep) {
+		if (!car) return;
+
+		if (!car->getSrvList()) {
+			return false;
+		}
+
+
+		car->setStatus(STATUS_WAIT);
+		Service* choosenService;
+	
+		if (car->getSeqType() == FS) {
+			car->getSrvList().makeitflixable(elecWaitingList,mechWaitingList,washWaitingList);
+        // if flixable rearrange sevices first
+		}
+		car->getSrvList().dequeue(choosenService);
+
+		switch (choosenService->getServiceType()) {
+
+		case  TYPE_MU: {
+			mechWaitingList.enqueue(car);
+			break;
+		}
+		case  TYPE_EU: {
+			elecWaitingList.enqueue(car);
+			break;
+		}
+		default: {
+			washWaitingList.enqueue(car)
+			break;
+		}
+		}
+		return true;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
 
 bool Center::ReadytoDiag(Car* car, int currentTimestep)
 {
