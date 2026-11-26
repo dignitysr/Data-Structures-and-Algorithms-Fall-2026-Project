@@ -1,4 +1,5 @@
 #include "WaitingList.h"
+#include "Car.h"
 
 int WaitingList::getTotalServiceTime() {
 	int total = 0;

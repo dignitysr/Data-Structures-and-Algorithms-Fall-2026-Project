@@ -90,20 +90,9 @@ void Center::saveStatistics(string fileName)
 
 	}
 
-	
-	
-
-
-
-
-		
-		
-		
-
-
 }
 
-void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentTimestep)
+void Center::handleDiagnosis(int currentTimestep)
 {
 	Car* finishedCars;
 	int finishedTime;
@@ -121,15 +110,13 @@ void Center::Check_finished_Diagnosis_and_generate_the_service_list(int currentT
 
 			centerStatistics.addTotalServiceTime(finishedCars->getTotalServiceTime());
 			centerStatistics.incrementSeqTypeCount(finishedCars);
-			car_to_its_next_service_waiting_list(finishedCars,finishedTime);
+			handleNextService(finishedCars,finishedTime);
 		}
-
-
-
 	}
 }
-bool Center::car_to_its_next_service_waiting_list(Car* car,int currentTimestep) {
-		if (!car) return;
+
+bool Center::handleNextService(Car* car,int currentTimestep) {
+		if (!car) return false;
 
 		if (car->getSrvList().isEmpty()) {
 			return false;
@@ -261,12 +248,9 @@ bool Center::checkService(Car* car, int currentTimestep)
 		toFinishList(car, currentTimestep);
 		return true;
 	}
-	car_to_its_next_service_waiting_list(car, currentTimestep);
+	handleNextService(car, currentTimestep);
 	return false;
 }
-
-
-
 
 int Center::distributeIdleCars(int currentTimestep) {
 	int distributedCars = 0;
@@ -275,7 +259,7 @@ int Center::distributeIdleCars(int currentTimestep) {
 		idleList.peek(car);
 		int VT = car->getVT();
 
-		if (VT != currentTimestep) return;
+		if (VT != currentTimestep) return distributedCars;
 
 		idleList.dequeue(car);
 		distributedCars++;
@@ -360,6 +344,8 @@ bool Center::runSimulation(int currentTimestep) {
 	int distributedCars = distributeIdleCars(currentTimestep);
 	handleEarlyCars(currentTimestep, distributedCars);
 	handleLateCars(currentTimestep);
+
+	return true;
 }
 
 bool Center::runTestSimulation(int currentTimestep) {

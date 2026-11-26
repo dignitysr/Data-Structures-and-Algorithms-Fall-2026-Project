@@ -56,4 +56,4 @@ void ServiceList::makeitflixable(WaitEU& eu, WaitMU& mu, WaitWU& wu)
 		enqueue(temp);
 	}
 }
-
+}
