@@ -66,12 +66,16 @@ public:
 
 	Car* handleCarAfterDiag(Car* car, int currentTimestep);
 
-	bool ReadytoDiag(Car* car,int currentTimestep);
-	bool assignServiceCar(Car* car, WaitMU mu,int currentTimestep);
+	bool ReadytoDiag(Car* car,int currentTimestep); //Transfers a car from ready list to a diagnosis bay
+
+	//Assigns a car from the waiting list of a bay to its corresponding bay
+	bool assignServiceCar(Car* car, WaitMU mu,int currentTimestep); 
 	bool assignServiceCar(Car* car, WaitEU eu, int currentTimestep);
 	bool assignServiceCar(Car* car, WaitWU wu, int currentTimestep);
-	bool checkFinalService(Car* car, int currentTimestep);
-	bool toFinishList(Car* car, int currentTimestep);
+	
+
+	void toFinishList(Car* car, int currentTimestep); //Pushes a car into the finished list
+	bool checkService(Car* car, int currentTimestep); //Checks after each service if there are more services or not
 
 	bool runTestSimulation(int currentTimestep);
 	bool runSimulation(int currentTimestep);

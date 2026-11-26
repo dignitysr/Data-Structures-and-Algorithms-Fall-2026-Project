@@ -185,29 +185,31 @@ bool Center::car_to_its_next_service_waiting_list(Car* car,int currentTimestep) 
 
 bool Center::ReadytoDiag(Car* car, int currentTimestep)
 {
+	//Checks if no car is in ready list or if no free diagnosis bays are available
 	if (readyList.isEmpty() || freeDUList.isEmpty()) {
 		return false;
 	}
 	DiagBay* bay;
-	freeDUList.dequeue(bay);
-	car->setBay(bay);
-	car->setStatus(STATUS_DIAG);
-	diagCars.enqueue(car, -(currentTimestep+car->getTotalServiceTime()));
+	freeDUList.dequeue(bay); //dequeues a free diagnosis bay
+	car->setBay(bay); //sets bay to that car
+	car->setStatus(STATUS_DIAG); //changes car status
+	diagCars.enqueue(car, -(currentTimestep+car->getDD())); //Enqueues the car into the cars being diagnosed list according to how much time it will take
 	return true;
 }
 
 bool Center::assignServiceCar(Car* car,WaitMU mu ,int currentTimestep)
 {
+	//Checks if no free Mechanical bays are available or if the car isn't waiting
 	if (freeMUList.isEmpty() || car->getStatus()!=STATUS_WAIT) {
 		return false;
 	}
 	MechBay* bay;
 	Service* ser;
-	car->getSrvList().dequeue(ser);
-	freeMUList.dequeue(bay);
-	car->setBay(bay);
-	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
-	car->setStatus(STATUS_SERV);
+	car->getSrvList().dequeue(ser); //Removes the service from the car's service list
+	freeMUList.dequeue(bay); //Removes the bay from free bay list
+	car->setBay(bay);//sets bay to that car
+	serviceCars.enqueue(car, -(currentTimestep + car->getSrvList().getfirstservice()->getDuration())); //Enqueues the car into cars in service based on its completion time
+	car->setStatus(STATUS_SERV); //Changes car Status
 	centerStatistics.addBayUtilization(bay, ser, car);
 	return true;
 }
@@ -220,10 +222,10 @@ bool Center::assignServiceCar(Car* car, WaitEU eu, int currentTimestep)
 	ElecBay* bay;
 	Service* ser;
 	car->getSrvList().dequeue(ser);
-	freeEUList.dequeue(bay);
-	car->setBay(bay);
-	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
-	car->setStatus(STATUS_SERV);
+	freeEUList.dequeue(bay);//Removes the bay from free bay list
+	car->setBay(bay);//sets bay to that car
+	serviceCars.enqueue(car, -(currentTimestep + car->getSrvList().getfirstservice()->getDuration()));//Enqueues the car into cars in service based on its completion time
+	car->setStatus(STATUS_SERV); //Changes car Status
 	centerStatistics.addBayUtilization(bay,ser,car);
 	return true;
 }
@@ -236,28 +238,29 @@ bool Center::assignServiceCar(Car* car, WaitWU wu, int currentTimestep)
 	WashBay* bay;
 	Service* ser;
 	car->getSrvList().dequeue(ser);
-	freeWUList.dequeue(bay);
-	car->setBay(bay);
-	serviceCars.enqueue(car, -(currentTimestep + car->getTotalServiceTime()));
-	car->setStatus(STATUS_SERV);
+	freeWUList.dequeue(bay);//Removes the bay from free bay list
+	car->setBay(bay);//sets bay to that car
+	serviceCars.enqueue(car, -(currentTimestep + car->getSrvList().getfirstservice()->getDuration())); //Enqueues the car into cars in service based on its completion time
+	car->setStatus(STATUS_SERV); //Changes car Status
 	centerStatistics.addBayUtilization(bay, ser, car);
 	return true;
 }
 void Center::toFinishList(Car* car, int currentTimestep)
 {
-	car->setFT(currentTimestep);
-	finishedCars.push(car);
+	car->setFT(currentTimestep); // sets the finish time of the car to the current timestep
+	finishedCars.push(car); //pushes the finished car into finished car stack
 	return;
 }
 
-bool Center::checkFinalService(Car* car, int currentTimestep)
+bool Center::checkService(Car* car, int currentTimestep)
 {
+	//checks if the car has no services left and that it was being served
 	if (car->getSrvList().isEmpty() && car->getStatus() == STATUS_SERV) {
-		car->setStatus(STATUS_FNSH);
+		serviceCars.dequeue(car, currentTimestep); //removes the car from service cars
+		car->setStatus(STATUS_FNSH); //Changes the car status
 		toFinishList(car, currentTimestep);
 		return true;
 	}
-	//To be Continued (after mohammed implements a func that assigns a car to its upcoming waiting list)
 	car_to_its_next_service_waiting_list(car, currentTimestep);
 	return false;
 }
