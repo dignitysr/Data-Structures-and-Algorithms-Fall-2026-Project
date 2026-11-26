@@ -400,7 +400,7 @@ void Center::handleLateCars(int currentTimestep) {
 	if (cancelledCar) { cancelCar(cancelledCar, currentTimestep); cancelledCar->setStatus(STATUS_CNCL); centerStatistics.incrementCancellationCount(); }
 	Car* car = nullptr;
 	int carsTransferred = 0;
-	while (lateList.peek(car) && car->getCountOnArrival() >= onTimeCount) {
+	while (lateList.peek(car) && onTimeCount >= car->getCountOnArrival() + 2) {
 		if (carsTransferred == 2) return;
 		lateList.dequeue(car);
 
@@ -427,8 +427,6 @@ Car* Center::handleCarAfterDiag(Car* car, int currentTimestep) {
 
 
 bool Center::runSimulation(int currentTimestep) {
-	Pcancel = 10;
-	Presc = 10;
 	int distributedCars = distributeIdleCars(currentTimestep);
 	handleEarlyCars(currentTimestep, distributedCars);
 	handleLateCars(currentTimestep);
@@ -437,7 +435,7 @@ bool Center::runSimulation(int currentTimestep) {
 	assignService(currentTimestep);
 	checkService(currentTimestep);
 
-	if(endSimulation()){ return false; }
+	if (endSimulation()) return false;
 	
 	return true;
 	
