@@ -69,12 +69,12 @@ public:
 	bool readyToDiag(int currentTimestep); //Transfers a car from ready list to a diagnosis bay
 
 	//Assigns a car from the waiting list of a bay to its corresponding bay
-	bool assignServiceCar(Car* car, WaitMU mu,int currentTimestep); 
-	bool assignServiceCar(Car* car, WaitEU eu, int currentTimestep);
-	bool assignServiceCar(Car* car, WaitWU wu, int currentTimestep);
+	bool assignMechServiceCar(int currentTimestep); 
+	bool assignElecServiceCar(int currentTimestep);
+	bool assignWashServiceCar(int currentTimestep);
 
 
-	bool checkWaitingList(Car* car,int currentTimestep); //Checks which waiting list a certain car is in
+	void assignService(int currentTimestep); //dequeues all service waiting lists in one timestep
 
 
 	void toFinishList(Car* car, int currentTimestep); //Pushes a car into the finished list

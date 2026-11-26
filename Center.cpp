@@ -165,113 +165,80 @@ bool Center::readyToDiag(int currentTimestep)
 	}
 }
 
-bool Center::assignServiceCar(Car* car,WaitMU mu ,int currentTimestep)
+bool Center::assignMechServiceCar(int currentTimestep)
 {
-	//Checks if no free Mechanical bays are available or if the car isn't waiting
-	if (freeMUList.isEmpty() || car->getStatus()!=STATUS_WAIT) {
+	//Checks if no free Mechanical bays are available 
+	if (freeMUList.isEmpty()) {
+		return false;
+	}
+	Car* temp;
+	mechWaitingList.dequeue(temp);
+	//Checks if the waiting list has a car or not
+	if (temp == nullptr) {
 		return false;
 	}
 	MechBay* bay;
 	Service* ser;
-	car->getSrvList().dequeue(ser); //Removes the service from the car's service list
+	temp->getSrvList().dequeue(ser); //Removes the service from the car's service list
 	freeMUList.dequeue(bay); //Removes the bay from free bay list
-	car->setBay(bay);//sets bay to that car
-	serviceCars.enqueue(car, -(currentTimestep + car->getSrvList().getfirstservice()->getDuration())); //Enqueues the car into cars in service based on its completion time
-	car->setStatus(STATUS_SERV); //Changes car Status
-	centerStatistics.addBayUtilization(bay, ser, car);
+	temp->setBay(bay);//sets bay to that car
+	temp->setStatus(STATUS_SERV); //Changes car Status
+	serviceCars.enqueue(temp, -(currentTimestep + temp->getSrvList().getfirstservice()->getDuration())); //Enqueues the car into cars in service based on its completion time
+	centerStatistics.addBayUtilization(bay, ser, temp);
 	return true;
 }
 
-bool Center::assignServiceCar(Car* car, WaitEU eu, int currentTimestep)
+bool Center::assignElecServiceCar(  int currentTimestep)
 {
-	if (freeEUList.isEmpty() || car->getStatus() != STATUS_WAIT) {
+	//Checks if np free bay is available
+	if (freeEUList.isEmpty()) {
+		return false;
+	}
+	Car* temp;
+	elecWaitingList.dequeue(temp);
+	//Checks if the waiting list has a car or not
+	if (temp == nullptr) {
 		return false;
 	}
 	ElecBay* bay;
 	Service* ser;
-	car->getSrvList().dequeue(ser);
+	temp->getSrvList().dequeue(ser);
 	freeEUList.dequeue(bay);//Removes the bay from free bay list
-	car->setBay(bay);//sets bay to that car
-	serviceCars.enqueue(car, -(currentTimestep + car->getSrvList().getfirstservice()->getDuration()));//Enqueues the car into cars in service based on its completion time
-	car->setStatus(STATUS_SERV); //Changes car Status
-	centerStatistics.addBayUtilization(bay,ser,car);
+	temp->setBay(bay);//sets bay to that car
+	temp->setStatus(STATUS_SERV); //Changes car Status
+	serviceCars.enqueue(temp, -(currentTimestep + temp->getSrvList().getfirstservice()->getDuration()));//Enqueues the car into cars in service based on its completion time
+	centerStatistics.addBayUtilization(bay,ser,temp);
 	return true;
 }
 
-bool Center::assignServiceCar(Car* car, WaitWU wu, int currentTimestep)
+bool Center::assignWashServiceCar( int currentTimestep)
 {
-	if (freeWUList.isEmpty() || car->getStatus() != STATUS_WAIT) {
+	//Checks if no free bay is available
+	if (freeWUList.isEmpty()) {
+		return false;
+	}
+	Car* temp;
+	washWaitingList.dequeue(temp);
+	//Checks if the waiting list has a car or not
+	if (temp == nullptr) {
 		return false;
 	}
 	WashBay* bay;
 	Service* ser;
-	car->getSrvList().dequeue(ser);
+	temp->getSrvList().dequeue(ser);
 	freeWUList.dequeue(bay);//Removes the bay from free bay list
-	car->setBay(bay);//sets bay to that car
-	serviceCars.enqueue(car, -(currentTimestep + car->getSrvList().getfirstservice()->getDuration())); //Enqueues the car into cars in service based on its completion time
-	car->setStatus(STATUS_SERV); //Changes car Status
-	centerStatistics.addBayUtilization(bay, ser, car);
+	temp->setBay(bay);//sets bay to that car
+	temp->setStatus(STATUS_SERV); //Changes car Status
+	serviceCars.enqueue(temp, -(currentTimestep + temp->getSrvList().getfirstservice()->getDuration())); //Enqueues the car into cars in service based on its completion time
+	centerStatistics.addBayUtilization(bay, ser, temp);
 	return true;
 }
-bool Center::checkWaitingList(Car* car, int currentTimestep)
+void Center::assignService( int currentTimestep)
 {
-	bool found = false;
-	Car* temp;
-	WaitEU E; //An extra Waiting list in order to enqueue back in the original list after dequeuing 
-	// Loops on Electrical bay waiting list to check if the car is in it
-	while (elecWaitingList.dequeue(temp)) {
-		if (temp == car) {
-			assignServiceCar(car,elecWaitingList,currentTimestep); // calls the corresponding assign service car function( depending on the waiting list)
-			found = true;
-		}
-		E.enqueue(temp);
-	}
-	//Loop to return the cars back to the waiting list after dequeueing
-	while (E.dequeue(temp)) {
-		elecWaitingList.enqueue(temp);
-	}
-	//Condition to stop the function in case the car has been found
-	if (found == true) {
-		return true;
-	}
-	WaitWU W; //An extra Waiting list in order to enqueue back in the original list after dequeuing 
-	// Loops on Washing bay waiting list to check if the car is in it
-	while (washWaitingList.dequeue(temp)) {
-		if (temp == car) {
-			assignServiceCar(car, washWaitingList, currentTimestep);// calls the corresponding assign service car function( depending on the waiting list)
-			found = true;
-		}
-		W.enqueue(temp);
-	}
-	//Loop to return the cars back to the waiting list after dequeueing
-	while (W.dequeue(temp)) {
-		washWaitingList.enqueue(temp);
-	}
-	//Condition to stop the function in case the car has been found
-	if (found == true) {
-		return true;
-	}
-	WaitMU M; //An extra Waiting list in order to enqueue back in the original list after dequeueing 
-	// Loops on Mechanical bay waiting list to check if the car is in it
-	while (mechWaitingList.dequeue(temp)) {
-		if (temp == car) {
-			assignServiceCar(car, mechWaitingList, currentTimestep);// calls the corresponding assign service car function( depending on the waiting list)
-			found = true;
-		}
-		M.enqueue(temp);
-	}
-	//Loop to return the cars back to the waiting list after dequeueing
-	while (M.dequeue(temp)) {
-		mechWaitingList.enqueue(temp);
-	}
-
-	//What the boolean function ultimately returns
-	if (found==true) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	//Calls all three assign service car functions
+	assignMechServiceCar(currentTimestep);
+	assignWashServiceCar(currentTimestep);
+	assignElecServiceCar(currentTimestep);
 }
 void Center::toFinishList(Car* car, int currentTimestep)
 {
