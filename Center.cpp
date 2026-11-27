@@ -290,6 +290,7 @@ void Center::toFinishList(Car* car, int currentTimestep)
 	car->setStatus(STATUS_FNSH);
 	finishedCars.push(car); //pushes the finished car into finished car stack
 	centerStatistics.incrementFinishedCount();
+	centerStatistics.addFinishedCarWT(car);
 	return;
 }
 
@@ -380,6 +381,7 @@ void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
 			car->setStatus(STATUS_REDY);
 			onTimeCount++;
 			readyList.enqueue(car);
+			
 		}
 	}
 
@@ -392,6 +394,7 @@ void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
 		car->setStatus(STATUS_REDY);
 		onTimeCount++;
 		readyList.enqueue(car);
+		  
 
 		car = nullptr;
 		PT = 0;

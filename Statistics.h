@@ -35,6 +35,9 @@ class Statistics
 	int FScount;	
 	int SScount;
 	int totalBayCount;
+
+	int totalWaitingTime;
+
 public:
 	Statistics();
 	void addTotalWaitingTime(Car * car,int time); //adds the totalwaitingtime of ALL the cars combined (you must also use addtotalwaitingtime func in Car besides it) #Called between ready and diabay also between waitinglist and bay 
@@ -48,6 +51,9 @@ public:
 	void incrementFinishedCount();
 	void incrementSeqTypeCount(Car * car); //inc the count of seqtype of each car (FS OR SS) #CALL AFTER DIAGNOSIS 
 	void addTotalBayCount(Bay* bay, int count);
+
+	void addFinishedCarWT(Car* car);
+
 	
 	//GETTERS
 	int getMBCount()const;

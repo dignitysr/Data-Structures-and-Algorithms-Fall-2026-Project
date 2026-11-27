@@ -8,6 +8,9 @@ Statistics::Statistics()
     FSTotalWaitingTime = 0;
     SSTotalWaitingTime = 0;
     NSTotalWaitingTime = 0;
+
+    totalWaitingTime = 0;
+
     MBUtilization = 0;
     WBUtilization = 0;
     EBUtilization = 0;
@@ -26,16 +29,19 @@ Statistics::Statistics()
 
 void Statistics::addTotalWaitingTime(Car* car, int time)
 {
-    SequenceType type = car->getSeqType();
-    if (type == FS) {
-        FSTotalWaitingTime += time;
-    }
-    else if (type == SS) {
-        SSTotalWaitingTime += time;
-    }
-    else if (type == NS) {
-        NSTotalWaitingTime += time;
-    }
+
+    totalWaitingTime += time;
+
+    //SequenceType type = car->getSeqType();
+    //if (type == FS) {
+    //    FSTotalWaitingTime += time;
+    //}
+    //else if (type == SS) {
+    //    SSTotalWaitingTime += time;
+    //}
+    //else if (type == NS) {
+    //    NSTotalWaitingTime += time;
+    //}
 }
 
 void Statistics::setTotalSimulationTime(int time)
@@ -70,6 +76,11 @@ void Statistics::addTotalBayCount(Bay* bay, int count)
        else if (dynamic_cast<ElecBay*>(bay)) EBCount += count;
        else if (dynamic_cast<DiagBay*>(bay)) DBCount += count;
     
+}
+void Statistics::addFinishedCarWT(Car* car)
+{
+    if (car->getSeqType() == FS) { FSTotalWaitingTime += car->getTotalWaitingTime(); FScount++; }
+    else if (car->getSeqType() == SS) { SSTotalWaitingTime += car->getTotalWaitingTime(); SScount++; }
 }
 int Statistics::getMBCount() const
 {

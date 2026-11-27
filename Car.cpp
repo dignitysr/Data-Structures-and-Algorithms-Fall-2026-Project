@@ -5,6 +5,8 @@ Car::Car(int id, int pt, int vt, int dd, SequenceType st, CarStatus ss): ID(id),
 {
     CT = -1;
     FT = -1;
+    totalWaitingTime = 0;
+    totalServiceTime = 0;
     countOnArrival = -1;
     waitingListInitialTimestep = 0;
 }
@@ -81,7 +83,7 @@ void Car::generateRandomservices() {
         int r = rand() % 3;
   
         if (r == 0 && !addedMU) {
-            int randomDuration = (rand() % 4 + 15);
+            int randomDuration = (rand() % 10 + 15);
             randomService = new Service(TYPE_MU, randomDuration);
             insertService(randomService);
             addedMU = true;
@@ -141,8 +143,10 @@ int Car::getTotalWaitingTime()
 }
 int Car::addTotalWaitingTime(int currentTimestep)
 {
-    totalWaitingTime += (currentTimestep-waitingListInitialTimestep);
-    return currentTimestep - waitingListInitialTimestep;
+    int w = currentTimestep - waitingListInitialTimestep;
+    totalWaitingTime += w;
+    waitingListInitialTimestep = currentTimestep;
+    return w;
 }
 void Car::print()
 {
