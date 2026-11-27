@@ -122,12 +122,12 @@ void Center::handleDiagnosis(int currentTimestep)
 		if (Car* cancelledCar = handleCarAfterDiag(finishedCars, currentTimestep))
 		{
 			canncelled = true;  // if cancelled doesn't add totalservicetime 
-			centerStatistics.incrementSeqTypeCount(cancelledCar);
+			
 		}
 		if (!canncelled){
 			finishedCars->setTotalServicetime();
 			centerStatistics.addTotalServiceTime(finishedCars->getTotalServiceTime());
-			centerStatistics.incrementSeqTypeCount(finishedCars);
+			
 			handleNextService(finishedCars,-finishedTime);
 		}
 	}
@@ -403,7 +403,7 @@ void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
 
 void Center::handleLateCars(int currentTimestep) {
 	Car* cancelledCar = lateList.cancelRandomCar(Pcancel); //cancels a late car randomly if it meets the probability
-	if (cancelledCar) { cancelCar(cancelledCar, currentTimestep); cancelledCar->setFT(currentTimestep); cancelledCar->setStatus(STATUS_CNCL); centerStatistics.incrementCancellationCount(); }
+	if (cancelledCar) { cancelCar(cancelledCar, currentTimestep); cancelledCar->setFT(currentTimestep); centerStatistics.addFinishedCarWT(cancelledCar); cancelledCar->setStatus(STATUS_CNCL); centerStatistics.incrementCancellationCount(); }
 	Car* car = nullptr;
 	int carsTransferred = 0;
 	while (lateList.peek(car) && onTimeCount >= car->getCountOnArrival() + 2) {
@@ -425,6 +425,7 @@ Car* Center::handleCarAfterDiag(Car* car, int currentTimestep) {
 		cancelCar(car, currentTimestep);
 		car->setFT(currentTimestep);
 		car->setStatus(STATUS_CNCL);
+		centerStatistics.addFinishedCarWT(car);
 		centerStatistics.incrementCancellationCount();
 		return car;
 	}

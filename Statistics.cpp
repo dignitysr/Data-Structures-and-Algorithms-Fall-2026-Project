@@ -30,7 +30,7 @@ Statistics::Statistics()
 void Statistics::addTotalWaitingTime(Car* car, int time)
 {
 
-    totalWaitingTime += time;
+    totalWaitingTime += time; 
 
     //SequenceType type = car->getSeqType();
     //if (type == FS) {
