@@ -81,21 +81,21 @@ void Car::generateRandomservices() {
         int r = rand() % 3;
   
         if (r == 0 && !addedMU) {
-            int randomDuration = (rand() % 4 + 3);
+            int randomDuration = (rand() % 4 + 70);
             randomService = new Service(TYPE_MU, randomDuration);
             insertService(randomService);
             addedMU = true;
             count++;
         }
         else if (r == 1 && !addedEU) {
-            int randomDuration = (rand() % 4 + 3);
+            int randomDuration = (rand() % 4 + 70);
             randomService = new Service(TYPE_EU, randomDuration);
             insertService(randomService);
             addedEU = true;
             count++;
         }
         else if (r == 2 && !addedWU) {
-            int randomDuration = (rand() % 4 + 3);
+            int randomDuration = (rand() % 4 + 70);
             randomService = new Service(TYPE_WU, randomDuration);
             insertService(randomService);
             addedWU = true;
@@ -141,7 +141,7 @@ int Car::getTotalWaitingTime()
 }
 int Car::addTotalWaitingTime(int currentTimestep)
 {
-    totalWaitingTime += currentTimestep-waitingListInitialTimestep;
+    totalWaitingTime += (currentTimestep-waitingListInitialTimestep);
     return currentTimestep - waitingListInitialTimestep;
 }
 void Car::print()

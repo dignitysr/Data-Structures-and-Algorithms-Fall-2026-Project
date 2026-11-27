@@ -15,7 +15,6 @@ int main() {
 	while (testCenter.runSimulation(timestep)) {
 		timestep++;
 	
-		
 	}
 	
 	testCenter.getStatistics().setTotalSimulationTime(timestep);

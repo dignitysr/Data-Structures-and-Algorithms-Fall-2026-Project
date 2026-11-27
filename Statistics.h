@@ -23,7 +23,10 @@ class Statistics
 	int EBUtilization;	
 	int DBUtilization;
 	//Bay Count 
-
+	int MBCount;
+	int WBCount;
+	int EBCount;
+	int DBCount;
 	//Rate of cancellation/Resche/finish.
 	int finishedCount;
 	int cancellationCount;
@@ -44,8 +47,13 @@ public:
 	void incrementReschedulingCount(); //inc the count of the rescheduled cars #COULD BE CALLED IN EARLY
 	void incrementFinishedCount();
 	void incrementSeqTypeCount(Car * car); //inc the count of seqtype of each car (FS OR SS) #CALL AFTER DIAGNOSIS 
+	void addTotalBayCount(Bay* bay, int count);
 	
 	//GETTERS
+	int getMBCount()const;
+	int getEBCount()const;
+	int getDBCount()const;
+	int getWBCount()const;
 	int getTotalSimulationTime() const; 
 	int getTotalCars() const;
 	int getNSTotalWaitingTime() const;

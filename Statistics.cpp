@@ -12,7 +12,10 @@ Statistics::Statistics()
     WBUtilization = 0;
     EBUtilization = 0;
     DBUtilization = 0;
-
+    MBCount = 0;
+    EBCount = 0;
+    DBCount = 0;
+    WBCount = 0;
     cancellationCount = 0;
     reschedulingCount = 0;
     finishedCount = 0;
@@ -60,6 +63,29 @@ void Statistics::incrementSeqTypeCount(Car * car)
     else if (type == SS) {
         SScount++;
     }
+}
+void Statistics::addTotalBayCount(Bay* bay, int count)
+{      if (dynamic_cast<MechBay*>(bay)) MBCount += count;
+       else if (dynamic_cast<WashBay*>(bay)) WBCount += count;
+       else if (dynamic_cast<ElecBay*>(bay)) EBCount += count;
+       else if (dynamic_cast<DiagBay*>(bay)) DBCount += count;
+    
+}
+int Statistics::getMBCount() const
+{
+    return MBCount;
+}
+int Statistics::getEBCount() const
+{
+    return EBCount;
+}
+int Statistics::getDBCount() const
+{
+    return DBCount;
+}
+int Statistics::getWBCount() const
+{
+    return WBCount;
 }
 void Statistics::incrementTotalCars()
 {

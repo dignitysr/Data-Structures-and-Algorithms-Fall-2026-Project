@@ -8,16 +8,20 @@ void Center::loadFile() {
 	if (InFile.is_open()) {
 		InFile >> N_DU;
 		DiagBay DB;
+		centerStatistics.addTotalBayCount(&DB, N_DU);
 		allocateNewBays(&DB, N_DU);
 		InFile >> N_MU;
 		MechBay MB;
+		centerStatistics.addTotalBayCount(&MB, N_MU);
 		allocateNewBays(&MB, N_MU);
 		InFile >> N_EU;
 		ElecBay EB;
+		centerStatistics.addTotalBayCount(&EB, N_EU);
 		allocateNewBays(&EB, N_EU);	
 		InFile >> N_WU;
 		InFile >> WB_Cap;
 		WashBay WB(WB_Cap);
+		centerStatistics.addTotalBayCount(&WB, N_WU);
 		allocateNewBays(&WB, N_WU, WB_Cap);	
 		InFile >> Pcancel;
 		InFile >> Presc;
@@ -62,19 +66,23 @@ void Center::saveStatistics(string fileName)
 			outFile << setw(10) << car2->getFT() << setw(10) << car2->getID() << setw(10) << car2->getPT() << setw(10) << car2->getVT() << setw(10) << car2->getTotalWaitingTime() << setw(10) << car2->getTotalServiceTime() << setw(10) << "C" << endl;
 
 		}
+		int MBCount = centerStatistics.getMBCount();
+		int DBCount = centerStatistics.getDBCount();
+		int EBCount = centerStatistics.getEBCount();
+		int WBCount = centerStatistics.getWBCount();
 		float avgWaitingTime = float(float(centerStatistics.getTotalWaitingTime()) / centerStatistics.getTotalCars());
 		float avgServiceTime = float(float(centerStatistics.getTotalServiceTime()) / centerStatistics.getTotalCars());
 		int totalTimeStep = centerStatistics.getTotalSimulationTime();
 		int totalCars = centerStatistics.getTotalCars();
 		float avgWaitToServiceRatio = avgWaitingTime / avgServiceTime;
-		float MBUti = float(float(centerStatistics.getMBUtilization()) / totalTimeStep)*100.0F;
-		float WBUti = float(float(centerStatistics.getWBUtilization()) / totalTimeStep)*100.0F;
-		float EBUti = float(float(centerStatistics.getEBUtilization()) / totalTimeStep)*100.0F;
-		float DBUti = float(float(centerStatistics.getDBUtilization()) / totalTimeStep)*100.0F;
+		float MBUti = float(float(centerStatistics.getMBUtilization()) / (totalTimeStep*MBCount))*100.0F;
+		float WBUti = float(float(centerStatistics.getWBUtilization()) / (totalTimeStep*WBCount))*100.0F;
+		float EBUti = float(float(centerStatistics.getEBUtilization()) / (totalTimeStep*EBCount))*100.0F;
+		float DBUti = float(float(centerStatistics.getDBUtilization()) / (totalTimeStep*DBCount))*100.0F;
 		float cancelRate = float(float(centerStatistics.getCancellationCount()) / totalCars) * 100.0F;
 		float rescheduleRate = float(float(centerStatistics.getReschedulingCount()) / totalCars) * 100.0F;
 		int FSAvgWT = centerStatistics.getFSTotalWaitingTime() / centerStatistics.getFScount();
-		int SSAvgWT = centerStatistics.getSSTotalWaitingTime() / centerStatistics.getSScount();
+		int SSAvgWT= centerStatistics.getSSTotalWaitingTime() / centerStatistics.getSScount();
 		float latencyReduction = float(float(SSAvgWT - FSAvgWT) / SSAvgWT) * 100.0F;
 
 		outFile << "------------------------Statistics---------------------------------------" << endl;
@@ -110,15 +118,17 @@ void Center::handleDiagnosis(int currentTimestep)
 		freeDUList.enqueue(diagBay);
 		finishedCars->setBay(nullptr);
 		finishedCars->generateRandomservices();  // generate random set of services
+		
 		if (Car* cancelledCar = handleCarAfterDiag(finishedCars, currentTimestep))
 		{
 			canncelled = true;  // if cancelled doesn't add totalservicetime 
-			centerStatistics.incrementSeqTypeCount(finishedCars);
+			centerStatistics.incrementSeqTypeCount(cancelledCar);
 		}
 		if (!canncelled){
 			finishedCars->setTotalServicetime();
 			centerStatistics.addTotalServiceTime(finishedCars->getTotalServiceTime());
-			handleNextService(finishedCars,finishedTime);
+			centerStatistics.incrementSeqTypeCount(finishedCars);
+			handleNextService(finishedCars,-finishedTime);
 		}
 	}
 }
@@ -161,8 +171,8 @@ bool Center::handleNextService(Car* car,int currentTimestep) {
 			break;
 		}
 		}
-		car->setInitialTimestep(currentTimestep); //sets the timestep when the car entered the waitinglist
-		
+		 //sets the timestep when the car entered the waitinglist
+		car->setInitialTimestep(currentTimestep);
 		return true;
 }
 
@@ -220,6 +230,7 @@ bool Center::assignMechServiceCar(int currentTimestep)
 	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
 	int time = temp->addTotalWaitingTime(currentTimestep);
 	centerStatistics.addTotalWaitingTime(temp, time);
+	
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
 	
 	return true;
@@ -246,6 +257,7 @@ bool Center::assignElecServiceCar(  int currentTimestep)
 	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
 	int time = temp->addTotalWaitingTime(currentTimestep);
 	centerStatistics.addTotalWaitingTime(temp, time);
+	
 	temp->setStatus(STATUS_SERV); //Changes car Status
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration()));//Enqueues the car into cars in service based on its completion time
 	
@@ -275,6 +287,7 @@ bool Center::assignWashServiceCar( int currentTimestep)
 	temp->setStatus(STATUS_SERV); //Changes car Status
 	int time = temp->addTotalWaitingTime(currentTimestep);
 	centerStatistics.addTotalWaitingTime(temp, time);
+	
 	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
 	
 	return true;
@@ -305,6 +318,7 @@ bool Center::checkService(int currentTimestep)
 	while (serviceCars.peek(temp, timestep)) {
 		if (timestep == -currentTimestep) {
 			serviceCars.dequeue(temp, timestep);
+			
 			
 
 			serv = handleNextService(temp, currentTimestep);
