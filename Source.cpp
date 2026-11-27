@@ -19,9 +19,22 @@ int main() {
 	UI* ui = new UI;
 
 	int timestep = 0;
-	while (testCenter.runSimulation(timestep)) {
-		timestep++;
-		
+	cout << "SilentMode ==> 1\nInteractiveMode==> 2" << endl;;
+	while (cin >> number && (number != 2 && number != 1)) {
+		cout << "Please retype the number" << endl;
+	}
+	if (number == 1) {
+		while (testCenter.runSimulation(timestep)) {
+			timestep++;
+		}
+	}
+	if (number == 2) {
+		while (testCenter.runSimulation(timestep)) {
+			timestep++;
+			testCenter.printAll(ui);
+	        cout << timestep << endl;
+	        ui->waitForInput();
+		}
 	}
 	
 	testCenter.getStatistics().setTotalSimulationTime(timestep);
@@ -31,7 +44,5 @@ int main() {
 	cin >> filename;
 	testCenter.saveStatistics(filename);
 
-	//testCenter.printAll(ui);
-	//cout << timestep << endl;
-	//ui->waitForInput();
+
 }
