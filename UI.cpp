@@ -253,5 +253,6 @@ void UI::printSpacing() {
 void UI::waitForInput()
 {
 	cout << "PRESS ENTER TO CONTINUE" << endl;
+	cin.ignore();
 	cin.get();
 }

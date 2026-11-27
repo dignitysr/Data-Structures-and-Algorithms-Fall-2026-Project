@@ -23,18 +23,20 @@ int main() {
 	while (cin >> number && (number != 2 && number != 1)) {
 		cout << "Please retype the number" << endl;
 	}
+	
 	if (number == 1) {
 		while (testCenter.runSimulation(timestep)) {
 			timestep++;
 		}
 	}
+
 	if (number == 2) {
 		while (testCenter.runSimulation(timestep)) {
 			timestep++;
 			testCenter.printAll(ui);
 	        cout << timestep << endl;
 	        ui->waitForInput();
-		}
+			}
 	}
 	
 	testCenter.getStatistics().setTotalSimulationTime(timestep);
