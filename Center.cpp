@@ -416,7 +416,7 @@ void Center::handleEarlyCars(int currentTimestep, int distributedCars) {
 
 void Center::handleLateCars(int currentTimestep) {
 	Car* cancelledCar = lateList.cancelRandomCar(Pcancel); //cancels a late car randomly if it meets the probability
-	if (cancelledCar) { cancelCar(cancelledCar, currentTimestep); cancelledCar->setStatus(STATUS_CNCL); centerStatistics.incrementCancellationCount(); }
+	if (cancelledCar) { cancelCar(cancelledCar, currentTimestep); cancelledCar->setFT(currentTimestep); cancelledCar->setStatus(STATUS_CNCL); centerStatistics.incrementCancellationCount(); }
 	Car* car = nullptr;
 	int carsTransferred = 0;
 	while (lateList.peek(car) && onTimeCount >= car->getCountOnArrival() + 2) {
@@ -436,6 +436,7 @@ void Center::handleLateCars(int currentTimestep) {
 Car* Center::handleCarAfterDiag(Car* car, int currentTimestep) {
 	if (rand() % 100 < Pcancel) {
 		cancelCar(car, currentTimestep);
+		car->setFT(currentTimestep);
 		car->setStatus(STATUS_CNCL);
 		centerStatistics.incrementCancellationCount();
 		return car;
