@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": ".\\DSA-Project\\Source.obj",
+            "outputs": [
+                ".\\DSA-Project\\Source.cpp.obj.dt.module.json",
+                ".\\DSA-Project\\Source.cpp.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

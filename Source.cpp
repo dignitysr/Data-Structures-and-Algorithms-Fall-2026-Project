@@ -14,9 +14,7 @@ int main() {
 	int timestep = 0;
 	while (testCenter.runSimulation(timestep)) {
 		timestep++;
-		testCenter.printAll(ui);
-		cout << timestep << endl;
-		ui->waitForInput();
+		
 	}
 	
 	testCenter.getStatistics().setTotalSimulationTime(timestep);
@@ -24,7 +22,11 @@ int main() {
 	cout << testCenter.getStatistics().getTotalWaitingTime();
 	
 	string filename;
-	cout << "name";
+	cout << "Enter file name";
 	cin >> filename;
 	testCenter.saveStatistics(filename);
+
+	//testCenter.printAll(ui);
+	//cout << timestep << endl;
+	//ui->waitForInput();
 }
