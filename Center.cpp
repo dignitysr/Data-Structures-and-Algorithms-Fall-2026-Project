@@ -116,7 +116,7 @@ void Center::handleDiagnosis(int currentTimestep)
 			centerStatistics.incrementSeqTypeCount(finishedCars);
 		}
 		if (!canncelled){
-
+			finishedCars->setTotalServicetime();
 			centerStatistics.addTotalServiceTime(finishedCars->getTotalServiceTime());
 			handleNextService(finishedCars,finishedTime);
 		}
