@@ -4,8 +4,15 @@
 int main() {
 	Center testCenter;
 
-	// randomly generating 1000 cars for the IDLE list
-	testCenter.loadFile();
+
+	int number;
+	cout << "Type the number of the input file you would like to load 1-6" << endl;
+	while (cin >> number && (number > 6 || number < 1)) {
+		cout << "Please retype the number" << endl;
+	}
+
+
+	testCenter.loadFile("input" +to_string(number) +".txt");
 
 	srand((uint16_t)time(nullptr));
 	
@@ -19,10 +26,8 @@ int main() {
 	
 	testCenter.getStatistics().setTotalSimulationTime(timestep);
 	testCenter.printAll(ui);
-	cout << testCenter.getStatistics().getTotalWaitingTime();
-	
 	string filename;
-	cout << "Enter file name";
+	cout << "Enter your desired output file name" << endl;
 	cin >> filename;
 	testCenter.saveStatistics(filename);
 

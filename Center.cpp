@@ -2,9 +2,9 @@
 
 static ServiceType getTypeFromBayPointer(Bay* bay);
 
-void Center::loadFile() {
+void Center::loadFile(string filename) {
 	int N_DU, N_MU, N_EU, N_WU, WB_Cap, M, VT, CID, PT, DD;
-	ifstream InFile("input.txt");
+	ifstream InFile(filename);
 	if (InFile.is_open()) {
 		InFile >> N_DU;
 		DiagBay DB;

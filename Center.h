@@ -45,7 +45,7 @@ class Center
 	IDLEList idleList;
 
 public:
-	void loadFile();
+	void loadFile(string filename);
 	void saveStatistics(string fileName);
 	Statistics& getStatistics();
 
