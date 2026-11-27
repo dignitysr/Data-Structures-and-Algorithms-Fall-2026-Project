@@ -211,85 +211,69 @@ bool Center::readyToDiag(int currentTimestep)
 bool Center::assignMechServiceCar(int currentTimestep)
 {
 	//Checks if no free Mechanical bays are available 
-	if (freeMUList.isEmpty()) {
-		return false;
-	}
-	Car* temp = nullptr;
-	mechWaitingList.dequeue(temp);
-	//Checks if the waiting list has a car or not
-	if (temp == nullptr) {
-		return false;
-	}
-	MechBay* bay;
-	Service* ser;
-	temp->getSrvList().dequeue(ser); //Removes the service from the car's service list
-	freeMUList.dequeue(bay); //Removes the bay from free bay list
-	bay->incrementCount();
-	temp->setBay(bay);//sets bay to that car
-	temp->setStatus(STATUS_SERV); //Changes car Status
-	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
-	int time = temp->addTotalWaitingTime(currentTimestep);
-	centerStatistics.addTotalWaitingTime(temp, time);
+	while (!(mechWaitingList.isEmpty() || freeMUList.isEmpty())) {
+		Car* temp = nullptr;
+		mechWaitingList.dequeue(temp);
+		MechBay* bay;
+		Service* ser;
+		temp->getSrvList().dequeue(ser); //Removes the service from the car's service list
+		freeMUList.dequeue(bay); //Removes the bay from free bay list
+		bay->incrementCount();
+		temp->setBay(bay);//sets bay to that car
+		temp->setStatus(STATUS_SERV); //Changes car Status
+		centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
+		int time = temp->addTotalWaitingTime(currentTimestep);
+		centerStatistics.addTotalWaitingTime(temp, time);
 	
-	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
-	
+		serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
+	}
+
 	return true;
 }
 
 bool Center::assignElecServiceCar(  int currentTimestep)
 {
 	//Checks if np free bay is available
-	if (freeEUList.isEmpty()) {
-		return false;
-	}
-	Car* temp = nullptr;
-	elecWaitingList.dequeue(temp);
-	//Checks if the waiting list has a car or not
-	if (temp == nullptr) {
-		return false;
-	}
-	ElecBay* bay;
-	Service* ser;
-	temp->getSrvList().dequeue(ser);
-	freeEUList.dequeue(bay);//Removes the bay from free bay list
-	bay->incrementCount();
-	temp->setBay(bay);//sets bay to that car
-	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
-	int time = temp->addTotalWaitingTime(currentTimestep);
-	centerStatistics.addTotalWaitingTime(temp, time);
+	while (!(elecWaitingList.isEmpty() || freeEUList.isEmpty())) {
+		Car* temp = nullptr;
+		elecWaitingList.dequeue(temp);
+		ElecBay* bay;
+		Service* ser;
+		temp->getSrvList().dequeue(ser);
+		freeEUList.dequeue(bay);//Removes the bay from free bay list
+		bay->incrementCount();
+		temp->setBay(bay);//sets bay to that car
+		centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
+		int time = temp->addTotalWaitingTime(currentTimestep);
+		centerStatistics.addTotalWaitingTime(temp, time);
 	
-	temp->setStatus(STATUS_SERV); //Changes car Status
-	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration()));//Enqueues the car into cars in service based on its completion time
-	
+		temp->setStatus(STATUS_SERV); //Changes car Status
+		serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration()));//Enqueues the car into cars in service based on its completion time
+	}
 	return true;
 }
 
 bool Center::assignWashServiceCar( int currentTimestep)
 {
 	//Checks if no free bay is available
-	if (freeWUList.isEmpty()) {
-		return false;
-	}
-	Car* temp = nullptr;
-	washWaitingList.dequeue(temp);
-	//Checks if the waiting list has a car or not
-	if (temp == nullptr) {
-		return false;
-	}
-	WashBay* bay;
-	Service* ser;
-	temp->getSrvList().dequeue(ser);
-	freeWUList.peek(bay);//Removes the bay from free bay list
-	bay->incrementCount();
-	if (bay->getCarCount() == bay->getCapacity()) freeWUList.dequeue(bay);
-	temp->setBay(bay);//sets bay to that car
-	centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
-	temp->setStatus(STATUS_SERV); //Changes car Status
-	int time = temp->addTotalWaitingTime(currentTimestep);
-	centerStatistics.addTotalWaitingTime(temp, time);
+	while (!(washWaitingList.isEmpty() || freeWUList.isEmpty())) {
+		Car* temp = nullptr;
+		washWaitingList.dequeue(temp);
+		//Checks if the waiting list has a car or not
+		WashBay* bay;
+		Service* ser;
+		temp->getSrvList().dequeue(ser);
+		freeWUList.peek(bay);//Removes the bay from free bay list
+		bay->incrementCount();
+		if (bay->getCarCount() == bay->getCapacity()) freeWUList.dequeue(bay);
+		temp->setBay(bay);//sets bay to that car
+		centerStatistics.addBayUtilization(bay, ser, temp);//records the timestep utilization of the type of this bay
+		temp->setStatus(STATUS_SERV); //Changes car Status
+		int time = temp->addTotalWaitingTime(currentTimestep);
+		centerStatistics.addTotalWaitingTime(temp, time);
 	
-	serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
-	
+		serviceCars.enqueue(temp, -(currentTimestep + ser->getDuration())); //Enqueues the car into cars in service based on its completion time
+	}
 	return true;
 }
 void Center::assignService( int currentTimestep)
